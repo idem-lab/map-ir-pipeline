@@ -60,18 +60,25 @@ tar_plan(
                                          model_formula = model_formula,
                                          model_list = model_list),
 
+  # OUTER LOOP parts from here now ----
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)
   ir_data_mn_oos_predictions = add_oos_predictions(ir_data_mn,
                                                    out_of_sample_predictions),
 
+  oos_diagnostics = diagnostics(ir_data_mn_oos_predictions),
+
+  plot_diagnostics = gg_diagnostics(oos_diagnostics),
+
   # Run the inner loop one more time, to the full dataset, N+M
-  full_predictions = inner_loop(data = ir_data_mn,
-                                model_formula = model_formula,
-                                model_list = model_list
-                                # extra args to include spatiotemporal parts
-                                )
+  outer_loop_results = inner_loop(data = ir_data_mn,
+                                  model_formula = model_formula,
+                                  model_list = model_list
+                                  # extra args to include spatiotemporal parts
+  ),
 
   # Predictions are made back to every pixel of map + year (spatiotemporal)
+  pixel_map = create_pixel_map(outer_loop_results)
+
 
 )
