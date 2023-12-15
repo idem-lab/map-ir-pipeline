@@ -8,8 +8,8 @@ tar_source()
 tar_plan(
   # read in example infection resistance data
   tar_target(ir_data_path,
-    "data/ir-data-sample.csv",
-    format = "file"
+             "data/ir-data-sample.csv",
+             format = "file"
   ),
   ir_data_raw = read_csv(ir_data_path),
 
@@ -45,18 +45,33 @@ tar_plan(
   ir_data_mn_folds = vfold_cv(ir_data_mn, v = 10, strata = type),
 
   # then on the full dataset run 10 fold CV of the entire inner loop
-    # Every time we run inner loop, pass in N* = N x 0.9, and M* = M x 0.9
-    # Every time we run this we give it a prediction set
-      # N x 0.1 and M x 0.1
-  # We get out a set of out of sample predictions of length N
-  # Which we can compare to the true data (y-hat vs y)
-  # Run the inner loop one more time, to the full dataset, N+M,
-  # Predictions are made back to every pixel of map + year (spatiotemporal)
+  # Every time we run inner loop, pass in N* = N x 0.9, and M* = M x 0.9
+  # Every time we run inner loop, we give it a prediction set
+  # N x 0.1 and M x 0.1
 
   # ---- inner loop ---- #
   # We need to fit each of the L0 models, 11 times
-  inner_loop_results = inner_loop(data = ir_data_mn_folds,
-                                  model_formula = model_formula,
-                                  model_list = model_list)
+  # NOTE: we need to do something special to appropriately handle
+  # how the V-fold CV data, `ir_data_mn` works here, but for demo purposes
+  # we will just assume that it runs on every fold separately.
+  # we can probably do something with map, or have `inner_loop_cv` or
+  # `inner_loop.vfold_cv` or something.
+  out_of_sample_predictions = inner_loop(data = ir_data_mn,
+                                         model_formula = model_formula,
+                                         model_list = model_list),
+
+  # We get out a set of out of sample predictions of length N
+  # Which we can compare to the true data (y-hat vs y)
+  ir_data_mn_oos_predictions = add_oos_predictions(ir_data_mn,
+                                                   out_of_sample_predictions),
+
+  # Run the inner loop one more time, to the full dataset, N+M
+  full_predictions = inner_loop(data = ir_data_mn,
+                                model_formula = model_formula,
+                                model_list = model_list
+                                # extra args to include spatiotemporal parts
+                                )
+
+  # Predictions are made back to every pixel of map + year (spatiotemporal)
 
 )
