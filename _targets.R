@@ -11,10 +11,15 @@ tar_plan(
              "data/ir-data-sample.csv",
              format = "file"
   ),
+
+
   ir_data_raw = read_csv(ir_data_path),
 
+  # TODO ensure that SF objects play properly with tidymodels/subsequent objects
+  ir_data_sf = st_as_sf(ir_data_raw),
+
   # perform the emplogit on response, and do IHs transform
-  ir_data = add_pct_mortality(ir_data_raw = ir_data_raw,
+  ir_data = add_pct_mortality(ir_data_raw = ir_data_sf,
                               no_dead = no_dead,
                               no_tested = no_tested),
 
@@ -34,7 +39,16 @@ tar_plan(
     bgam = model_bgam
   ),
 
-  model_formula = construct_model_formula(ir_data, response = "pct_mortality"),
+  l_zero_model_formula = construct_model_formula(ir_data,
+                                                  response = "pct_mortality"),
+
+  inla_mesh = create_mesh(ir_data),
+
+  gp_inla_setup <- setup_gp_inla_model(
+    covariate_names = names(model_list),
+    outcome = "pct_mortality",
+    mesh = inla_mesh
+  ),
 
   # ---- outer loop ---- #
 
@@ -51,18 +65,25 @@ tar_plan(
 
   # ---- inner loop ---- #
   # We need to fit each of the L0 models, 11 times
-  # NOTE: we need to do something special to appropriately handle
+  # TODO: we need to do something special to appropriately handle
   # how the V-fold CV data, `ir_data_mn` works here, but for demo purposes
   # we will just assume that it runs on every fold separately.
   # we can probably do something with map, or have `inner_loop_cv` or
   # `inner_loop.vfold_cv` or something.
-  out_of_sample_predictions = inner_loop(data = ir_data_mn,
-                                         model_formula = model_formula,
-                                         model_list = model_list),
+  out_of_sample_predictions = inner_loop(
+    data = training(ir_data_mn_folds$splits[[1]]),
+    new_data = testing(ir_data_mn_folds$splits[[1]]),
+    l_zero_model_formula = l_zero_model_formula,
+    l_zero_model_list = model_list,
+    l_one_model_setup = gp_inla_setup
+    ),
 
   # OUTER LOOP parts from here now ----
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)
+  ## TODO: remember to manage the length of the predictions so we only get
+  ## out length N out of sample predictions (the phenotypic predictions).
+  ## might be easiest to pad out the genotypic (M) predictions with NA values
   ir_data_mn_oos_predictions = add_oos_predictions(ir_data_mn,
                                                    out_of_sample_predictions),
 
@@ -71,14 +92,27 @@ tar_plan(
   plot_diagnostics = gg_diagnostics(oos_diagnostics),
 
   # Run the inner loop one more time, to the full dataset, N+M
-  outer_loop_results = inner_loop(data = ir_data_mn,
-                                  model_formula = model_formula,
-                                  model_list = model_list
-                                  # extra args to include spatiotemporal parts
+  outer_loop_results = inner_loop(
+    data = ir_data_mn,
+    l_zero_model_formula = l_zero_model_formula,
+    l_zero_model_list = model_list,
+    l_one_model_setup = gp_inla_setup
   ),
 
+  ## TODO: future considerations, might be worthwhile thinking about a way to
+  ## batch up the predictions that are done on the inner_loop model, so that
+  ## the computation time/cost is low and achievable and easier to handle.
+
   # Predictions are made back to every pixel of map + year (spatiotemporal)
+  # this puts them out into a raster
   pixel_map = create_pixel_map(outer_loop_results)
 
+  # other target outcomes for plotting, country level resistance
+  ## TODO: computation considerations - considering ways to make all of this
+  ## run in a reasonable time, and thinking about ways to run this as software
+  ## e.g., do people need a pipeline, or do people just want a couple of
+  ## functions that wrap all of this up. The key point with this is choosing a
+  ## level of abstraction that makes the computation accessible and reasonable
+  ## with a thought of what someone might do if they have a new dataset
 
 )
