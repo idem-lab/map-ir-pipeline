@@ -8,17 +8,24 @@ tar_source()
 tar_plan(
   # read in example infection resistance data
   tar_target(ir_data_path,
-             "data/ir-data-sample.csv",
+             "data/ir-data-raw.csv.gz",
              format = "file"
   ),
 
-
   ir_data_raw = read_csv(ir_data_path),
 
-  # TODO ensure that SF objects play properly with tidymodels/subsequent objects
-  ir_data_sf = st_as_sf(ir_data_raw),
+  # TODO ensure SF objects play properly with tidymodels/subsequent objects
+  ir_data_sf = st_as_sf(ir_data_raw,
+                        coords = c("longitude", "latitude"),
+                        # equivalent to "EPSG:4326" which technically is
+                        # strictly lat,lon for contexts where that matters
+                        crs = "OGC:CRS84"
+                        ),
 
-  # perform the emplogit on response, and do IHs transform
+  # check the map
+  ir_data_map = mapview(ir_data_sf),
+
+  # perform the emplogit on response, and do IHS transform
   ir_data = add_pct_mortality(ir_data_raw = ir_data_sf,
                               no_dead = no_dead,
                               no_tested = no_tested),
@@ -29,14 +36,18 @@ tar_plan(
 
   # specify the details for the different models ahead of time
   # hyperparameters are hard coded internally inside these functions
+  ## NOTE that RMSE is used to measure performance, and is the default for
+  ## regression problems in tidymodels:
+  ## https://tune.tidymodels.org/articles/getting_started.html
   model_xgb = build_ir_xgboost(),
   model_rf = build_ir_rf(),
-  model_bgam = build_ir_bgam(),
+
+  # currently going to remove the BGAM model at this stage, see issue #3
+  # model_bgam = build_ir_bgam(),
 
   model_list = list(
     xgb = model_xgb,
-    rf = model_rf,
-    bgam = model_bgam
+    rf = model_rf
   ),
 
   l_zero_model_formula = construct_model_formula(ir_data,
