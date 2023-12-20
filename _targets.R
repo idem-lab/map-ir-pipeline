@@ -50,12 +50,20 @@ tar_plan(
     rf = model_rf
   ),
 
+  tar_target(covariate_path,
+             "data/ir-data-covariates.rds",
+             format = "file"
+  ),
+
+  covariate_names = read_rds(covariate_path),
+
   l_zero_model_formula = construct_model_formula(ir_data,
-                                                  response = "pct_mortality"),
+                                                 covariate_names,
+                                                 response = "pct_mortality"),
 
   inla_mesh = create_mesh(ir_data),
 
-  gp_inla_setup <- setup_gp_inla_model(
+  gp_inla_setup = setup_gp_inla_model(
     covariate_names = names(model_list),
     outcome = "pct_mortality",
     mesh = inla_mesh
