@@ -12,12 +12,10 @@ build_ir_rf <- function() {
   model_spec <-  rand_forest(
     # num variables randomly sampled at each split
     mtry = 150,
-    # number of trees
-    ntree = 1001,
-    # rate of randomly sampling featured used for each tree
-    col_sample_rate_per_tree = 0.8,
-    # min number of observations per leaf
-    node_size = 20
+    # number of trees, previously `ntree`
+    trees = 1001,
+    # min number of observations per leaf, previously `node_size`
+    min_n = 20
     ) %>%
     set_mode("regression") %>%
     set_engine("randomForest")
