@@ -7,8 +7,15 @@
 #' @return
 #' @author njtierney
 #' @export
-combine_predictions <- function(out_of_sample_predictions) {
+combine_predictions <- function(pred_list) {
 
-  NULL
+  pred_list
+
+  folds <- select(pred_list[[1]], fold)
+
+  predictions <- map_dfc(pred_list, \(x) select(x, starts_with(".pred")))
+
+  bind_cols(folds,
+            predictions)
 
 }
