@@ -44,15 +44,18 @@ tar_plan(
              format = "file"
   ),
 
-  covariate_names = read_rds(covariate_path),
+  covariate_names_raw = read_rds(covariate_path),
+
+  # currently downsampling to speed up initial model fits
+  covariate_names = covariate_names_raw[1:20],
 
   # specify the details for the different models ahead of time
   # hyperparameters are hard coded internally inside these functions
   ## NOTE that RMSE is used to measure performance, and is the default for
   ## regression problems in tidymodels:
   ## https://tune.tidymodels.org/articles/getting_started.html
-  model_xgb = build_ir_xgboost(),
-  model_rf = build_ir_rf(),
+  model_xgb = build_ir_xgboost(tree_depth = 3, trees = 100),
+  model_rf = build_ir_rf(mtry = 5, trees = 100),
 
   workflow_xgb = build_workflow(model_spec = model_xgb,
                                 outcomes = "pct_mortality",
