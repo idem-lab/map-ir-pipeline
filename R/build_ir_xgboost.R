@@ -29,7 +29,8 @@ build_ir_xgboost <- function() {
                # regularisation parameter
                lambda = 1,
                # proportion of trees dropped each iteration
-               rate_drop = 0.001)
+               rate_drop = 0.001,
+               counts = FALSE)
 
   model_spec
 

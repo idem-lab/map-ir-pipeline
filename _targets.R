@@ -4,6 +4,11 @@ source("./packages.R")
 ## Load your R files
 tar_source()
 
+tar_option_set(
+  # Save a workspace file for a target that errors out
+  workspace_on_error = TRUE
+)
+
 ## tar_plan supports drake-style targets and also tar_target()
 tar_plan(
   # read in example infection resistance data
@@ -20,7 +25,7 @@ tar_plan(
                         # equivalent to "EPSG:4326" which technically is
                         # strictly lat,lon for contexts where that matters
                         crs = "OGC:CRS84"
-                        ),
+  ),
 
   # check the map
   ir_data_map = mapview(ir_data_sf),
@@ -34,6 +39,13 @@ tar_plan(
   # n = Number of rows of full **phenotypic** data
   # m + n = Number of rows of full dataset
 
+  tar_target(covariate_path,
+             "data/ir-data-covariates.rds",
+             format = "file"
+  ),
+
+  covariate_names = read_rds(covariate_path),
+
   # specify the details for the different models ahead of time
   # hyperparameters are hard coded internally inside these functions
   ## NOTE that RMSE is used to measure performance, and is the default for
@@ -42,24 +54,20 @@ tar_plan(
   model_xgb = build_ir_xgboost(),
   model_rf = build_ir_rf(),
 
+  workflow_xgb = build_workflow(model_spec = model_xgb,
+                                outcomes = "pct_mortality",
+                                predictors = covariate_names),
+  workflow_rf = build_workflow(model_spec = model_rf,
+                               outcomes = "pct_mortality",
+                               predictors = covariate_names),
+
   # currently going to remove the BGAM model at this stage, see issue #3
   # model_bgam = build_ir_bgam(),
 
   model_list = list(
-    xgb = model_xgb,
-    rf = model_rf
+    xgb = workflow_xgb,
+    rf = workflow_rf
   ),
-
-  tar_target(covariate_path,
-             "data/ir-data-covariates.rds",
-             format = "file"
-  ),
-
-  covariate_names = read_rds(covariate_path),
-
-  l_zero_model_formula = construct_model_formula(ir_data,
-                                                 covariate_names,
-                                                 response = "pct_mortality"),
 
   inla_mesh = create_mesh(ir_data),
 
@@ -92,10 +100,9 @@ tar_plan(
   out_of_sample_predictions = inner_loop(
     data = training(ir_data_mn_folds$splits[[1]]),
     new_data = testing(ir_data_mn_folds$splits[[1]]),
-    l_zero_model_formula = l_zero_model_formula,
     l_zero_model_list = model_list,
     l_one_model_setup = gp_inla_setup
-    ),
+  ),
 
   # OUTER LOOP parts from here now ----
   # We get out a set of out of sample predictions of length N
