@@ -7,15 +7,17 @@
 #' @return
 #' @author njtierney
 #' @export
-build_ir_rf <- function() {
+build_ir_rf <- function(mtry = 150,
+                        trees = 1001,
+                        min_n = 20) {
 
   model_spec <-  rand_forest(
     # num variables randomly sampled at each split
-    mtry = 150,
+    mtry = mtry,
     # number of trees, previously `ntree`
-    trees = 1001,
+    trees = trees,
     # min number of observations per leaf, previously `node_size`
-    min_n = 20
+    min_n = min_n
     ) %>%
     set_mode("regression") %>%
     set_engine("randomForest")
