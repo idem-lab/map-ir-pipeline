@@ -47,15 +47,15 @@ tar_plan(
   covariate_names_raw = read_rds(covariate_path),
 
   # currently downsampling to speed up initial model fits
-  covariate_names = covariate_names_raw[1:20],
+  covariate_names = covariate_names_raw[1:10],
 
   # specify the details for the different models ahead of time
   # hyperparameters are hard coded internally inside these functions
   ## NOTE that RMSE is used to measure performance, and is the default for
   ## regression problems in tidymodels:
   ## https://tune.tidymodels.org/articles/getting_started.html
-  model_xgb = build_ir_xgboost(tree_depth = 3, trees = 100),
-  model_rf = build_ir_rf(mtry = 5, trees = 100),
+  model_xgb = build_ir_xgboost(tree_depth = 2, trees = 5),
+  model_rf = build_ir_rf(mtry = 2, trees = 5),
 
   workflow_xgb = build_workflow(model_spec = model_xgb,
                                 outcomes = "pct_mortality",
@@ -100,11 +100,21 @@ tar_plan(
   # we will just assume that it runs on every fold separately.
   # we can probably do something with map, or have `inner_loop_cv` or
   # `inner_loop.vfold_cv` or something.
-  out_of_sample_predictions = inner_loop(
-    data = training(ir_data_mn_folds$splits[[1]]),
-    new_data = testing(ir_data_mn_folds$splits[[1]]),
-    l_zero_model_list = model_list,
-    l_one_model_setup = gp_inla_setup
+
+  training_data = map(ir_data_mn_folds$splits, training),
+  testing_data = map(ir_data_mn_folds$splits, testing),
+
+  out_of_sample_predictions = map2(
+    .x = training_data,
+    .y = testing_data,
+    .f = function(.x, .y){
+      inner_loop(
+        data = .x,
+        new_data = .y,
+        l_zero_model_list = model_list,
+        l_one_model_setup = gp_inla_setup
+      )
+    }
   ),
 
   # OUTER LOOP parts from here now ----
@@ -113,8 +123,10 @@ tar_plan(
   ## TODO: remember to manage the length of the predictions so we only get
   ## out length N out of sample predictions (the phenotypic predictions).
   ## might be easiest to pad out the genotypic (M) predictions with NA values
-  ir_data_mn_oos_predictions = add_oos_predictions(ir_data_mn,
-                                                   out_of_sample_predictions),
+  ir_data_mn_oos_predictions = bind_cols(
+    .preds = bind_rows(out_of_sample_predictions),
+    ir_data_mn
+    ),
 
   oos_diagnostics = diagnostics(ir_data_mn_oos_predictions),
 
@@ -123,7 +135,6 @@ tar_plan(
   # Run the inner loop one more time, to the full dataset, N+M
   outer_loop_results = inner_loop(
     data = ir_data_mn,
-    l_zero_model_formula = l_zero_model_formula,
     l_zero_model_list = model_list,
     l_one_model_setup = gp_inla_setup
   ),

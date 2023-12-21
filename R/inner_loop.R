@@ -10,7 +10,7 @@
 #' @author njtierney
 #' @export
 inner_loop <- function(data,
-                       new_data,
+                       new_data = NULL,
                        l_zero_model_list,
                        l_one_model_setup) {
 
