@@ -12,8 +12,7 @@ build_ir_xgboost <- function(tree_depth = 8,
                              min_n = 7,
                              sample_size = 0.7,
                              mtry = 0.7,
-                             lambda = 1,
-                             rate_drop = 0.001) {
+                             lambda = 1) {
 
   model_spec <- boost_tree(
     # max depth of a tree, previously `max_depth`
@@ -36,8 +35,6 @@ build_ir_xgboost <- function(tree_depth = 8,
     set_engine("xgboost",
                # regularisation parameter
                lambda = lambda,
-               # proportion of trees dropped each iteration
-               rate_drop = rate_drop,
                counts = FALSE)
 
   model_spec
