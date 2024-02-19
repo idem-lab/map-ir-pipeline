@@ -61,15 +61,31 @@ tar_plan(
   ir_data_map = mapview(ir_data_sf_key),
 
   # perform the emplogit on response, and do IHS transform
-  ir_data = add_pct_mortality(ir_data_raw = ir_data_sf,
-                              no_dead = no_dead,
-                              no_tested = no_tested),
+  ir_data = add_pct_mortality(ir_data_raw = ir_data_moyes,
+                              no_dead = no_mosquitoes_dead,
+                              no_tested = no_mosquitoes_tested),
+
+  subset_country = "Ethiopia",
+
+  ir_data_subset = filter(ir_data, country == subset_country),
+
+  # get cropland data from geodata package
+  subset_country_codes = country_codes(subset_country),
+
+  # crops = c("vege", "plnt", "bana", "toba", "teas", "coco", "acof", "cnut"),
+
+  crop_coffee_data = crop_spam(
+    crop = "acof",
+    var = "area",
+    path = "data",
+    africa = TRUE
+    ),
+
 
   # m = Number of rows of full **genotypic** data
   # n = Number of rows of full **phenotypic** data
   # m + n = Number of rows of full dataset
 
-  ## UP TO HERE
   tar_target(covariate_path,
              "data/ir-data-covariates.rds",
              format = "file"
