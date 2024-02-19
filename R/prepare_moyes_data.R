@@ -13,6 +13,11 @@ prepare_moyes_data <- function(ir_data_moyes_raw) {
     select(
       bioassay_id,
       country,
+      start_month,
+      start_year,
+      end_month,
+      end_year,
+      publication_year,
       site_name,
       latitude,
       longitude,
