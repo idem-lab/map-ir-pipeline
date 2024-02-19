@@ -8,6 +8,10 @@ The goal of this repository is to write out a pipeline for stacked generalisatio
 
 We will first begin by generating a fake targets pipeline, so that we can identify the general workflow and refine it and make sure it has some kind of face validity, before going back into this in more depth
 
+## Data
+
+The data for this repository has been obtained from [Moyes et al's Data Dryad repository](https://datadryad.org/stash/dataset/doi:10.5061/dryad.dn4676s), 
+
 ## How to run this on your machine
 
 Use the `capsule` package to manage the R dependencies
