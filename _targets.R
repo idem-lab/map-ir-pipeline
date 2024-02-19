@@ -19,8 +19,23 @@ tar_plan(
 
   ir_data_raw = read_csv(ir_data_path),
 
+  # data is from https://datadryad.org/stash/dataset/doi:10.5061/dryad.dn4676s
+  tar_target(moyes_data_path,
+             "data/2_standard-WHO-susc-test_species.csv",
+             format = "file"),
+
+  ir_data_moyes_raw = read_moyes_data(moyes_data_path),
+
+  ir_data_moyes = prepare_moyes_data(ir_data_moyes_raw),
+
+  vis_miss_moyes = vis_miss(
+    ir_data_moyes,
+    sort_miss = TRUE,
+    cluster = TRUE
+    ),
+
   # TODO ensure SF objects play properly with tidymodels/subsequent objects
-  ir_data_sf = st_as_sf(ir_data_raw,
+  ir_data_sf = st_as_sf(ir_data_moyes,
                         coords = c("longitude", "latitude"),
                         # equivalent to "EPSG:4326" which technically is
                         # strictly lat,lon for contexts where that matters
@@ -135,6 +150,13 @@ tar_plan(
   # Run the inner loop one more time, to the full dataset, N+M
   outer_loop_results = inner_loop(
     data = ir_data_mn,
+    # full set of mapping data as an sf object (environmental
+    # covariates and coordinates)
+    # in this final step we need to take a setof rasters, pull out the
+    # coordinates and environmental covariates for each pixel, and use the
+    # stacked generalisation model to predict to all of them, then put
+    # the predicted IR values back in a raster of predictions.
+    new_data = ,
     l_zero_model_list = model_list,
     l_one_model_setup = gp_inla_setup
   ),
