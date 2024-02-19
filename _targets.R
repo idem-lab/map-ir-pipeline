@@ -26,7 +26,21 @@ tar_plan(
 
   ir_data_moyes_raw = read_moyes_data(moyes_data_path),
 
-  ir_data_moyes = prepare_moyes_data(ir_data_moyes_raw),
+  ir_count_nr = summarise_not_recorded(ir_data_moyes_raw),
+  ir_count_nf = summarise_not_found(ir_data_moyes_raw),
+
+  ir_data_moyes_prepared = prepare_moyes_data(ir_data_moyes_raw),
+
+  checked_no_dead = check_back_calculate_no_dead(ir_data_moyes_prepared),
+
+  checked_pct_mortality = check_mortality(ir_data_moyes_prepared),
+
+  # there are times where PCT mortality is recorded, but neither
+  explore_pct_mortality = why_pct_mortality(ir_data_moyes_prepared),
+
+  ir_data_moyes = replace_no_dead_pct_mortality(ir_data_moyes_prepared),
+
+  # this drops missing values in long/lat (about 7% missing values)
 
   vis_miss_moyes = vis_miss(
     ir_data_moyes,
@@ -35,15 +49,11 @@ tar_plan(
     ),
 
   # TODO ensure SF objects play properly with tidymodels/subsequent objects
-  ir_data_sf = st_as_sf(ir_data_moyes,
-                        coords = c("longitude", "latitude"),
-                        # equivalent to "EPSG:4326" which technically is
-                        # strictly lat,lon for contexts where that matters
-                        crs = "OGC:CRS84"
-  ),
+  ir_data_sf_key = create_sf_id(ir_data_moyes),
 
   # check the map
-  ir_data_map = mapview(ir_data_sf),
+  ir_data_map = mapview(ir_data_sf_key),
+
 
   # perform the emplogit on response, and do IHS transform
   ir_data = add_pct_mortality(ir_data_raw = ir_data_sf,

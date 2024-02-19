@@ -1,0 +1,34 @@
+#' .. content for \description{} (no empty lines) ..
+#'
+#' .. content for \details{} ..
+#'
+#' @title
+#' @param ir_data_moyes
+#' @return
+#' @author njtierney
+#' @export
+check_mortality <- function(ir_data_moyes_prepared) {
+
+  ir_data_moyes_prepared
+
+  ir_subset <- ir_data_moyes_prepared %>%
+    select(
+      uid,
+      no_mosquitoes_tested,
+      no_mosquitoes_dead,
+      percent_mortality
+    )
+
+  ir_check_mortality <- ir_subset %>%
+    mutate(
+      pct_mort_check = percent_mortality(
+        no_mosquitoes_dead,
+        no_mosquitoes_tested
+        ),
+      pct_mort_near = near(pct_mort_check, percent_mortality, tol = 0.01)
+    )
+
+  ir_check_mortality %>%
+    pull(pct_mort_near) %>%
+    table()
+}
