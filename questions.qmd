@@ -3,4 +3,9 @@
 ## Moyes data
 
 - What are the columns Latitute/Longitude_XX (1-20)?
-- 
+- longitude and latitude have about 7% missing data - these rows are all dropped so that we can use them as SF data
+- Understanding "NR" and "NF" vs NA.
+  - At the moment we are going to replace "NR" and "NF" with NA
+  - But I do have a function to give an overview of the amount of NRs and NFs
+- Percent mortality is sometimes present when both tested and dead are missing
+    - I assume that we can't accept these values?
