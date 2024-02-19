@@ -9,7 +9,7 @@
 #' @export
 prepare_moyes_data <- function(ir_data_moyes_raw) {
 
-  prepared_moyes <- ir_data_moyes_raw %>%
+  ir_data_subset <- ir_data_moyes_raw %>%
     select(
       bioassay_id,
       country,
@@ -27,7 +27,26 @@ prepare_moyes_data <- function(ir_data_moyes_raw) {
       insecticide_class,
       insecticide_tested
     ) %>%
-    rownames_to_column("uid") %>%
+    rownames_to_column("uid")
+
+
+  ir_data_contains_nr <- which_vars_contain(ir_data_subset, "NR")
+  ir_data_contains_nf <- which_vars_contain(ir_data_subset, "NF")
+
+  prepared_moyes <- ir_data_subset %>%
+  # replace NR values with NA
+    mutate(
+      across(
+        all_of(ir_data_contains_nr),
+        \(x) na_if(x, "NR")
+      )
+    ) %>%
+    mutate(
+      across(
+        all_of(ir_data_contains_nf),
+        \(x) na_if(x, "NF")
+        )
+    ) %>%
     mutate(
       across(
         c(
@@ -38,7 +57,12 @@ prepare_moyes_data <- function(ir_data_moyes_raw) {
         ),
         as.numeric
       )
+    ) %>%
+    drop_na(
+      latitude,
+      longitude,
     )
 
   prepared_moyes
+
 }
