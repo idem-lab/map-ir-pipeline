@@ -1,0 +1,6 @@
+# Questions
+
+## Moyes data
+
+- What are the columns Latitute/Longitude_XX (1-20)?
+- 
