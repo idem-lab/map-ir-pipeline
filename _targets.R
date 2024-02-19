@@ -38,7 +38,13 @@ tar_plan(
   # there are times where PCT mortality is recorded, but neither
   explore_pct_mortality = why_pct_mortality(ir_data_moyes_prepared),
 
-  ir_data_moyes = replace_no_dead_pct_mortality(ir_data_moyes_prepared),
+  ir_data_moyes_replace = replace_no_dead_pct_mortality(ir_data_moyes_prepared),
+
+  ir_data_moyes = drop_na(
+    ir_data_moyes_replace,
+    no_mosquitoes_tested,
+    no_mosquitoes_dead,
+    ),
 
   # this drops missing values in long/lat (about 7% missing values)
 
@@ -48,12 +54,11 @@ tar_plan(
     cluster = TRUE
     ),
 
-  # TODO ensure SF objects play properly with tidymodels/subsequent objects
+  # Create a spatial dataset with linked ID so we can join this on later
   ir_data_sf_key = create_sf_id(ir_data_moyes),
 
-  # check the map
+  # Check the map
   ir_data_map = mapview(ir_data_sf_key),
-
 
   # perform the emplogit on response, and do IHS transform
   ir_data = add_pct_mortality(ir_data_raw = ir_data_sf,
@@ -64,6 +69,7 @@ tar_plan(
   # n = Number of rows of full **phenotypic** data
   # m + n = Number of rows of full dataset
 
+  ## UP TO HERE
   tar_target(covariate_path,
              "data/ir-data-covariates.rds",
              format = "file"
