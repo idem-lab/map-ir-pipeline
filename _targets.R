@@ -72,15 +72,29 @@ tar_plan(
   # get cropland data from geodata package
   subset_country_codes = country_codes(subset_country),
 
+  country_shape = gadm(
+    country = subset_country_codes$NAME,
+    level = 0,
+    path =
+      ),
+
   # crops = c("vege", "plnt", "bana", "toba", "teas", "coco", "acof", "cnut"),
 
-  crop_coffee_data = crop_spam(
-    crop = "acof",
-    var = "area",
-    path = "data",
-    africa = TRUE
+  tar_target(
+    crop_coffee_data,
+    agcrop_area(
+      crop = "acof"
     ),
+    format = format_geotiff
+  ),
 
+  tar_target(
+    crop_vege,
+    agcrop_area(
+      crop = "vege"
+    ),
+    format = format_geotiff
+  ),
 
   # m = Number of rows of full **genotypic** data
   # n = Number of rows of full **phenotypic** data
