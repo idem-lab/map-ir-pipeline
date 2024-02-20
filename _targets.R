@@ -92,6 +92,15 @@ tar_plan(
     format = format_geotiff
   ),
 
+  tar_target(
+    landcover_trees,
+    get_landcover("trees"),
+    format = format_geotiff
+  ),
+
+  # tar_target(
+  #   landcover_subset
+  # ),
 
 
   # m = Number of rows of full **genotypic** data
