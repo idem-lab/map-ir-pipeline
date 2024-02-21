@@ -13,38 +13,31 @@ tar_option_set(
 tar_plan(
   # read in example infection resistance data
   tar_target(ir_data_path,
-             "data/ir-data-raw.csv.gz",
-             format = "file"
+    "data/ir-data-raw.csv.gz",
+    format = "file"
   ),
-
   ir_data_raw = read_csv(ir_data_path),
 
   # data is from https://datadryad.org/stash/dataset/doi:10.5061/dryad.dn4676s
   tar_target(moyes_data_path,
-             "data/2_standard-WHO-susc-test_species.csv",
-             format = "file"),
-
+    "data/2_standard-WHO-susc-test_species.csv",
+    format = "file"
+  ),
   ir_data_moyes_raw = read_moyes_data(moyes_data_path),
-
   ir_count_nr = summarise_not_recorded(ir_data_moyes_raw),
   ir_count_nf = summarise_not_found(ir_data_moyes_raw),
-
   ir_data_moyes_prepared = prepare_moyes_data(ir_data_moyes_raw),
-
   checked_no_dead = check_back_calculate_no_dead(ir_data_moyes_prepared),
-
   checked_pct_mortality = check_mortality(ir_data_moyes_prepared),
 
   # there are times where PCT mortality is recorded, but neither
   explore_pct_mortality = why_pct_mortality(ir_data_moyes_prepared),
-
   ir_data_moyes_replace = replace_no_dead_pct_mortality(ir_data_moyes_prepared),
-
   ir_data_moyes = drop_na(
     ir_data_moyes_replace,
     no_mosquitoes_tested,
     no_mosquitoes_dead,
-    ),
+  ),
 
   # this drops missing values in long/lat (about 7% missing values)
 
@@ -52,7 +45,7 @@ tar_plan(
     ir_data_moyes,
     sort_miss = TRUE,
     cluster = TRUE
-    ),
+  ),
 
   # Create a spatial dataset with linked ID so we can join this on later
   ir_data_sf_key = create_sf_id(ir_data_moyes),
@@ -61,22 +54,21 @@ tar_plan(
   ir_data_map = mapview(ir_data_sf_key),
 
   # perform the emplogit on response, and do IHS transform
-  ir_data = add_pct_mortality(ir_data_raw = ir_data_moyes,
-                              no_dead = no_mosquitoes_dead,
-                              no_tested = no_mosquitoes_tested),
-
+  ir_data = add_pct_mortality(
+    ir_data_raw = ir_data_moyes,
+    no_dead = no_mosquitoes_dead,
+    no_tested = no_mosquitoes_tested
+  ),
   subset_country = "Ethiopia",
-
   ir_data_subset = filter(ir_data, country == subset_country),
 
   # get cropland data from geodata package
   subset_country_codes = country_codes(subset_country),
-
   country_shape = gadm(
     country = subset_country_codes$NAME,
     level = 0,
     path =
-      ),
+    ),
 
   # crops = c("vege", "plnt", "bana", "toba", "teas", "coco", "acof", "cnut"),
 
@@ -85,22 +77,28 @@ tar_plan(
     agcrop_area(crop = "acof"),
     format = format_geotiff
   ),
-
   tar_target(
     crop_vege,
     agcrop_area(crop = "vege"),
     format = format_geotiff
   ),
-
   tar_target(
     landcover_trees,
     get_landcover("trees"),
     format = format_geotiff
   ),
-
   tar_target(
     elevation,
     get_elevation(subset_country_codes),
+    format = format_geotiff
+  ),
+  climate_variables = tibble(
+    vars = c("tmin", "tmax", "tavg", "prec", "wind", "vapr", "bio")
+  ),
+
+  tar_target(
+    worldclimate,
+    get_worldclim(subset_country_codes, var = "tmin"),
     format = format_geotiff
   ),
 
@@ -114,10 +112,9 @@ tar_plan(
   # m + n = Number of rows of full dataset
 
   tar_target(covariate_path,
-             "data/ir-data-covariates.rds",
-             format = "file"
+    "data/ir-data-covariates.rds",
+    format = "file"
   ),
-
   covariate_names_raw = read_rds(covariate_path),
 
   # currently downsampling to speed up initial model fits
@@ -130,13 +127,16 @@ tar_plan(
   ## https://tune.tidymodels.org/articles/getting_started.html
   model_xgb = build_ir_xgboost(tree_depth = 2, trees = 5),
   model_rf = build_ir_rf(mtry = 2, trees = 5),
-
-  workflow_xgb = build_workflow(model_spec = model_xgb,
-                                outcomes = "pct_mortality",
-                                predictors = covariate_names),
-  workflow_rf = build_workflow(model_spec = model_rf,
-                               outcomes = "pct_mortality",
-                               predictors = covariate_names),
+  workflow_xgb = build_workflow(
+    model_spec = model_xgb,
+    outcomes = "pct_mortality",
+    predictors = covariate_names
+  ),
+  workflow_rf = build_workflow(
+    model_spec = model_rf,
+    outcomes = "pct_mortality",
+    predictors = covariate_names
+  ),
 
   # currently going to remove the BGAM model at this stage, see issue #3
   # model_bgam = build_ir_bgam(),
@@ -145,9 +145,7 @@ tar_plan(
     xgb = workflow_xgb,
     rf = workflow_rf
   ),
-
   inla_mesh = create_mesh(ir_data),
-
   gp_inla_setup = setup_gp_inla_model(
     covariate_names = names(model_list),
     outcome = "pct_mortality",
@@ -159,7 +157,6 @@ tar_plan(
   # Outer Loop ----
   # Take a full dataset (M+N)
   ir_data_mn = ir_data,
-
   ir_data_mn_folds = vfold_cv(ir_data_mn, v = 10, strata = type),
 
   # then on the full dataset run 10 fold CV of the entire inner loop
@@ -177,11 +174,10 @@ tar_plan(
 
   training_data = map(ir_data_mn_folds$splits, training),
   testing_data = map(ir_data_mn_folds$splits, testing),
-
   out_of_sample_predictions = map2(
     .x = training_data,
     .y = testing_data,
-    .f = function(.x, .y){
+    .f = function(.x, .y) {
       inner_loop(
         data = .x,
         new_data = .y,
@@ -200,10 +196,8 @@ tar_plan(
   ir_data_mn_oos_predictions = bind_cols(
     .preds = bind_rows(out_of_sample_predictions),
     ir_data_mn
-    ),
-
+  ),
   oos_diagnostics = diagnostics(ir_data_mn_oos_predictions),
-
   plot_diagnostics = gg_diagnostics(oos_diagnostics),
 
   # Run the inner loop one more time, to the full dataset, N+M
@@ -235,5 +229,4 @@ tar_plan(
   ## functions that wrap all of this up. The key point with this is choosing a
   ## level of abstraction that makes the computation accessible and reasonable
   ## with a thought of what someone might do if they have a new dataset
-
 )
