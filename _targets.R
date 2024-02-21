@@ -129,7 +129,6 @@ tar_plan(
   ),
 
   all_spatial_covariates = join_extracted(
-    ir_data_subset,
     extracted_coffee,
     extracted_vege,
     extracted_trees,
@@ -144,20 +143,19 @@ tar_plan(
   ),
 
   # drop uid name and keep rest for use later
-  spatial_covarate_names = get_covariate_names(all_spatial_covariates),
+  spatial_covariate_names = get_covariate_names(all_spatial_covariates),
+
+  spatial_covariate_sample = spatial_covariate_names[1:5],
+
+  # other_covariates = c("start_year", "generation", "insecticide_class"),
+  # dropping generation as it is missing too many values
+  other_covariates = c("start_year", "insecticide_class"),
+
+  model_covariates = c(other_covariates, spatial_covariate_sample),
 
   # m = Number of rows of full **genotypic** data
   # n = Number of rows of full **phenotypic** data
   # m + n = Number of rows of full dataset
-
-  tar_target(covariate_path,
-    "data/ir-data-covariates.rds",
-    format = "file"
-  ),
-  covariate_names_raw = read_rds(covariate_path),
-
-  # currently downsampling to speed up initial model fits
-  covariate_names = covariate_names_raw[1:10],
 
   # specify the details for the different models ahead of time
   # hyperparameters are hard coded internally inside these functions
@@ -168,13 +166,13 @@ tar_plan(
   model_rf = build_ir_rf(mtry = 2, trees = 5),
   workflow_xgb = build_workflow(
     model_spec = model_xgb,
-    outcomes = "pct_mortality",
-    predictors = covariate_names
+    outcomes = "pct_mortality_emp",
+    predictors = model_covariates
   ),
   workflow_rf = build_workflow(
     model_spec = model_rf,
-    outcomes = "pct_mortality",
-    predictors = covariate_names
+    outcomes = "pct_mortality_emp",
+    predictors = model_covariates
   ),
 
   # currently going to remove the BGAM model at this stage, see issue #3
@@ -187,7 +185,7 @@ tar_plan(
   inla_mesh = create_mesh(ir_data),
   gp_inla_setup = setup_gp_inla_model(
     covariate_names = names(model_list),
-    outcome = "pct_mortality",
+    outcome = "pct_mortality_emp",
     mesh = inla_mesh
   ),
 
@@ -195,7 +193,7 @@ tar_plan(
 
   # Outer Loop ----
   # Take a full dataset (M+N)
-  ir_data_mn = ir_data,
+  ir_data_mn = ir_data_subset_spatial_covariates,
   ir_data_mn_folds = vfold_cv(ir_data_mn, v = 10, strata = type),
 
   # then on the full dataset run 10 fold CV of the entire inner loop
