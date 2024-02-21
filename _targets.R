@@ -71,23 +71,23 @@ tar_plan(
   # crops = c("vege", "plnt", "bana", "toba", "teas", "coco", "acof", "cnut"),
 
   tar_target(
-    crop_coffee_data,
+    raster_coffee,
     agcrop_area(crop = "acof", subset_country_codes),
     format = format_geotiff
   ),
 
   tar_target(
-    crop_vege,
+    raster_veg,
     agcrop_area(crop = "vege", subset_country_codes),
     format = format_geotiff
   ),
   tar_target(
-    landcover_trees,
+    raster_trees,
     get_landcover("trees", subset_country_codes),
     format = format_geotiff
   ),
   tar_target(
-    elevation,
+    raster_elevation,
     get_elevation(subset_country_codes),
     format = format_geotiff
   ),
@@ -108,32 +108,32 @@ tar_plan(
   ),
 
   extracted_elevation = extract_from_raster(
-    elevation,
+    raster_elevation,
     ir_data_subset,
     ir_data_sf_key
   ),
 
   extracted_trees = extract_from_raster(
-    landcover_trees,
+    raster_trees,
     ir_data_subset,
     ir_data_sf_key
   ),
 
-  extracted_vege = extract_from_raster(
-    crop_vege,
+  extracted_veg = extract_from_raster(
+    raster_veg,
     ir_data_subset,
     ir_data_sf_key
   ),
 
   extracted_coffee = extract_from_raster(
-    crop_coffee_data,
+    raster_coffee,
     ir_data_subset,
     ir_data_sf_key
   ),
 
   all_spatial_covariates = join_extracted(
     extracted_coffee,
-    extracted_vege,
+    extracted_veg,
     extracted_trees,
     extracted_elevation,
     extracted_climate
@@ -266,5 +266,7 @@ tar_plan(
   # Predictions are made back to every pixel of map + year (spatiotemporal)
   # this puts them out into a raster
   pixel_map = create_pixel_map(outer_loop_results)
+
+)
 
   # other target outcomes for plotting, country level resistance
