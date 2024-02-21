@@ -82,19 +82,26 @@ tar_plan(
 
   tar_target(
     crop_coffee_data,
-    agcrop_area(
-      crop = "acof"
-    ),
+    agcrop_area(crop = "acof"),
     format = format_geotiff
   ),
 
   tar_target(
     crop_vege,
-    agcrop_area(
-      crop = "vege"
-    ),
+    agcrop_area(crop = "vege"),
     format = format_geotiff
   ),
+
+  tar_target(
+    landcover_trees,
+    get_landcover("trees"),
+    format = format_geotiff
+  ),
+
+  # tar_target(
+  #   landcover_subset
+  # ),
+
 
   # m = Number of rows of full **genotypic** data
   # n = Number of rows of full **phenotypic** data

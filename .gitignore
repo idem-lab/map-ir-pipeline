@@ -6,4 +6,4 @@
 .httr-oauth
 .DS_Store
 _targets
-data/spam
+data/rasters

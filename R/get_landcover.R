@@ -3,17 +3,15 @@
 #' .. content for \details{} ..
 #'
 #' @title
-#' @param crop
+#' @param nameme1
 #' @return
 #' @author njtierney
 #' @export
-agcrop_area <- function(crop = "acof") {
+get_landcover <- function(var = "trees") {
 
-  crop_spam(
-    crop = crop,
-    var = "area",
-    path = "data/rasters",
-    africa = TRUE
+  landcover(
+    var = "trees",
+    path = "data/rasters"
   )
 
 }
