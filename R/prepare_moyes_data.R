@@ -71,6 +71,15 @@ prepare_moyes_data <- function(ir_data_moyes_raw) {
       ),
       .before = identification_method_1
     )  %>%
+    mutate(
+      start_year = as.integer(start_year)
+    ) %>%
+    group_by(insecticide_class) %>%
+    mutate(
+      insecticide_id = cur_group_id(),
+      .after = insecticide_class
+    ) %>%
+    ungroup() %>%
     drop_na(
       latitude,
       longitude,
