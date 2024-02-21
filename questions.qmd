@@ -9,3 +9,8 @@
   - But I do have a function to give an overview of the amount of NRs and NFs
 - Percent mortality is sometimes present when both tested and dead are missing
     - I assume that we can't accept these values?
+    - Golding noted:
+    
+    > In practice, I'd probably impute those as 100 tested or something, based on the standard number for WHO bioassay and the rounding of the numbers in percent mortality. But that's an analyst's decision when entering data into the software, so doesn't need to be handled internally, or in our example data
+    
+
