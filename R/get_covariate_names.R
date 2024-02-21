@@ -7,10 +7,8 @@
 #' @return
 #' @author njtierney
 #' @export
-get_covariate_names <- function(all_spatial_covariates) {
+get_covariate_names <- function(complete_spatial_covariates) {
 
-  covariate_names <- names(all_spatial_covariates)
-
-  str_subset(covariate_names, "uid", negate = TRUE)
+  str_subset(complete_spatial_covariates, "uid", negate = TRUE)
 
 }
