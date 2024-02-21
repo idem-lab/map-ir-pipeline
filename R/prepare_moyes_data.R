@@ -87,7 +87,11 @@ prepare_moyes_data <- function(ir_data_moyes_raw) {
     ) %>%
     filter(
       species == "Anopheles arabiensis"
-      )
+      ) %>%
+    mutate(
+      type = "phenotypic",
+      .after = uid
+    )
 
   ## Add a message about dropping observations due to both no_tested/dead being missing
 
