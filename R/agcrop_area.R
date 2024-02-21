@@ -7,13 +7,16 @@
 #' @return
 #' @author njtierney
 #' @export
-agcrop_area <- function(crop = "acof") {
+agcrop_area <- function(crop = "acof", subset_country_codes) {
 
-  crop_spam(
+  the_raster <- crop_spam(
     crop = crop,
     var = "area",
     path = "data/rasters",
     africa = TRUE
   )
+
+  crop_raster_to_country(the_raster, subset_country_codes)
+
 
 }
