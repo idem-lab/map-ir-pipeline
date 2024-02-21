@@ -63,9 +63,27 @@ prepare_moyes_data <- function(ir_data_moyes_raw) {
         as.numeric
       )
     ) %>%
+    mutate(
+      type = case_when(
+        identification_method_1 == "Morphology" ~ "phenotypic",
+        identification_method_1 != "Morphology" ~ "genotypic",
+        .default = NA
+      ),
+      .before = identification_method_1
+    )  %>%
+    mutate(
+      start_year = as.integer(start_year)
+    ) %>%
+    group_by(insecticide_class) %>%
+    mutate(
+      insecticide_id = cur_group_id(),
+      .after = insecticide_class
+    ) %>%
+    ungroup() %>%
     drop_na(
       latitude,
       longitude,
+      type
     )
 
   ## Add a message about dropping observations due to both no_tested/dead being missing

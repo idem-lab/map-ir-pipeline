@@ -12,15 +12,12 @@
 #' @return
 #' @author njtierney
 #' @export
-join_extracted <- function(ir_data_subset,
-                           extracted_coffee,
+join_extracted <- function(extracted_coffee,
                            extracted_vege,
                            extracted_trees,
                            extracted_elevation,
                            extracted_climate) {
-  ir_data_subset %>%
-    left_join(extracted_coffee,
-              by = "uid") %>%
+  extracted_coffee %>%
     left_join(extracted_vege,
               by = "uid") %>%
     left_join(extracted_trees,
