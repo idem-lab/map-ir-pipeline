@@ -143,6 +143,8 @@ tar_plan(
     by = "uid"
   ),
 
+  # drop uid name and keep rest for use later
+  spatial_covarate_names = get_covariate_names(all_spatial_covariates),
 
   # m = Number of rows of full **genotypic** data
   # n = Number of rows of full **phenotypic** data
