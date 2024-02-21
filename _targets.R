@@ -26,6 +26,9 @@ tar_plan(
   ir_data_moyes_raw = read_moyes_data(moyes_data_path),
   ir_count_nr = summarise_not_recorded(ir_data_moyes_raw),
   ir_count_nf = summarise_not_found(ir_data_moyes_raw),
+  # filters down to one species as well
+  # "Anopheles arabiensis", since it has the most observations
+  # 37% or so
   ir_data_moyes_prepared = prepare_moyes_data(ir_data_moyes_raw),
   checked_no_dead = check_back_calculate_no_dead(ir_data_moyes_prepared),
   checked_pct_mortality = check_mortality(ir_data_moyes_prepared),
@@ -175,12 +178,12 @@ tar_plan(
   model_rf = build_ir_rf(mtry = 2, trees = 5),
   workflow_xgb = build_workflow(
     model_spec = model_xgb,
-    outcomes = "pct_mortality_emp",
+    outcomes = "pct_mortality",
     predictors = model_covariates
   ),
   workflow_rf = build_workflow(
     model_spec = model_rf,
-    outcomes = "pct_mortality_emp",
+    outcomes = "pct_mortality",
     predictors = model_covariates
   ),
 
@@ -194,7 +197,7 @@ tar_plan(
   inla_mesh = create_mesh(ir_data),
   gp_inla_setup = setup_gp_inla_model(
     covariate_names = names(model_list),
-    outcome = "pct_mortality_emp",
+    outcome = "pct_mortality",
     mesh = inla_mesh
   ),
 

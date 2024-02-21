@@ -9,6 +9,9 @@
 #' @export
 diagnostics <- function(ir_data_mn_oos_predictions) {
 
-  NULL
+  ggplot(ir_data_mn_oos_predictions,
+         aes(x = .pred,
+             y = pct_mortality)) +
+    geom_point()
 
 }

@@ -37,7 +37,9 @@ add_pct_mortality <- function(ir_data_raw, no_dead, no_tested) {
         ),
     # add an intercept
         int = 1
-      )
+      ) %>%
+      # drop the emplogit thing because this is just an aux variable
+      select(-pct_mortality_emp)
 
     ir_data
 
