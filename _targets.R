@@ -263,19 +263,8 @@ tar_plan(
     l_one_model_setup = gp_inla_setup
   ),
 
-  ## TODO: future considerations, might be worthwhile thinking about a way to
-  ## batch up the predictions that are done on the inner_loop model, so that
-  ## the computation time/cost is low and achievable and easier to handle.
-
   # Predictions are made back to every pixel of map + year (spatiotemporal)
   # this puts them out into a raster
   pixel_map = create_pixel_map(outer_loop_results)
 
   # other target outcomes for plotting, country level resistance
-  ## TODO: computation considerations - considering ways to make all of this
-  ## run in a reasonable time, and thinking about ways to run this as software
-  ## e.g., do people need a pipeline, or do people just want a couple of
-  ## functions that wrap all of this up. The key point with this is choosing a
-  ## level of abstraction that makes the computation accessible and reasonable
-  ## with a thought of what someone might do if they have a new dataset
-)

@@ -60,13 +60,11 @@ inner_loop <- function(data,
   oos_predictions_rf <- predict_model(
     data = predict_data_nstar,
     model = zero_level_oos_mn_star_rf
-    # TODO: ensure that the output is an SF object, so we retain the coordinates
   )
 
   oos_predictions_xgb <- predict_model(
     data = predict_data_nstar,
     model = zero_level_oos_mn_star_xgb
-    # TODO: ensure that the output is an SF object, so we retain the coordinates
   )
 
   # this should fit 1 model, for in-sample
