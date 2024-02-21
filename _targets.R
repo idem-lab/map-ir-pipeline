@@ -98,6 +98,12 @@ tar_plan(
     format = format_geotiff
   ),
 
+  tar_target(
+    elevation,
+    get_elevation(subset_country_codes),
+    format = format_geotiff
+  ),
+
   # tar_target(
   #   landcover_subset
   # ),
