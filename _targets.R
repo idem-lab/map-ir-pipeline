@@ -72,11 +72,11 @@ tar_plan(
   # get cropland data from geodata package
   subset_country_codes = country_codes(subset_country),
 
-  country_shape = gadm(
-    country = subset_country_codes$NAME,
-    level = 0,
-    path =
-      ),
+  tar_target(
+    country_shape,
+    get_country_shape(subset_country_codes),
+    format = format_geovec
+  ),
 
   # crops = c("vege", "plnt", "bana", "toba", "teas", "coco", "acof", "cnut"),
 
