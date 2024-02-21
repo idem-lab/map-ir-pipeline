@@ -12,18 +12,16 @@ tar_option_set(
 ## tar_plan supports drake-style targets and also tar_target()
 tar_plan(
   # read in example infection resistance data
-  tar_target(ir_data_path,
-    "data/ir-data-raw.csv.gz",
-    format = "file"
+  tar_file(hancock_data_path,
+    "data/ir-data-raw.csv.gz"
   ),
-  ir_data_raw = read_csv(ir_data_path),
+  hancock_data_raw = read_csv(hancock_data_path),
 
   # data is from https://datadryad.org/stash/dataset/doi:10.5061/dryad.dn4676s
-  tar_target(moyes_data_path,
-    "data/2_standard-WHO-susc-test_species.csv",
-    format = "file"
+  tar_file(moyes_data_path,
+    "data/2_standard-WHO-susc-test_species.csv"
   ),
-  ir_data_moyes_raw = read_moyes_data(moyes_data_path),
+  ir_data_moyes_raw = read_csv_clean(moyes_data_path),
   ir_count_nr = summarise_not_recorded(ir_data_moyes_raw),
   ir_count_nf = summarise_not_found(ir_data_moyes_raw),
   # filters down to one species as well
