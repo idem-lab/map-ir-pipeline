@@ -98,7 +98,50 @@ tar_plan(
     format = format_geotiff
   ),
 
+  extracted_climate = extract_from_raster(
+    worldclimate,
+    ir_data_subset,
+    ir_data_sf_key
+  ),
 
+  extracted_elevation = extract_from_raster(
+    elevation,
+    ir_data_subset,
+    ir_data_sf_key
+  ),
+
+  extracted_trees = extract_from_raster(
+    landcover_trees,
+    ir_data_subset,
+    ir_data_sf_key
+  ),
+
+  extracted_vege = extract_from_raster(
+    crop_vege,
+    ir_data_subset,
+    ir_data_sf_key
+  ),
+
+  extracted_coffee = extract_from_raster(
+    crop_coffee_data,
+    ir_data_subset,
+    ir_data_sf_key
+  ),
+
+  all_spatial_covariates = join_extracted(
+    ir_data_subset,
+    extracted_coffee,
+    extracted_vege,
+    extracted_trees,
+    extracted_elevation,
+    extracted_climate
+  ),
+
+  ir_data_subset_spatial_covariates = left_join(
+    ir_data_subset,
+    all_spatial_covariates,
+    by = "uid"
+  ),
 
 
   # m = Number of rows of full **genotypic** data
