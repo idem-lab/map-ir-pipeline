@@ -84,7 +84,10 @@ prepare_moyes_data <- function(ir_data_moyes_raw) {
       latitude,
       longitude,
       type
-    )
+    ) %>%
+    filter(
+      species == "Anopheles arabiensis"
+      )
 
   ## Add a message about dropping observations due to both no_tested/dead being missing
 
