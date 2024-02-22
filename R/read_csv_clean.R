@@ -7,13 +7,13 @@
 #' @return
 #' @author njtierney
 #' @export
-read_csv_clean <- function(moyes_data_path) {
+read_csv_clean <- function(path) {
 
-  moyes_raw <- read_csv(
-    file = moyes_data_path,
+  data_raw <- read_csv(
+    file = path,
     name_repair = make_clean_names
     )
 
-  moyes_raw
+  data_raw
 
 }

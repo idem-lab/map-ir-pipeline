@@ -7,7 +7,7 @@
 #' @return
 #' @author njtierney
 #' @export
-prepare_moyes_data <- function(ir_data_moyes_raw) {
+prepare_pheno_data <- function(ir_data_moyes_raw) {
 
   ir_data_subset <- ir_data_moyes_raw %>%
     select(

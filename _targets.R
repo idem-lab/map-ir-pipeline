@@ -12,51 +12,70 @@ tar_option_set(
 ## tar_plan supports drake-style targets and also tar_target()
 tar_plan(
   # read in example infection resistance data
-  tar_file(hancock_data_path,
+  tar_file(
+    hancock_path,
     "data/ir-data-raw.csv.gz"
   ),
-  hancock_data_raw = read_csv(hancock_data_path),
+  hancock_raw = read_csv(hancock_path),
 
   # data is from https://datadryad.org/stash/dataset/doi:10.5061/dryad.dn4676s
-  tar_file(moyes_data_path,
+  tar_file(
+    moyes_pheno_path,
     "data/2_standard-WHO-susc-test_species.csv"
   ),
-  ir_data_moyes_raw = read_csv_clean(moyes_data_path),
-  ir_count_nr = summarise_not_recorded(ir_data_moyes_raw),
-  ir_count_nf = summarise_not_found(ir_data_moyes_raw),
+
+  tar_file(
+    moyes_geno_path,
+    "data/8_Vgsc-allele-freq_survivors-dead.csv"
+  ),
+
+  moyes_pheno_raw = read_csv_clean(moyes_pheno_path),
+  moyes_pheno_count_nr = summarise_not_recorded(moyes_pheno_raw),
+  moyes_pheno_count_nf = summarise_not_found(moyes_pheno_raw),
+
+  moyes_geno_raw = read_csv_clean(moyes_geno_path),
+  moyes_geno_count_nr = summarise_not_recorded(moyes_geno_raw),
+  moyes_geno_count_nf = summarise_not_found(moyes_geno_raw),
+
   # filters down to one species as well
   # "Anopheles arabiensis", since it has the most observations
   # 37% or so
-  ir_data_moyes_prepared = prepare_moyes_data(ir_data_moyes_raw),
-  checked_no_dead = check_back_calculate_no_dead(ir_data_moyes_prepared),
-  checked_pct_mortality = check_mortality(ir_data_moyes_prepared),
+
+  moyes_pheno_prepared = prepare_pheno_data(moyes_pheno_raw),
+  moyes_pheno_check_dead = check_back_calculate_no_dead(moyes_pheno_prepared),
+  moyes_pheno_check_pct_mort = check_mortality(moyes_pheno_prepared),
+
+  moyes_geno_geocode = geocode_geno_data(moyes_geno_raw),
+  moyes_geno_countries = extract_country(moyes_geno_geocode),
+  moyes_geno_prepared = prepare_geno_data(moyes_geno_raw),
 
   # there are times where PCT mortality is recorded, but neither
-  explore_pct_mortality = why_pct_mortality(ir_data_moyes_prepared),
-  ir_data_moyes_replace = replace_no_dead_pct_mortality(ir_data_moyes_prepared),
-  ir_data_moyes = drop_na(
-    ir_data_moyes_replace,
+  explore_pct_mortality = why_pct_mortality(moyes_pheno_prepared),
+  moyes_pheno_replace = replace_no_dead_pct_mortality(moyes_pheno_prepared),
+  moyes_pheno = drop_na(
+    moyes_pheno_replace,
     no_mosquitoes_tested,
     no_mosquitoes_dead,
   ),
 
   # this drops missing values in long/lat (about 7% missing values)
 
+
   vis_miss_moyes = vis_miss(
-    ir_data_moyes,
+    moyes_pheno,
     sort_miss = TRUE,
     cluster = TRUE
   ),
 
   # Create a spatial dataset with linked ID so we can join this on later
-  ir_data_sf_key = create_sf_id(ir_data_moyes),
+  ir_data_sf_key = create_sf_id(moyes_pheno),
 
   # Check the map
   ir_data_map = mapview(ir_data_sf_key),
 
   # perform the emplogit on response, and do IHS transform
   ir_data = add_pct_mortality(
-    ir_data_raw = ir_data_moyes,
+    ir_data_raw = moyes_pheno,
     no_dead = no_mosquitoes_dead,
     no_tested = no_mosquitoes_tested
   ),
