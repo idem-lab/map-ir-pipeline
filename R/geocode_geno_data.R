@@ -22,8 +22,4 @@ geocode_geno_data <- function(moyes_geno_raw) {
     full_results = TRUE
   )
 
-  moyes_geno_raw %>%
-    select(uid) %>%
-    bind_cols(geocoded)
-
 }

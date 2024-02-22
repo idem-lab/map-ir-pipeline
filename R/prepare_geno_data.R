@@ -7,7 +7,18 @@
 #' @return
 #' @author njtierney
 #' @export
-prepare_geno_data <- function(moyes_geno_raw) {
+prepare_geno_data <- function(moyes_geno_raw, moyes_geno_countries) {
+
+  # add the country information
+  country_uid <- moyes_geno_raw %>%
+    rowid_to_column("uid") %>%
+    select(uid) %>%
+    bind_cols(moyes_geno_countries) %>%
+    select(uid,
+           latitude,
+           longitude,
+           country_name,
+           country_iso3)
 
   moyes_geno_raw %>%
     rowid_to_column("uid") %>%

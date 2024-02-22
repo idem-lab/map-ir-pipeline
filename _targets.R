@@ -47,7 +47,7 @@ tar_plan(
 
   moyes_geno_geocode = geocode_geno_data(moyes_geno_raw),
   moyes_geno_countries = extract_country(moyes_geno_geocode),
-  moyes_geno_prepared = prepare_geno_data(moyes_geno_raw),
+  moyes_geno_prepared = prepare_geno_data(moyes_geno_raw, moyes_geno_countries),
 
   # there are times where PCT mortality is recorded, but neither
   explore_pct_mortality = why_pct_mortality(moyes_pheno_prepared),
