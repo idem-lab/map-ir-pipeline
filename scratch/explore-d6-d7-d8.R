@@ -25,21 +25,21 @@ names(d6)
 names(ir_data)
 
 d6 %>%
+  # make this id after the data have been combined
   rowid_to_column("uid") %>%
-  select(kdr_test_id,
+  select(
          # no country column - this can be inferred however
          start_month,
          start_year,
          end_month,
          end_year,
-         publication_year,
-         site_name,
          latitude,
          longitude,
-         # no species name!
+         # species - write "gambaie complex"
          no_mosquitoes_tested,
-         # no mosquitoes dead?
-         # no percent mortality?
+         # no mosquitoes dead? - can be calculated
+         # no percent mortality? - instead we are using: l1014l_percent
+         l1014l_percent,
          # need to add type
          # no identification method1?
          # no identification method2?
@@ -47,6 +47,48 @@ d6 %>%
          # no information on insecticide
          )
 
+d7 %>%
+  rowid_to_column("uid") %>%
+  select(
+    kdr_test_id,
+    start_month,
+    start_year,
+    end_month,
+    end_year,
+    publication_year,
+    site_name,
+    latitude,
+    longitude,
+    no_mosquitoes_tested,
+    identification_method_1,
+    identification_method_2,
+    generation,
+    # no insecticide information
+  )
+
+# looks like d8 has most of the data that we want?
+d8 %>%
+  rowid_to_column("uid") %>%
+  select(
+    kdr_test_id,
+    start_month,
+    start_year,
+    end_month,
+    end_year,
+    publication_year,
+    site_name,
+    latitude,
+    longitude,
+    no_mosquitoes_tested,
+    # anophelines_tested, ## interesting?
+    # no mosquitoes dead?
+    # no percent mortality?
+    # create type later
+    identification_method_1,
+    identification_method_2,
+    generation,
+    insecticide_tested
+  )
 
 
 coded_places <- tibble(
