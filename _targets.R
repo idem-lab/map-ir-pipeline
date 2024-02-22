@@ -64,8 +64,35 @@ tar_plan(
     moyes_geno_prepared
   ),
 
+
+  vis_miss_moyes = vis_miss(
+    moyes_geno_pheno,
+    sort_miss = TRUE,
+    cluster = TRUE
+  ),
+
+  # explicitly drop NA values
+  moyes_geno_pheno_clean = drop_na(
+    latitude,
+    longitude,
+    no_mosquitoes_tested,
+    no_mosquitoes_dead,
+    percent_mortality,
+    start_month,
+    end_month,
+    start_year,
+    end_year
+  ),
+
+  vis_miss_moyes_clean = vis_miss(
+    moyes_geno_pheno_clean,
+    sort_miss = TRUE,
+    cluster = TRUE
+  ),
+
+
   # there are times where PCT mortality is recorded, but neither
-  explore_pct_mortality = why_pct_mortality(moyes_pheno_prepared),
+  explore_pct_mortality = why_pct_mortality(moyes_geno_pheno),
   moyes_pheno_replace = replace_no_dead_pct_mortality(moyes_pheno_prepared),
   moyes_pheno = drop_na(
     moyes_pheno_replace,
@@ -73,14 +100,6 @@ tar_plan(
     no_mosquitoes_dead,
   ),
 
-  # this drops missing values in long/lat (about 7% missing values)
-
-
-  vis_miss_moyes = vis_miss(
-    moyes_pheno,
-    sort_miss = TRUE,
-    cluster = TRUE
-  ),
 
   # Create a spatial dataset with linked ID so we can join this on later
   ir_data_sf_key = create_sf_id(moyes_pheno),
