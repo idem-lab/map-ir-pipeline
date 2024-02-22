@@ -26,8 +26,10 @@ tar_plan(
 
   tar_file(
     moyes_geno_path,
-    "data/8_Vgsc-allele-freq_survivors-dead.csv"
+    "data/6_Vgsc-allele-freq_complex-subgroup.csv"
   ),
+
+  gambiae_complex_list = create_valid_gambiae(),
 
   moyes_pheno_raw = read_csv_clean(moyes_pheno_path),
   moyes_pheno_count_nr = summarise_not_recorded(moyes_pheno_raw),
@@ -37,17 +39,30 @@ tar_plan(
   moyes_geno_count_nr = summarise_not_recorded(moyes_geno_raw),
   moyes_geno_count_nf = summarise_not_found(moyes_geno_raw),
 
+  # TODO: just filter down to gambaie complex for phenotypic
   # filters down to one species as well
   # "Anopheles arabiensis", since it has the most observations
   # 37% or so
 
-  moyes_pheno_prepared = prepare_pheno_data(moyes_pheno_raw),
+  moyes_pheno_prepared = prepare_pheno_data(moyes_pheno_raw,
+                                            gambiae_complex_list),
   moyes_pheno_check_dead = check_back_calculate_no_dead(moyes_pheno_prepared),
   moyes_pheno_check_pct_mort = check_mortality(moyes_pheno_prepared),
 
   moyes_geno_geocode = geocode_geno_data(moyes_geno_raw),
   moyes_geno_countries = extract_country(moyes_geno_geocode),
-  moyes_geno_prepared = prepare_geno_data(moyes_geno_raw, moyes_geno_countries),
+  moyes_geno_prepared = prepare_geno_data(moyes_geno_raw,
+                                          moyes_geno_countries),
+
+  geno_pheno_match = check_pheno_geno_match(
+    moyes_pheno_prepared,
+    moyes_geno_prepared
+  ),
+
+  moyes_geno_pheno = combine_pheno_geno(
+    moyes_pheno_prepared,
+    moyes_geno_prepared
+  ),
 
   # there are times where PCT mortality is recorded, but neither
   explore_pct_mortality = why_pct_mortality(moyes_pheno_prepared),

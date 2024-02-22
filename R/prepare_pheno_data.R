@@ -7,18 +7,15 @@
 #' @return
 #' @author njtierney
 #' @export
-prepare_pheno_data <- function(ir_data_moyes_raw) {
+prepare_pheno_data <- function(moyes_pheno_raw, gambiae_complex_list) {
 
-  ir_data_subset <- ir_data_moyes_raw %>%
+  ir_data_subset <- moyes_pheno_raw %>%
     select(
-      bioassay_id,
       country,
       start_month,
       start_year,
       end_month,
       end_year,
-      publication_year,
-      site_name,
       latitude,
       longitude,
       species,
@@ -26,14 +23,8 @@ prepare_pheno_data <- function(ir_data_moyes_raw) {
       no_mosquitoes_dead,
       percent_mortality,
       species,
-      identification_method_1,
-      identification_method_2,
-      generation,
-      insecticide_class,
-      insecticide_tested
-    ) %>%
-    rownames_to_column("uid")
-
+      insecticide_class
+    )
 
   ir_data_contains_nr <- which_vars_contain(ir_data_subset, "NR")
   ir_data_contains_nf <- which_vars_contain(ir_data_subset, "NF")
@@ -63,34 +54,22 @@ prepare_pheno_data <- function(ir_data_moyes_raw) {
         as.numeric
       )
     ) %>%
-    mutate(
-      type = case_when(
-        identification_method_1 == "Morphology" ~ "phenotypic",
-        identification_method_1 != "Morphology" ~ "genotypic",
-        .default = NA
-      ),
-      .before = identification_method_1
+    filter(
+      species %in% gambiae_complex_list
     )  %>%
+    # since they are all the same species
+    select(
+      -species
+    ) %>%
     mutate(
       start_year = as.integer(start_year)
     ) %>%
-    group_by(insecticide_class) %>%
-    mutate(
-      insecticide_id = cur_group_id(),
-      .after = insecticide_class
-    ) %>%
-    ungroup() %>%
     drop_na(
       latitude,
       longitude,
-      type
     ) %>%
-    filter(
-      species == "Anopheles arabiensis"
-      ) %>%
-    mutate(
-      type = "phenotypic",
-      .after = uid
+    rename(
+      insecticide = insecticide_class
     )
 
   ## Add a message about dropping observations due to both no_tested/dead being missing

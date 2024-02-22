@@ -10,39 +10,66 @@
 prepare_geno_data <- function(moyes_geno_raw, moyes_geno_countries) {
 
   # add the country information
-  country_uid <- moyes_geno_raw %>%
-    rowid_to_column("uid") %>%
-    select(uid) %>%
-    bind_cols(moyes_geno_countries) %>%
-    select(uid,
-           latitude,
-           longitude,
-           country_name,
-           country_iso3)
+  countries <- moyes_geno_countries %>%
+    select(
+      country = country_name
+      )
 
   moyes_geno_raw %>%
-    rowid_to_column("uid") %>%
+    bind_cols(
+      countries,
+    ) %>%
+  # make this id after the data have been combined
     select(
-      kdr_test_id,
+      country,
       start_month,
       start_year,
       end_month,
       end_year,
-      publication_year,
-      site_name,
+      latitude,
+      longitude,
+      # species - filter down to "gambaie complex" in complex_subgroup
+      no_mosquitoes_tested,
+      # percent mortality? - instead we are using: l1014l_percent
+      percent_mortality = l1014l_percent,
+      complex_subgroup
+      # no information on insecticide
+    ) %>%
+    # just keep Gambiae
+    filter(
+      complex_subgroup == "Gambiae Complex"
+    ) %>%
+    select(
+      -complex_subgroup
+    ) %>%
+    mutate(
+      no_mosquitoes_dead = no_mosquitoes_tested * (percent_mortality / 100),
+      insecticide = "none"
+    ) %>%
+    relocate(
+      country,
+      start_month,
+      start_year,
+      end_month,
+      end_year,
       latitude,
       longitude,
       no_mosquitoes_tested,
-      anophelines_tested,
-      # no mosquitoes dead?
-      # no percent mortality?
-      identification_method_1,
-      identification_method_2,
-      generation,
-      insecticide_tested
+      no_mosquitoes_dead,
+      percent_mortality,
+      insecticide
     ) %>%
     mutate(
-      type = "genotypic"
+      start_year = as.integer(start_year)
+    ) %>%
+    mutate(
+      across(
+        c(
+          latitude,
+          longitude
+          ),
+        as.numeric
+      )
     )
 
 }
