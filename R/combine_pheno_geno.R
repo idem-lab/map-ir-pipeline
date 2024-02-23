@@ -15,6 +15,11 @@ combine_pheno_geno <- function(moyes_pheno_prepared, moyes_geno_prepared) {
     genotypic = moyes_geno_prepared,
     .id = "type"
   ) %>%
-    replace_no_dead_pct_mortality()
+    replace_no_dead_pct_mortality() %>%
+    # perform the emplogit on response, and do IHS transform
+    add_pct_mortality(
+      no_dead = no_mosquitoes_dead,
+      no_tested = no_mosquitoes_tested
+    ),
 
 }
