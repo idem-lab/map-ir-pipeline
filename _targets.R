@@ -64,7 +64,6 @@ tar_plan(
     moyes_geno_prepared
   ),
 
-
   vis_miss_moyes = vis_miss(
     moyes_geno_pheno,
     sort_miss = TRUE,
@@ -72,7 +71,7 @@ tar_plan(
   ),
 
   # explicitly drop NA values
-  moyes_geno_pheno_clean = drop_na(
+  ir_data = drop_na(
     latitude,
     longitude,
     no_mosquitoes_tested,
@@ -84,35 +83,21 @@ tar_plan(
     end_year
   ),
 
-  vis_miss_moyes_clean = vis_miss(
-    moyes_geno_pheno_clean,
+  vis_miss_ir_data = vis_miss(
+    ir_data,
     sort_miss = TRUE,
     cluster = TRUE
   ),
 
-
   # there are times where PCT mortality is recorded, but neither
-  explore_pct_mortality = why_pct_mortality(moyes_geno_pheno),
-  moyes_pheno_replace = replace_no_dead_pct_mortality(moyes_pheno_prepared),
-  moyes_pheno = drop_na(
-    moyes_pheno_replace,
-    no_mosquitoes_tested,
-    no_mosquitoes_dead,
-  ),
-
+  explore_pct_mortality = why_pct_mortality(ir_data),
 
   # Create a spatial dataset with linked ID so we can join this on later
-  ir_data_sf_key = create_sf_id(moyes_pheno),
+  ir_data_sf_key = create_sf_id(ir_data),
 
   # Check the map
   ir_data_map = mapview(ir_data_sf_key),
 
-  # perform the emplogit on response, and do IHS transform
-  ir_data = add_pct_mortality(
-    ir_data_raw = moyes_pheno,
-    no_dead = no_mosquitoes_dead,
-    no_tested = no_mosquitoes_tested
-  ),
   subset_country = "Ethiopia",
   ir_data_subset = filter(ir_data, country == subset_country),
 
