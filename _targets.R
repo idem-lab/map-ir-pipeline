@@ -29,30 +29,27 @@ tar_plan(
     "data/6_Vgsc-allele-freq_complex-subgroup.csv"
   ),
 
-  gambiae_complex_list = create_valid_gambiae(),
-
   moyes_pheno_raw = read_csv_clean(moyes_pheno_path),
   moyes_pheno_count_nr = summarise_not_recorded(moyes_pheno_raw),
   moyes_pheno_count_nf = summarise_not_found(moyes_pheno_raw),
 
-  moyes_geno_raw = read_csv_clean(moyes_geno_path),
-  moyes_geno_count_nr = summarise_not_recorded(moyes_geno_raw),
-  moyes_geno_count_nf = summarise_not_found(moyes_geno_raw),
-
-  # TODO: just filter down to gambaie complex for phenotypic
-  # filters down to one species as well
-  # "Anopheles arabiensis", since it has the most observations
-  # 37% or so
+  gambiae_complex_list = create_valid_gambiae(),
 
   moyes_pheno_prepared = prepare_pheno_data(moyes_pheno_raw,
                                             gambiae_complex_list),
   moyes_pheno_check_dead = check_back_calculate_no_dead(moyes_pheno_prepared),
   moyes_pheno_check_pct_mort = check_mortality(moyes_pheno_prepared),
 
+  moyes_geno_raw = read_csv_clean(moyes_geno_path),
+  moyes_geno_count_nr = summarise_not_recorded(moyes_geno_raw),
+  moyes_geno_count_nf = summarise_not_found(moyes_geno_raw),
+
   moyes_geno_geocode = geocode_geno_data(moyes_geno_raw),
   moyes_geno_countries = extract_country(moyes_geno_geocode),
   moyes_geno_prepared = prepare_geno_data(moyes_geno_raw,
                                           moyes_geno_countries),
+  moyes_geno_check_dead = check_back_calculate_no_dead(moyes_geno_prepared),
+  moyes_geno_check_pct_mort = check_mortality(moyes_geno_prepared),
 
   geno_pheno_match = check_pheno_geno_match(
     moyes_pheno_prepared,
@@ -60,9 +57,14 @@ tar_plan(
   ),
 
   moyes_geno_pheno = combine_pheno_geno(
+    geno_pheno_match,
     moyes_pheno_prepared,
     moyes_geno_prepared
   ),
+
+
+  # there are times where PCT mortality is recorded, but neither tested or dead?
+  explore_pct_mortality = why_pct_mortality(moyes_geno_pheno),
 
   vis_miss_moyes = vis_miss(
     moyes_geno_pheno,
@@ -71,17 +73,7 @@ tar_plan(
   ),
 
   # explicitly drop NA values
-  ir_data = drop_na(
-    latitude,
-    longitude,
-    no_mosquitoes_tested,
-    no_mosquitoes_dead,
-    percent_mortality,
-    start_month,
-    end_month,
-    start_year,
-    end_year
-  ),
+  ir_data = create_ir_data(moyes_geno_pheno),
 
   vis_miss_ir_data = vis_miss(
     ir_data,
@@ -89,8 +81,6 @@ tar_plan(
     cluster = TRUE
   ),
 
-  # there are times where PCT mortality is recorded, but neither
-  explore_pct_mortality = why_pct_mortality(ir_data),
 
   # Create a spatial dataset with linked ID so we can join this on later
   ir_data_sf_key = create_sf_id(ir_data),
@@ -98,7 +88,7 @@ tar_plan(
   # Check the map
   ir_data_map = mapview(ir_data_sf_key),
 
-  subset_country = "Ethiopia",
+  subset_country = "Kenya",
   ir_data_subset = filter(ir_data, country == subset_country),
 
   # get cropland data from geodata package
