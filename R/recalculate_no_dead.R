@@ -10,6 +10,9 @@
 #' @export
 recalculate_no_dead <- function(no_mosquitoes_tested, percent_mortality) {
 
-  round(no_mosquitoes_tested * (percent_mortality / 100))
+  prop_mortality <- percent_mortality / 100
+  no_dead <- no_mosquitoes_tested * prop_mortality
+  round(no_dead, .Machine$double.eps)
+
 
 }

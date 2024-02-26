@@ -19,7 +19,7 @@ check_pheno_geno_match <- function(moyes_pheno_prepared, moyes_geno_prepared) {
   pheno_class <- class_table(moyes_pheno_prepared, "pheno")
   geno_class <- class_table(moyes_geno_prepared, "geno")
 
-  left_join(
+  matched_data <- left_join(
     pheno_class,
     geno_class,
     by = "vars"
@@ -28,6 +28,13 @@ check_pheno_geno_match <- function(moyes_pheno_prepared, moyes_geno_prepared) {
       match = pheno == geno
     ) %>%
     arrange(match)
+
+  return(
+    list(
+      match = names_match,
+      data = matched_data
+    )
+  )
 
 
 }

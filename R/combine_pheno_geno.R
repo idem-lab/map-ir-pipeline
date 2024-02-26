@@ -8,7 +8,13 @@
 #' @return
 #' @author njtierney
 #' @export
-combine_pheno_geno <- function(moyes_pheno_prepared, moyes_geno_prepared) {
+combine_pheno_geno <- function(geno_pheno_match,
+                               moyes_pheno_prepared,
+                               moyes_geno_prepared) {
+
+  if (!geno_pheno_match$match) {
+    abort("Genotypic and Phenotypic data do not match, see `geno_pheno_match`")
+  }
 
   bind_rows(
     phenotypic = moyes_pheno_prepared,
@@ -20,6 +26,6 @@ combine_pheno_geno <- function(moyes_pheno_prepared, moyes_geno_prepared) {
     add_pct_mortality(
       no_dead = no_mosquitoes_dead,
       no_tested = no_mosquitoes_tested
-    ),
+    )
 
 }
