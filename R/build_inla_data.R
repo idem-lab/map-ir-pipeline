@@ -20,10 +20,10 @@ build_inla_data <- function(ir_data,
     names()
 
   workflow <- build_workflow(model_spec,
-                             outcomes = "pct_mortality",
+                             outcomes = "percent_mortality",
                              predictors = covariate_names)
 
-  data <- bind_cols(select(ir_data, pct_mortality),
+  data <- bind_cols(select(ir_data, percent_mortality),
                     covariate_data)
 
   return(

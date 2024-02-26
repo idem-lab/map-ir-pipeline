@@ -9,8 +9,9 @@
 #' @return
 #' @author njtierney
 #' @export
-setup_gp_inla_model <- function(covariate_names = names(model_list), outcome =
-                                "pct_mortality", mesh = inla_mesh) {
+setup_gp_inla_model <- function(covariate_names = names(model_list),
+                                outcome = "percent_mortality",
+                                mesh = inla_mesh) {
 
   NULL
 

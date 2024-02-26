@@ -91,6 +91,14 @@ tar_plan(
   subset_country = "Kenya",
   ir_data_subset = filter(ir_data, country == subset_country),
 
+  ir_data_sf_key_subset = semi_join(
+    ir_data_sf_key,
+    ir_data_subset,
+    by = "uid"
+    ),
+
+  ir_data_map_subset = mapview(ir_data_sf_key_subset),
+
   # get cropland data from geodata package
   subset_country_codes = country_codes(subset_country),
 
@@ -204,12 +212,12 @@ tar_plan(
   model_rf = build_ir_rf(mtry = 2, trees = 5),
   workflow_xgb = build_workflow(
     model_spec = model_xgb,
-    outcomes = "pct_mortality",
+    outcomes = "percent_mortality",
     predictors = model_covariates
   ),
   workflow_rf = build_workflow(
     model_spec = model_rf,
-    outcomes = "pct_mortality",
+    outcomes = "percent_mortality",
     predictors = model_covariates
   ),
 
@@ -223,7 +231,7 @@ tar_plan(
   inla_mesh = create_mesh(ir_data),
   gp_inla_setup = setup_gp_inla_model(
     covariate_names = names(model_list),
-    outcome = "pct_mortality",
+    outcome = "percent_mortality",
     mesh = inla_mesh
   ),
 
