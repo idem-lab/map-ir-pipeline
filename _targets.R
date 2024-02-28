@@ -54,7 +54,7 @@ tar_plan(
   geno_pheno_match = check_pheno_geno_match(
     moyes_pheno_prepared,
     moyes_geno_prepared
-  ),
+   ),
 
   moyes_geno_pheno = combine_pheno_geno(
     geno_pheno_match,
@@ -240,7 +240,11 @@ tar_plan(
   # Outer Loop ----
   # Take a full dataset (M+N)
   ir_data_mn = ir_data_subset_spatial_covariates,
-  ir_data_mn_folds = vfold_cv(ir_data_mn, v = 10, strata = type),
+  ir_data_mn_folds = vfold_cv(
+    ir_data_mn,
+    v = 10,
+    strata = type
+    ),
 
   # then on the full dataset run 10 fold CV of the entire inner loop
   # Every time we run inner loop, pass in N* = N x 0.9, and M* = M x 0.9
