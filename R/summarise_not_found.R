@@ -7,13 +7,13 @@
 #' @return
 #' @author njtierney
 #' @export
-summarise_not_found <- function(ir_data_moyes_raw) {
+summarise_not_found <- function(data_raw) {
 
-  miss_scan_count(ir_data_moyes_raw,
+  miss_scan_count(data_raw,
                   "NF") %>%
     arrange(-n) %>%
     mutate(
-      pct = n / nrow(ir_data_moyes_raw)
+      pct = n / nrow(data_raw)
     )
 
 }

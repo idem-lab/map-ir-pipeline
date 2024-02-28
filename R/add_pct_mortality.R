@@ -31,7 +31,7 @@ add_pct_mortality <- function(ir_data_raw, no_dead, no_tested) {
 
     ir_data <- ir_data_emp %>%
       mutate(
-        pct_mortality = IHS(
+        percent_mortality = IHS(
           pct_mortality_emp,
           theta2$maximum
         ),

@@ -3,19 +3,19 @@
 #' .. content for \details{} ..
 #'
 #' @title
-#' @param ir_data_moyes_raw
+#' @param data_raw
 #' @return
 #' @author njtierney
 #' @export
-summarise_not_recorded <- function(ir_data_moyes_raw) {
+summarise_not_recorded <- function(data_raw) {
 
   miss_scan_count(
-    ir_data_moyes_raw,
+    data_raw,
     search = "NR"
     ) %>%
     arrange(-n) %>%
     mutate(
-      pct = n / nrow(ir_data_moyes_raw)
+      pct = n / nrow(data_raw)
     )
 
 }

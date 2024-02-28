@@ -16,8 +16,8 @@ why_pct_mortality <- function(ir_data_moyes_raw) {
       percent_mortality
       ) %>%
     filter(
-      no_mosquitoes_tested == "NR" & no_mosquitoes_dead == "NR"
-      # is.na(no_mosquitoes_tested) & is.na(no_mosquitoes_dead)
+      # no_mosquitoes_tested == "NR" & no_mosquitoes_dead == "NR"
+      is.na(no_mosquitoes_tested) & is.na(no_mosquitoes_dead)
       # !is.na(percent_mortality)
     )
 

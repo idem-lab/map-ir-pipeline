@@ -11,7 +11,7 @@ diagnostics <- function(ir_data_mn_oos_predictions) {
 
   ggplot(ir_data_mn_oos_predictions,
          aes(x = .pred,
-             y = pct_mortality)) +
+             y = percent_mortality)) +
     geom_point()
 
 }

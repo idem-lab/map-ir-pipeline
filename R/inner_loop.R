@@ -31,9 +31,7 @@ inner_loop <- function(data,
   ## training and out of sample prediction
   train_predict <- vfold_cv(
     data = ir_data_mn_star,
-    v = 10,
-    # so we get equal test/training within type
-    strata = type,
+    v = 10
   )
 
   # this should be N* + M*

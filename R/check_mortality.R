@@ -7,13 +7,12 @@
 #' @return
 #' @author njtierney
 #' @export
-check_mortality <- function(ir_data_moyes_prepared) {
+check_mortality <- function(moyes_pheno_prepared) {
 
-  ir_data_moyes_prepared
+  moyes_pheno_prepared
 
-  ir_subset <- ir_data_moyes_prepared %>%
+  ir_subset <- moyes_pheno_prepared %>%
     select(
-      uid,
       no_mosquitoes_tested,
       no_mosquitoes_dead,
       percent_mortality
