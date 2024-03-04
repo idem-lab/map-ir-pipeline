@@ -10,9 +10,8 @@
 #' @author njtierney
 #' @export
 add_pct_mortality <- function(ir_data_raw, no_dead, no_tested) {
-
-    # ==== Create pcent_mortality transformed variable ====
-    # Empirical logit and IHS transform on labels
+  # ==== Create pcent_mortality transformed variable ====
+  # Empirical logit and IHS transform on labels
   ir_data_emp <- ir_data_raw %>%
     mutate(
       pct_mortality_emp = emplogit2(
@@ -21,26 +20,25 @@ add_pct_mortality <- function(ir_data_raw, no_dead, no_tested) {
       )
     )
 
-    theta2 <- optimise(
-      f = IHS.loglik,
-      lower = 0.001,
-      upper = 50,
-      x = ir_data_emp$pct_mortality_emp,
-      maximum = TRUE
-    )
+  theta2 <- optimise(
+    f = IHS.loglik,
+    lower = 0.001,
+    upper = 50,
+    x = ir_data_emp$pct_mortality_emp,
+    maximum = TRUE
+  )
 
-    ir_data <- ir_data_emp %>%
-      mutate(
-        percent_mortality = IHS(
-          pct_mortality_emp,
-          theta2$maximum
-        ),
-    # add an intercept
-        int = 1
-      ) %>%
-      # drop the emplogit thing because this is just an aux variable
-      select(-pct_mortality_emp)
+  ir_data <- ir_data_emp %>%
+    mutate(
+      percent_mortality = IHS(
+        pct_mortality_emp,
+        theta2$maximum
+      ),
+      # add an intercept
+      int = 1
+    ) %>%
+    # drop the emplogit thing because this is just an aux variable
+    select(-pct_mortality_emp)
 
-    ir_data
-
+  ir_data
 }

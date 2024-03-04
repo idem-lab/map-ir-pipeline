@@ -10,7 +10,6 @@
 #' @export
 fit_zero_level_model <- function(data,
                                  model) {
-
   fits <- map(data, function(x) fit(model, data = as.data.frame(x)))
 
   fits

@@ -10,9 +10,7 @@
 #' @export
 gp_inla <- function(data,
                     setup) {
-
   fit <- fit(data$workflow, as.data.frame(data$data))
 
   fit
-
 }

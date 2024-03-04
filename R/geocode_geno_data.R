@@ -21,5 +21,4 @@ geocode_geno_data <- function(moyes_geno_raw) {
     method = "osm",
     full_results = TRUE
   )
-
 }

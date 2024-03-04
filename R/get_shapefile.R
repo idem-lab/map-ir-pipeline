@@ -8,7 +8,6 @@
 #' @author njtierney
 #' @export
 get_shapefile <- function(subset_country_codes) {
-
   shapefile <- gadm(
     country = subset_country_codes$ISO3,
     level = 0,
@@ -18,5 +17,4 @@ get_shapefile <- function(subset_country_codes) {
   )
 
   shapefile
-
 }

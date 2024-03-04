@@ -2,19 +2,19 @@ library(tidyverse)
 d6 <- read_csv(
   file = "~/Downloads/doi_10_5061_dryad_dn4676s__v20190308/6_Vgsc-allele-freq_complex-subgroup.csv",
   name_repair = make_clean_names
-  )
+)
 
 # problems?
 d7 <- read_csv(
   file = "~/Downloads/doi_10_5061_dryad_dn4676s__v20190308/7_Vgsc-allele-freq_species.csv",
   name_repair = make_clean_names
-  )
+)
 problems(d7)
 
 d8 <- read_csv(
   file = "~/Downloads/doi_10_5061_dryad_dn4676s__v20190308/8_Vgsc-allele-freq_survivors-dead.csv",
   name_repair = make_clean_names
-  )
+)
 
 View(d6)
 View(d7)
@@ -28,24 +28,24 @@ d6 %>%
   # make this id after the data have been combined
   rowid_to_column("uid") %>%
   select(
-         # no country column - this can be inferred however
-         start_month,
-         start_year,
-         end_month,
-         end_year,
-         latitude,
-         longitude,
-         # species - write "gambaie complex"
-         no_mosquitoes_tested,
-         # no mosquitoes dead? - can be calculated
-         # no percent mortality? - instead we are using: l1014l_percent
-         l1014l_percent,
-         # need to add type
-         # no identification method1?
-         # no identification method2?
-         generation,
-         # no information on insecticide
-         )
+    # no country column - this can be inferred however
+    start_month,
+    start_year,
+    end_month,
+    end_year,
+    latitude,
+    longitude,
+    # species - write "gambaie complex"
+    no_mosquitoes_tested,
+    # no mosquitoes dead? - can be calculated
+    # no percent mortality? - instead we are using: l1014l_percent
+    l1014l_percent,
+    # need to add type
+    # no identification method1?
+    # no identification method2?
+    generation,
+    # no information on insecticide
+  )
 
 d7 %>%
   rowid_to_column("uid") %>%

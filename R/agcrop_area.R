@@ -8,7 +8,6 @@
 #' @author njtierney
 #' @export
 agcrop_area <- function(crop = "acof") {
-
   the_raster <- crop_spam(
     crop = crop,
     var = "area",
@@ -17,5 +16,4 @@ agcrop_area <- function(crop = "acof") {
   )
 
   the_raster
-
 }

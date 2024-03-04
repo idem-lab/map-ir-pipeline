@@ -8,7 +8,5 @@
 #' @author njtierney
 #' @export
 create_mesh <- function(ir_data) {
-
   NULL
-
 }

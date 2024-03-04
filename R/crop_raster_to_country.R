@@ -9,15 +9,13 @@
 #' @author njtierney
 #' @export
 crop_raster_to_country <- function(raster, subset_country_codes) {
-
   shapefile <- get_shapefile(subset_country_codes)
 
   cropped <- crop(
     x = raster,
     y = shapefile,
     mask = TRUE
-    )
+  )
 
   cropped
-
 }

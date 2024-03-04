@@ -13,10 +13,8 @@ check_if_covariate_names_in_data <- function(
     ir_data,
     arg_cov = caller_arg(covariate_names),
     arg_ir = caller_arg(ir_data),
-    call = caller_env()
-    ) {
-
-  covariate_names_in_data <-  all(covariate_names %in% names(ir_data))
+    call = caller_env()) {
+  covariate_names_in_data <- all(covariate_names %in% names(ir_data))
   if (!covariate_names_in_data) {
     cli::cli_abort(
       message = c(
@@ -27,5 +25,4 @@ check_if_covariate_names_in_data <- function(
       call = call,
     )
   }
-
 }

@@ -13,7 +13,6 @@ build_ir_xgboost <- function(tree_depth = 8,
                              sample_size = 0.7,
                              mtry = 0.7,
                              lambda = 1) {
-
   model_spec <- boost_tree(
     # max depth of a tree, previously `max_depth`
     tree_depth = tree_depth,
@@ -33,10 +32,10 @@ build_ir_xgboost <- function(tree_depth = 8,
   ) %>%
     set_mode("regression") %>%
     set_engine("xgboost",
-               # regularisation parameter
-               lambda = lambda,
-               counts = FALSE)
+      # regularisation parameter
+      lambda = lambda,
+      counts = FALSE
+    )
 
   model_spec
-
 }

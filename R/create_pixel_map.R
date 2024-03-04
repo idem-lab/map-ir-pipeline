@@ -8,7 +8,5 @@
 #' @author njtierney
 #' @export
 create_pixel_map <- function(outer_loop_results) {
-
   NULL
-
 }

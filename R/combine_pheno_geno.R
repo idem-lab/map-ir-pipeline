@@ -11,7 +11,6 @@
 combine_pheno_geno <- function(geno_pheno_match,
                                moyes_pheno_prepared,
                                moyes_geno_prepared) {
-
   if (!geno_pheno_match$match) {
     abort("Genotypic and Phenotypic data do not match, see `geno_pheno_match`")
   }
@@ -32,5 +31,4 @@ combine_pheno_geno <- function(geno_pheno_match,
       insecticide_id = cur_group_id()
     ) %>%
     ungroup()
-
 }

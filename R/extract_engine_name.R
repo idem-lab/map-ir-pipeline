@@ -8,7 +8,5 @@
 #' @author njtierney
 #' @export
 extract_engine_name <- function(model) {
-
   model$fit$fit$spec$engine
-
 }

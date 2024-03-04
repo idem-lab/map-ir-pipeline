@@ -5,24 +5,27 @@ library(readr)
 data_all <- as_tibble(read_rds("../demo-map-ir/data/data_all_wa.rds"))
 
 ir_sample <- data_all %>%
-  select(start_month,
-         end_month,
-         start_year,
-         end_year,
-         no_dead,
-         no_tested,
-         banana,
-         bean,
-         cereal,
-         coconut,
-         ins_ind,
-         coffee) %>%
+  select(
+    start_month,
+    end_month,
+    start_year,
+    end_year,
+    no_dead,
+    no_tested,
+    banana,
+    bean,
+    cereal,
+    coconut,
+    ins_ind,
+    coffee
+  ) %>%
   # create random genotypic/phenotypic variable, since I'm not sure where it is
   mutate(
     type = sample(
       x = c("genotypic", "phenotypic"),
       replace = TRUE,
-      size = n()),
+      size = n()
+    ),
     .before = everything()
   )
 

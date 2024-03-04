@@ -8,12 +8,10 @@
 #' @author njtierney
 #' @export
 read_csv_clean <- function(path) {
-
   data_raw <- read_csv(
     file = path,
     name_repair = make_clean_names
-    )
+  )
 
   data_raw
-
 }

@@ -8,7 +8,6 @@
 #' @author njtierney
 #' @export
 create_ir_data <- function(moyes_geno_pheno) {
-
   drop_na(
     data = moyes_geno_pheno,
     latitude,
@@ -24,5 +23,4 @@ create_ir_data <- function(moyes_geno_pheno) {
     rowid_to_column(
       var = "uid"
     )
-
 }

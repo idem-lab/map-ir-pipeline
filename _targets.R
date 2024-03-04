@@ -23,39 +23,35 @@ tar_plan(
     moyes_pheno_path,
     "data/2_standard-WHO-susc-test_species.csv"
   ),
-
   tar_file(
     moyes_geno_path,
     "data/6_Vgsc-allele-freq_complex-subgroup.csv"
   ),
-
   moyes_pheno_raw = read_csv_clean(moyes_pheno_path),
   moyes_pheno_count_nr = summarise_not_recorded(moyes_pheno_raw),
   moyes_pheno_count_nf = summarise_not_found(moyes_pheno_raw),
-
   gambiae_complex_list = create_valid_gambiae(),
-
-  moyes_pheno_prepared = prepare_pheno_data(moyes_pheno_raw,
-                                            gambiae_complex_list),
+  moyes_pheno_prepared = prepare_pheno_data(
+    moyes_pheno_raw,
+    gambiae_complex_list
+  ),
   moyes_pheno_check_dead = check_back_calculate_no_dead(moyes_pheno_prepared),
   moyes_pheno_check_pct_mort = check_mortality(moyes_pheno_prepared),
-
   moyes_geno_raw = read_csv_clean(moyes_geno_path),
   moyes_geno_count_nr = summarise_not_recorded(moyes_geno_raw),
   moyes_geno_count_nf = summarise_not_found(moyes_geno_raw),
-
   moyes_geno_geocode = geocode_geno_data(moyes_geno_raw),
   moyes_geno_countries = extract_country(moyes_geno_geocode),
-  moyes_geno_prepared = prepare_geno_data(moyes_geno_raw,
-                                          moyes_geno_countries),
+  moyes_geno_prepared = prepare_geno_data(
+    moyes_geno_raw,
+    moyes_geno_countries
+  ),
   moyes_geno_check_dead = check_back_calculate_no_dead(moyes_geno_prepared),
   moyes_geno_check_pct_mort = check_mortality(moyes_geno_prepared),
-
   geno_pheno_match = check_pheno_geno_match(
     moyes_pheno_prepared,
     moyes_geno_prepared
-   ),
-
+  ),
   moyes_geno_pheno = combine_pheno_geno(
     geno_pheno_match,
     moyes_pheno_prepared,
@@ -65,7 +61,6 @@ tar_plan(
 
   # there are times where PCT mortality is recorded, but neither tested or dead?
   explore_pct_mortality = why_pct_mortality(moyes_geno_pheno),
-
   vis_miss_moyes = vis_miss(
     moyes_geno_pheno,
     sort_miss = TRUE,
@@ -74,7 +69,6 @@ tar_plan(
 
   # explicitly drop NA values
   ir_data = create_ir_data(moyes_geno_pheno),
-
   vis_miss_ir_data = vis_miss(
     ir_data,
     sort_miss = TRUE,
@@ -86,18 +80,14 @@ tar_plan(
 
   # Check the map
   ir_data_map = mapview(ir_data_sf_key),
-
   ir_country_count = count(ir_data, country, type, sort = TRUE),
-
   subset_countries = c("Kenya", "Tanzania", "Benin"),
   ir_data_subset = filter(ir_data, country %in% subset_countries),
-
   ir_data_sf_key_subset = semi_join(
     ir_data_sf_key,
     ir_data_subset,
     by = "uid"
-    ),
-
+  ),
   ir_data_map_subset = mapview(ir_data_sf_key_subset),
 
   # get cropland data from geodata package
@@ -110,31 +100,26 @@ tar_plan(
     agcrop_area(crop = "acof"),
     format = format_geotiff
   ),
-
   tar_target(
     raster_countries_coffee,
     crop_raster_to_country(raster_coffee, subset_country_codes),
     format = format_geotiff,
   ),
-
   tar_target(
     raster_veg,
     agcrop_area(crop = "vege"),
     format = format_geotiff
   ),
-
   tar_target(
     raster_countries_veg,
     crop_raster_to_country(raster_veg, subset_country_codes),
     format = format_geotiff,
   ),
-
   tar_target(
     raster_trees,
     get_landcover("trees"),
     format = format_geotiff
   ),
-
   tar_target(
     raster_countries_trees,
     crop_raster_to_country(
@@ -143,53 +128,44 @@ tar_plan(
     ),
     format = format_geotiff
   ),
-
   tar_target(
     raster_countries_elevation,
     get_elevation(subset_country_codes),
     format = format_geotiff
   ),
-
   climate_variables = tibble(
     vars = c("tmin", "tmax", "tavg", "prec", "wind", "vapr", "bio")
   ),
-
   tar_target(
     raster_countries_worldclimate,
     get_worldclim(subset_country_codes, var = "tmin"),
     format = format_geotiff
   ),
-
   extracted_countries_climate = extract_from_raster(
     raster_countries_worldclimate,
     ir_data_subset,
     ir_data_sf_key
   ),
-
   extracted_countries_elevation = extract_from_raster(
     raster_countries_elevation,
     ir_data_subset,
     ir_data_sf_key
   ),
-
   extracted_countries_trees = extract_from_raster(
     raster_countries_trees,
     ir_data_subset,
     ir_data_sf_key
   ),
-
   extracted_countries_veg = extract_from_raster(
     raster_countries_veg,
     ir_data_subset,
     ir_data_sf_key
   ),
-
   extracted_countries_coffee = extract_from_raster(
     raster_countries_coffee,
     ir_data_subset,
     ir_data_sf_key
   ),
-
   all_spatial_covariates = join_extracted(
     extracted_countries_coffee,
     extracted_countries_veg,
@@ -204,38 +180,32 @@ tar_plan(
         .fns = impute_zero
       )
     ),
-
   vis_miss_covariates = vis_miss(
     all_spatial_covariates,
     sort_miss = TRUE,
     cluster = TRUE
   ),
-
   ir_data_subset_spatial_covariates = left_join(
     ir_data_subset,
     all_spatial_covariates,
     by = c("uid", "country")
   ),
-
   complete_spatial_covariates = identify_complete_vars(
     all_spatial_covariates
   ),
 
   # drop uid name and keep rest for use later
   spatial_covariate_names = get_covariate_names(complete_spatial_covariates),
-
   spatial_covariate_sample = spatial_covariate_names[1:5],
 
   # other_covariates = c("start_year", "generation", "insecticide_class"),
   # dropping generation as it is missing too many values
   other_covariates = c("start_year", "insecticide_id"),
-
   model_covariates = c(other_covariates, spatial_covariate_sample),
-
   predictors_missing = check_if_model_inputs_missing(
     model_covariates,
     ir_data_subset_spatial_covariates
-    ),
+  ),
 
   # m = Number of rows of full **genotypic** data
   # n = Number of rows of full **phenotypic** data
@@ -282,7 +252,7 @@ tar_plan(
     ir_data_mn,
     v = 10,
     strata = type
-    ),
+  ),
 
   # then on the full dataset run 10 fold CV of the entire inner loop
   # Every time we run inner loop, pass in N* = N x 0.9, and M* = M x 0.9
@@ -342,7 +312,6 @@ tar_plan(
   # Predictions are made back to every pixel of map + year (spatiotemporal)
   # this puts them out into a raster
   pixel_map = create_pixel_map(outer_loop_results)
-
 )
 
-  # other target outcomes for plotting, country level resistance
+# other target outcomes for plotting, country level resistance

@@ -8,7 +8,5 @@
 #' @author njtierney
 #' @export
 gg_diagnostics <- function(oos_diagnostics) {
-
   NULL
-
 }

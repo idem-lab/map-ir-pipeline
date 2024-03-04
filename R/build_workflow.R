@@ -12,7 +12,6 @@
 build_workflow <- function(model_spec,
                            outcomes,
                            predictors) {
-
   model_workflow <- workflow() %>%
     add_model(spec = model_spec) %>%
     add_variables(
@@ -21,5 +20,4 @@ build_workflow <- function(model_spec,
     )
 
   model_workflow
-
 }

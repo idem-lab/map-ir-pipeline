@@ -10,8 +10,7 @@
 #' @export
 build_inla_data <- function(ir_data,
                             covariate_data) {
-
-  model_spec <-  linear_reg() %>%
+  model_spec <- linear_reg() %>%
     set_mode("regression") %>%
     set_engine("lm")
 
@@ -20,14 +19,19 @@ build_inla_data <- function(ir_data,
     names()
 
   workflow <- build_workflow(model_spec,
-                             outcomes = "percent_mortality",
-                             predictors = covariate_names)
+    outcomes = "percent_mortality",
+    predictors = covariate_names
+  )
 
-  data <- bind_cols(select(ir_data, percent_mortality),
-                    covariate_data)
+  data <- bind_cols(
+    select(ir_data, percent_mortality),
+    covariate_data
+  )
 
   return(
-    list(workflow = workflow,
-         data = data)
+    list(
+      workflow = workflow,
+      data = data
+    )
   )
 }

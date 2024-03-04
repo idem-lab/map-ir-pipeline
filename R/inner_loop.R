@@ -14,7 +14,6 @@ inner_loop <- function(data,
                        new_data = NULL,
                        l_zero_model_list,
                        l_one_model_setup) {
-
   ir_data_mn_star <- data
   # m_star = Number of rows in each **inner loop** of **genotypic** data
   ir_data_m_star <- ir_data_mn_star %>% filter(type == "genotypic")
@@ -87,8 +86,7 @@ inner_loop <- function(data,
   oos_covariates <- combine_predictions(list(
     rf = oos_predictions_rf,
     xgb = oos_predictions_xgb
-  )
-  )
+  ))
 
   # Fit the whole L1 model to N* original data, using out of sample covariates
   gp_inla_data_n_star_oos <- build_inla_data(
@@ -100,8 +98,10 @@ inner_loop <- function(data,
   # Fit the whole L1 model to N* original data, using out of sample covariates
   # oos = out of sample
   # super learner = L1 model
-  super_learner_oos <- gp_inla(data = gp_inla_data_n_star_oos,
-                               setup = l_one_model_setup)
+  super_learner_oos <- gp_inla(
+    data = gp_inla_data_n_star_oos,
+    setup = l_one_model_setup
+  )
 
   # Finally, we make a prediction ----
   # Predict to the N* phenotypic data points, to get the in sample predictions
@@ -134,6 +134,4 @@ inner_loop <- function(data,
   return(
     gp_inla_data_n_star_is
   )
-
-
 }

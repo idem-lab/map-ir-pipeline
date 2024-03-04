@@ -8,7 +8,6 @@
 #' @author njtierney
 #' @export
 extract_country <- function(moyes_geno_geocode) {
-
   moyes_geno_geocode %>%
     mutate(
       country_name = countrycode(

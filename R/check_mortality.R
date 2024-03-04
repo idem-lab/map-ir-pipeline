@@ -8,7 +8,6 @@
 #' @author njtierney
 #' @export
 check_mortality <- function(moyes_pheno_prepared) {
-
   moyes_pheno_prepared
 
   ir_subset <- moyes_pheno_prepared %>%
@@ -23,7 +22,7 @@ check_mortality <- function(moyes_pheno_prepared) {
       pct_mort_check = percent_mortality(
         no_mosquitoes_dead,
         no_mosquitoes_tested
-        ),
+      ),
       pct_mort_near = near(pct_mort_check, percent_mortality, tol = 0.01)
     )
 

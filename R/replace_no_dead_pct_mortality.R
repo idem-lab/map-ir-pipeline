@@ -8,7 +8,6 @@
 #' @author njtierney
 #' @export
 replace_no_dead_pct_mortality <- function(ir_data_moyes_prepared) {
-
   ir_data_moyes_prepared %>%
     mutate(
       no_mosquitoes_dead = case_when(
@@ -26,6 +25,4 @@ replace_no_dead_pct_mortality <- function(ir_data_moyes_prepared) {
         .default = percent_mortality
       )
     )
-
-
 }

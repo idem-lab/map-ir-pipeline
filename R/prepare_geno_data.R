@@ -8,18 +8,17 @@
 #' @author njtierney
 #' @export
 prepare_geno_data <- function(moyes_geno_raw, moyes_geno_countries) {
-
   # add the country information
   countries <- moyes_geno_countries %>%
     select(
       country = country_name
-      )
+    )
 
   moyes_geno_raw %>%
     bind_cols(
       countries,
     ) %>%
-  # make this id after the data have been combined
+    # make this id after the data have been combined
     select(
       country,
       start_month,
@@ -67,9 +66,8 @@ prepare_geno_data <- function(moyes_geno_raw, moyes_geno_countries) {
         c(
           latitude,
           longitude
-          ),
+        ),
         as.numeric
       )
     )
-
 }

@@ -8,7 +8,6 @@
 #' @author njtierney
 #' @export
 build_ir_bgam <- function() {
-
   model_spec <- boost_gam(
     # final number of iterations
     mstop = 80000,
@@ -17,9 +16,6 @@ build_ir_bgam <- function() {
     # shrinkage parameter
     nu = 0.4
   ) %>%
-  set_mode("regression") %>%
-  set_engine("mboost")
-
-
-
+    set_mode("regression") %>%
+    set_engine("mboost")
 }

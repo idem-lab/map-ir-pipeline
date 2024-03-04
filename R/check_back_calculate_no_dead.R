@@ -8,13 +8,12 @@
 #' @author njtierney
 #' @export
 check_back_calculate_no_dead <- function(moyes_data) {
-
   check_back_calculate <- moyes_data %>%
     mutate(
       no_dead_check = recalculate_no_dead(
         no_mosquitoes_tested,
         percent_mortality
-        ),
+      ),
       dead_comparison = no_dead_check - no_mosquitoes_dead,
       .after = no_mosquitoes_tested
     )
@@ -32,10 +31,11 @@ check_back_calculate_no_dead <- function(moyes_data) {
     return(
       ref_check
     )
-  } else(
-    return(
-      "Checks have passed, well done! :)"
+  } else {
+    (
+      return(
+        "Checks have passed, well done! :)"
+      )
     )
-  )
-
+  }
 }

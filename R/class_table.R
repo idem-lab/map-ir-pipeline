@@ -8,7 +8,7 @@
 #' @return
 #' @author njtierney
 #' @export
-class_table <- function(data, type){
+class_table <- function(data, type) {
   class_list <- map_chr(data, class)
   class_table <- tibble(
     vars = names(class_list),

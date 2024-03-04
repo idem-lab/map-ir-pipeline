@@ -10,11 +10,10 @@
 #' @export
 predict_model <- function(data,
                           model) {
-
   predictions <- map2(
     .x = model,
     .y = data,
-    .f = function(.x, .y){
+    .f = function(.x, .y) {
       predict(.x, as.data.frame(.y))
     }
   )
@@ -30,5 +29,4 @@ predict_model <- function(data,
     rename(
       !!new_name := .pred
     )
-
 }

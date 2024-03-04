@@ -10,7 +10,8 @@ ir_data_raw <- data_all %>%
     type = sample(
       x = c("genotypic", "phenotypic"),
       replace = TRUE,
-      size = n()),
+      size = n()
+    ),
     .before = everything()
   )
 

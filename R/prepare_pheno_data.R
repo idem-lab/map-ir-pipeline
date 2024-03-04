@@ -8,7 +8,6 @@
 #' @author njtierney
 #' @export
 prepare_pheno_data <- function(moyes_pheno_raw, gambiae_complex_list) {
-
   ir_data_subset <- moyes_pheno_raw %>%
     select(
       country,
@@ -30,7 +29,7 @@ prepare_pheno_data <- function(moyes_pheno_raw, gambiae_complex_list) {
   ir_data_contains_nf <- which_vars_contain(ir_data_subset, "NF")
 
   prepared_moyes <- ir_data_subset %>%
-  # replace NR values with NA
+    # replace NR values with NA
     mutate(
       across(
         all_of(ir_data_contains_nr),
@@ -41,7 +40,7 @@ prepare_pheno_data <- function(moyes_pheno_raw, gambiae_complex_list) {
       across(
         all_of(ir_data_contains_nf),
         \(x) na_if(x, "NF")
-        )
+      )
     ) %>%
     mutate(
       across(
@@ -56,7 +55,7 @@ prepare_pheno_data <- function(moyes_pheno_raw, gambiae_complex_list) {
     ) %>%
     filter(
       species %in% gambiae_complex_list
-    )  %>%
+    ) %>%
     # since they are all the same species
     select(
       -species
@@ -75,5 +74,4 @@ prepare_pheno_data <- function(moyes_pheno_raw, gambiae_complex_list) {
   ## Add a message about dropping observations due to both no_tested/dead being missing
 
   prepared_moyes
-
 }

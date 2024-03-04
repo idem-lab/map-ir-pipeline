@@ -8,11 +8,10 @@
 #' @author njtierney
 #' @export
 create_valid_gambiae <- function() {
-
   # from:
   # moyes_pheno_raw %>%
   # pull(species) %>%
-    # unique()
+  # unique()
 
   valid_gambiae <- c(
     "Anopheles coluzzii/gambiae",
@@ -29,6 +28,4 @@ create_valid_gambiae <- function() {
   )
 
   valid_gambiae
-
-
 }

@@ -8,7 +8,5 @@
 #' @author njtierney
 #' @export
 extract_training <- function(train_predict) {
-
   map(train_predict$splits, training)
-
 }

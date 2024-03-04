@@ -8,11 +8,9 @@
 #' @author njtierney
 #' @export
 get_worldclim <- function(subset_country_codes, var) {
-
   worldclim_country(
     country = subset_country_codes$ISO3,
     var = var,
     path = "data/rasters/"
   )
-
 }

@@ -9,10 +9,9 @@
 #' @author njtierney
 #' @export
 check_pheno_geno_match <- function(moyes_pheno_prepared, moyes_geno_prepared) {
-
   names_match <- all(names(moyes_pheno_prepared) == names(moyes_geno_prepared))
 
-  if (!names_match){
+  if (!names_match) {
     abort("names of data do not match")
   }
 
@@ -23,7 +22,7 @@ check_pheno_geno_match <- function(moyes_pheno_prepared, moyes_geno_prepared) {
     pheno_class,
     geno_class,
     by = "vars"
-  )  %>%
+  ) %>%
     mutate(
       match = pheno == geno
     ) %>%
@@ -35,6 +34,4 @@ check_pheno_geno_match <- function(moyes_pheno_prepared, moyes_geno_prepared) {
       data = matched_data
     )
   )
-
-
 }

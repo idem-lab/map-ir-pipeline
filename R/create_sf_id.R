@@ -19,8 +19,9 @@ create_sf_id <- function(ir_data_moyes) {
   # separating down to a unique ID and a geometry column so we can keep
   # this as a primary key of the data
   sf_moyes %>%
-    select(uid,
-           geometry,
-           country)
-
+    select(
+      uid,
+      geometry,
+      country
+    )
 }
