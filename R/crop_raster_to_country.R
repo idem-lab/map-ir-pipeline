@@ -8,12 +8,12 @@
 #' @return
 #' @author njtierney
 #' @export
-crop_raster_to_country <- function(crop_coffee_data, subset_country_codes) {
+crop_raster_to_country <- function(raster, subset_country_codes) {
 
   shapefile <- get_shapefile(subset_country_codes)
 
   cropped <- crop(
-    x = crop_coffee_data,
+    x = raster,
     y = shapefile,
     mask = TRUE
     )
