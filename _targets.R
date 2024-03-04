@@ -87,7 +87,9 @@ tar_plan(
   # Check the map
   ir_data_map = mapview(ir_data_sf_key),
 
-  subset_countries = c("Kenya", "Tanzania"),
+  ir_country_count = count(ir_data, country, sort = TRUE),
+
+  subset_countries = c("Kenya", "Tanzania", "Benin"),
   ir_data_subset = filter(ir_data, country %in% subset_countries),
 
   ir_data_sf_key_subset = semi_join(
@@ -212,7 +214,7 @@ tar_plan(
   ir_data_subset_spatial_covariates = left_join(
     ir_data_subset,
     all_spatial_covariates,
-    by = "uid"
+    by = c("uid", "country")
   ),
 
   complete_spatial_covariates = identify_complete_vars(
