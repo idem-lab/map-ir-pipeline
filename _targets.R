@@ -334,7 +334,7 @@ tar_plan(
     # coordinates and environmental covariates for each pixel, and use the
     # stacked generalisation model to predict to all of them, then put
     # the predicted IR values back in a raster of predictions.
-    new_data = ,
+    new_data = NULL,
     l_zero_model_list = model_list,
     l_one_model_setup = gp_inla_setup
   ),
