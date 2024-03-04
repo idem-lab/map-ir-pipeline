@@ -87,7 +87,7 @@ tar_plan(
   # Check the map
   ir_data_map = mapview(ir_data_sf_key),
 
-  ir_country_count = count(ir_data, country, sort = TRUE),
+  ir_country_count = count(ir_data, country, type, sort = TRUE),
 
   subset_countries = c("Kenya", "Tanzania", "Benin"),
   ir_data_subset = filter(ir_data, country %in% subset_countries),
