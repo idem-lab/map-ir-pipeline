@@ -7,13 +7,13 @@
 #' @return
 #' @author njtierney
 #' @export
-get_landcover <- function(var = "trees", subset_country_codes) {
+get_landcover <- function(var = "trees") {
 
   the_raster <- landcover(
     var = var,
     path = "data/rasters"
   )
 
-  crop_raster_to_country(the_raster, subset_country_codes)
+  the_raster
 
 }

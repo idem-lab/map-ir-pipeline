@@ -81,15 +81,16 @@ tar_plan(
     cluster = TRUE
   ),
 
-
   # Create a spatial dataset with linked ID so we can join this on later
   ir_data_sf_key = create_sf_id(ir_data),
 
   # Check the map
   ir_data_map = mapview(ir_data_sf_key),
 
-  subset_country = "Kenya",
-  ir_data_subset = filter(ir_data, country == subset_country),
+  ir_country_count = count(ir_data, country, type, sort = TRUE),
+
+  subset_countries = c("Kenya", "Tanzania", "Benin"),
+  ir_data_subset = filter(ir_data, country %in% subset_countries),
 
   ir_data_sf_key_subset = semi_join(
     ir_data_sf_key,
@@ -100,83 +101,120 @@ tar_plan(
   ir_data_map_subset = mapview(ir_data_sf_key_subset),
 
   # get cropland data from geodata package
-  subset_country_codes = country_codes(subset_country),
+  subset_country_codes = map_dfr(subset_countries, country_codes),
 
   # crops = c("vege", "plnt", "bana", "toba", "teas", "coco", "acof", "cnut"),
 
   tar_target(
     raster_coffee,
-    agcrop_area(crop = "acof", subset_country_codes),
+    agcrop_area(crop = "acof"),
     format = format_geotiff
   ),
 
   tar_target(
+    raster_countries_coffee,
+    crop_raster_to_country(raster_coffee, subset_country_codes),
+    format = format_geotiff,
+  ),
+
+  tar_target(
     raster_veg,
-    agcrop_area(crop = "vege", subset_country_codes),
+    agcrop_area(crop = "vege"),
     format = format_geotiff
   ),
+
+  tar_target(
+    raster_countries_veg,
+    crop_raster_to_country(raster_veg, subset_country_codes),
+    format = format_geotiff,
+  ),
+
   tar_target(
     raster_trees,
-    get_landcover("trees", subset_country_codes),
+    get_landcover("trees"),
     format = format_geotiff
   ),
+
   tar_target(
-    raster_elevation,
+    raster_countries_trees,
+    crop_raster_to_country(
+      raster_trees,
+      subset_country_codes
+    ),
+    format = format_geotiff
+  ),
+
+  tar_target(
+    raster_countries_elevation,
     get_elevation(subset_country_codes),
     format = format_geotiff
   ),
+
   climate_variables = tibble(
     vars = c("tmin", "tmax", "tavg", "prec", "wind", "vapr", "bio")
   ),
 
   tar_target(
-    worldclimate,
+    raster_countries_worldclimate,
     get_worldclim(subset_country_codes, var = "tmin"),
     format = format_geotiff
   ),
 
-  extracted_climate = extract_from_raster(
-    worldclimate,
+  extracted_countries_climate = extract_from_raster(
+    raster_countries_worldclimate,
     ir_data_subset,
     ir_data_sf_key
   ),
 
-  extracted_elevation = extract_from_raster(
-    raster_elevation,
+  extracted_countries_elevation = extract_from_raster(
+    raster_countries_elevation,
     ir_data_subset,
     ir_data_sf_key
   ),
 
-  extracted_trees = extract_from_raster(
-    raster_trees,
+  extracted_countries_trees = extract_from_raster(
+    raster_countries_trees,
     ir_data_subset,
     ir_data_sf_key
   ),
 
-  extracted_veg = extract_from_raster(
-    raster_veg,
+  extracted_countries_veg = extract_from_raster(
+    raster_countries_veg,
     ir_data_subset,
     ir_data_sf_key
   ),
 
-  extracted_coffee = extract_from_raster(
-    raster_coffee,
+  extracted_countries_coffee = extract_from_raster(
+    raster_countries_coffee,
     ir_data_subset,
     ir_data_sf_key
   ),
 
   all_spatial_covariates = join_extracted(
-    extracted_coffee,
-    extracted_veg,
-    extracted_trees,
-    extracted_elevation,
-    extracted_climate
+    extracted_countries_coffee,
+    extracted_countries_veg,
+    extracted_countries_trees,
+    extracted_countries_elevation,
+    extracted_countries_climate
+  ) %>%
+    # impute 0 into missing values for all rasters
+    mutate(
+      across(
+        .cols = everything(),
+        .fns = impute_zero
+      )
+    ),
+
+  vis_miss_covariates = vis_miss(
+    all_spatial_covariates,
+    sort_miss = TRUE,
+    cluster = TRUE
   ),
 
   ir_data_subset_spatial_covariates = left_join(
     ir_data_subset,
     all_spatial_covariates,
-    by = "uid"
+    by = c("uid", "country")
   ),
 
   complete_spatial_covariates = identify_complete_vars(
@@ -296,7 +334,7 @@ tar_plan(
     # coordinates and environmental covariates for each pixel, and use the
     # stacked generalisation model to predict to all of them, then put
     # the predicted IR values back in a raster of predictions.
-    new_data = ,
+    new_data = NULL,
     l_zero_model_list = model_list,
     l_one_model_setup = gp_inla_setup
   ),
