@@ -194,7 +194,14 @@ tar_plan(
     extracted_countries_trees,
     extracted_countries_elevation,
     extracted_countries_climate
-  ),
+  ) %>%
+    # impute 0 into missing values for all rasters
+    mutate(
+      across(
+        .cols = everything(),
+        .fns = impute_zero
+      )
+    ),
 
   vis_miss_covariates = vis_miss(
     all_spatial_covariates,
