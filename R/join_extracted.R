@@ -18,12 +18,17 @@ join_extracted <- function(extracted_coffee,
                            extracted_elevation,
                            extracted_climate) {
   extracted_coffee %>%
-    left_join(extracted_vege,
-              by = "uid") %>%
+    left_join(
+      extracted_vege,
+      by = c("uid", "country")
+    ) %>%
     left_join(extracted_trees,
-              by = "uid") %>%
+      by = c("uid", "country")
+    ) %>%
     left_join(extracted_elevation,
-              by = "uid") %>%
+      by = c("uid", "country")
+    ) %>%
     left_join(extracted_climate,
-              by = "uid")
+      by = c("uid", "country")
+    )
 }
