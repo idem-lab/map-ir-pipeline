@@ -295,19 +295,40 @@ tar_plan(
   oos_diagnostics = diagnostics(ir_data_mn_oos_predictions),
   plot_diagnostics = gg_diagnostics(oos_diagnostics),
 
+  coffee_raster_as_data = raster_to_df(raster_countries_coffee),
+  raster_example = coffee_raster_as_data %>%
+    mutate(
+      start_year = 2019,
+      insecticide_id = 1
+    ),
+
+  ## maybe we wrap inner_loop to specify other prediction information that we
+  ## care about, namely:
+     ## start_year, and
+     ## insecticide_id
+
   # Run the inner loop one more time, to the full dataset, N+M
   outer_loop_results = inner_loop(
     data = ir_data_mn,
     # full set of mapping data as an sf object (environmental
     # covariates and coordinates)
-    # in this final step we need to take a setof rasters, pull out the
+    # in this final step we need to take a set of rasters, pull out the
     # coordinates and environmental covariates for each pixel, and use the
     # stacked generalisation model to predict to all of them, then put
     # the predicted IR values back in a raster of predictions.
-    new_data = NULL,
+    new_data = raster_example,
     l_zero_model_list = model_list,
     l_one_model_setup = gp_inla_setup
   ),
+
+  tar_format(
+    predicted_raster,
+    prediction_to_raster(raster_countries_coffee,
+                         outer_loop_results),
+    format = format_geotiff
+  ),
+
+  plot_predicted_raster = plot(predicted_raster),
 
   # Predictions are made back to every pixel of map + year (spatiotemporal)
   # this puts them out into a raster
