@@ -100,6 +100,7 @@ tar_plan(
     agcrop_area(crop = "acof"),
     format = format_geotiff
   ),
+
   tar_target(
     raster_countries_coffee,
     crop_raster_to_country(raster_coffee, subset_country_codes),
@@ -282,6 +283,9 @@ tar_plan(
     }
   ),
 
+  ## TODO check why L0 model only one set of predictions? should be one .pred
+  ## per model??
+
   # OUTER LOOP parts from here now ----
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)
@@ -292,6 +296,13 @@ tar_plan(
     .preds = bind_rows(out_of_sample_predictions),
     ir_data_mn
   ),
+
+  ## L1 model gets fit here with .pred as covariates
+  ## AND the original response data as the response
+  ## which is the (percent_mortality - transformed)
+  ## we ONLY do this for phenotypic data for a single insecticide
+  ## fit as lm model for now
+
   oos_diagnostics = diagnostics(ir_data_mn_oos_predictions),
   plot_diagnostics = gg_diagnostics(oos_diagnostics),
 
@@ -308,6 +319,8 @@ tar_plan(
      ## insecticide_id
 
   # Run the inner loop one more time, to the full dataset, N+M
+  ## TODO
+  ## pass the L1 model here to predict out to the rasters
   outer_loop_results = inner_loop(
     data = ir_data_mn,
     # full set of mapping data as an sf object (environmental

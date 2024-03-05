@@ -19,6 +19,7 @@ extract_from_raster <- function(raster, ir_data_subset, ir_data_sf_key) {
     raster,
     sf_subset,
     ID = FALSE,
+    ## TODO let user know they are doing bilinear interpolation
     method = "bilinear"
   ) %>%
     as_tibble(.name_repair = make_clean_names) %>%
