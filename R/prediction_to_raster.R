@@ -9,7 +9,6 @@
 #' @author njtierney
 #' @export
 prediction_to_raster <- function(raster, predictions) {
-
   # getting the first layer raster
   prediction_raster <- raster[[1]]
 

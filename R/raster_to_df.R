@@ -8,7 +8,6 @@
 #' @author njtierney
 #' @export
 raster_to_df <- function(raster) {
-
   raster_tibble <- terra::as.data.frame(
     x = raster,
     xy = TRUE
@@ -20,5 +19,4 @@ raster_to_df <- function(raster) {
       latitude = x,
       longitude = y
     )
-
 }
