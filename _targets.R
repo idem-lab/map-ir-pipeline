@@ -104,7 +104,7 @@ tar_plan(
   tar_target(
     raster_countries_coffee,
     crop_raster_to_country(raster_coffee, subset_country_codes),
-    format = format_geotiff,
+    format = format_geotiff
   ),
   tar_target(
     raster_veg,
@@ -114,7 +114,7 @@ tar_plan(
   tar_target(
     raster_countries_veg,
     crop_raster_to_country(raster_veg, subset_country_codes),
-    format = format_geotiff,
+    format = format_geotiff
   ),
   tar_target(
     raster_trees,
@@ -297,6 +297,7 @@ tar_plan(
     ir_data_mn
   ),
 
+  ## TODO
   ## L1 model gets fit here with .pred as covariates
   ## AND the original response data as the response
   ## which is the (percent_mortality - transformed)
@@ -334,14 +335,17 @@ tar_plan(
     l_one_model_setup = gp_inla_setup
   ),
 
-  tar_format(
+  tar_target(
     predicted_raster,
     prediction_to_raster(raster_countries_coffee,
                          outer_loop_results),
     format = format_geotiff
   ),
 
-  plot_predicted_raster = plot(predicted_raster),
+  tar_file(
+    plot_predicted_raster,
+    save_plot(path = "plots/predicted_raster.png", predicted_raster),
+  ),
 
   # Predictions are made back to every pixel of map + year (spatiotemporal)
   # this puts them out into a raster
