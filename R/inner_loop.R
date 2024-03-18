@@ -124,6 +124,13 @@ inner_loop <- function(data,
     .pred_xgboost = in_sample_predictions_xgb$.pred,
   )
 
+  ## TODO
+  ## L1 model gets fit here with .pred as covariates
+  ## AND the original response data as the response
+  ## which is the (transformed percent_mortality)
+  ## we ONLY do this for phenotypic data for a single insecticide
+  ## fit as lm model for now
+
   # But we switch out-of-sample L0 covariates for L0 **in-sample covariates**
   # that gives a prediction of length N*
   gp_inla_data_n_star_is <- predict(

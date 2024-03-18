@@ -81,6 +81,7 @@ tar_plan(
   # Check the map
   ir_data_map = mapview(ir_data_sf_key),
   ir_country_count = count(ir_data, country, type, sort = TRUE),
+  # setup analysis to work on a few countries
   subset_countries = c("Kenya", "Tanzania", "Benin"),
   ir_data_subset = filter(ir_data, country %in% subset_countries),
   ir_data_sf_key_subset = semi_join(
@@ -269,6 +270,9 @@ tar_plan(
 
   training_data = map(ir_data_mn_folds$splits, training),
   testing_data = map(ir_data_mn_folds$splits, testing),
+
+  ## Returns one set of predictions because we fit the L1 model
+  ## out from the L0 models in here
   out_of_sample_predictions = map2(
     .x = training_data,
     .y = testing_data,
@@ -282,9 +286,6 @@ tar_plan(
     }
   ),
 
-  ## TODO check why L0 model only one set of predictions? should be one .pred
-  ## per model??
-
   # OUTER LOOP parts from here now ----
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)
@@ -295,13 +296,6 @@ tar_plan(
     .preds = bind_rows(out_of_sample_predictions),
     ir_data_mn
   ),
-
-  ## TODO
-  ## L1 model gets fit here with .pred as covariates
-  ## AND the original response data as the response
-  ## which is the (percent_mortality - transformed)
-  ## we ONLY do this for phenotypic data for a single insecticide
-  ## fit as lm model for now
 
   oos_diagnostics = diagnostics(ir_data_mn_oos_predictions),
   plot_diagnostics = gg_diagnostics(oos_diagnostics),
@@ -318,14 +312,12 @@ tar_plan(
   ## insecticide_id
 
   # Run the inner loop one more time, to the full dataset, N+M
-  ## TODO
-  ## pass the L1 model here to predict out to the rasters
   outer_loop_results = inner_loop(
     data = ir_data_mn,
-    # full set of mapping data as an sf object (environmental
-    # covariates and coordinates)
-    # in this final step we need to take a set of rasters, pull out the
-    # coordinates and environmental covariates for each pixel, and use the
+    # full set of mapping data as an sf object
+    # (environmental covariates and coords)
+    # in this final step we take a set of rasters, pull out the coords and
+    # environmental covariates for each pixel, and use the
     # stacked generalisation model to predict to all of them, then put
     # the predicted IR values back in a raster of predictions.
     new_data = raster_example,
