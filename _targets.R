@@ -234,8 +234,8 @@ tar_plan(
   # model_bgam = build_ir_bgam(),
 
   model_list = list(
-    xgb = workflow_xgb,
-    rf = workflow_rf
+    xgboost = workflow_xgb,
+    randomForest = workflow_rf
   ),
   inla_mesh = create_mesh(ir_data),
   gp_inla_setup = setup_gp_inla_model(

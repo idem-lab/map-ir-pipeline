@@ -3,14 +3,17 @@
 #' .. content for \details{} ..
 #'
 #' @title
-#' @param data
 #' @param models
+#' @param data
 #' @return
 #' @author njtierney
 #' @export
-fit_zero_level_model <- function(data,
-                                 model) {
-  fits <- map(data, function(x) fit(model, data = x))
+fit_model_list <- function(models,
+                           data) {
 
-  fits
+  map(
+    .x = models,
+    .f = \(x) fit(object = x, data = data)
+  )
+
 }
