@@ -300,18 +300,23 @@ tar_plan(
   oos_diagnostics = diagnostics(ir_data_mn_oos_predictions),
   plot_diagnostics = gg_diagnostics(oos_diagnostics),
   coffee_raster_as_data = raster_to_df(raster_countries_coffee),
-  raster_example = coffee_raster_as_data %>%
-    mutate(
-      start_year = 2019,
-      insecticide_id = 1
-    ),
+  ## TODO
+  ## Convert this into something that makes a list of many insectidies
+  raster_example = raster_df_add_year_insecticide(coffee_raster_as_data,
+                                                  start_year = 2019,
+                                                  insecticide_id = 1),
 
+  ## TODO
   ## maybe we wrap inner_loop to specify other prediction information that we
   ## care about, namely:
   ## start_year, and
   ## insecticide_id
 
   # Run the inner loop one more time, to the full dataset, N+M
+  ## TODO
+  ## What do we pass this inner loop one more time?
+  ## Because we just did the whole out_of_sample_predictions thing
+  ## and we don't use it again?
   outer_loop_results = inner_loop(
     data = ir_data_mn,
     # full set of mapping data as an sf object
@@ -324,17 +329,37 @@ tar_plan(
     l_zero_model_list = model_list,
     l_one_model_setup = gp_inla_setup
   ),
+
+  ## TODO
+  ## Write this out as a mapped pipeline
   tar_target(
-    predicted_raster,
+    predicted_raster_id_1,
     prediction_to_raster(
-      raster_countries_coffee,
-      outer_loop_results
+      raster = raster_countries_coffee,
+      predictions = outer_loop_results,
+      insecticide_id = 1
     ),
     format = format_geotiff
   ),
+
+  tar_target(
+    predicted_raster_id_2,
+    prediction_to_raster(
+      raster = raster_countries_coffee,
+      predictions = outer_loop_results,
+      insecticide_id = 2
+    ),
+    format = format_geotiff
+  ),
+
   tar_file(
-    plot_predicted_raster,
-    save_plot(path = "plots/predicted_raster.png", predicted_raster),
+    plot_predicted_raster_id_1,
+    save_plot(path = "plots/predicted_raster_id_1.png", predicted_raster_id_1),
+  ),
+
+  tar_file(
+    plot_predicted_raster_id_2,
+    save_plot(path = "plots/predicted_raster_id_2.png", predicted_raster_id_2),
   ),
 
   # Predictions are made back to every pixel of map + year (spatiotemporal)
