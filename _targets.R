@@ -260,7 +260,7 @@ tar_plan(
   # Every time we run inner loop, we give it a prediction set
   # N x 0.1 and M x 0.1
 
-  # ---- inner loop ---- #
+  # ---- model validation ---- #
   # We need to fit each of the L0 models, 11 times
   # TODO: we need to do something special to appropriately handle
   # how the V-fold CV data, `ir_data_mn` works here, but for demo purposes
@@ -271,8 +271,15 @@ tar_plan(
   training_data = map(ir_data_mn_folds$splits, training),
   testing_data = map(ir_data_mn_folds$splits, testing),
 
+  ## TODO
+  ## Does insecticide_id need to be a factor? It's currently an integer
+  ## Converting it to factor breaks the analysis ()
   ## Returns one set of predictions because we fit the L1 model
   ## out from the L0 models in here
+  ## NOTE - this is to evaluate how good our model/process is
+  ## API Note - this part is separate to the raster prediction step,
+  ## ## so we might want to consider keeping this as a logical/flagging
+  ## ## step so we
   out_of_sample_predictions = map2(
     .x = training_data,
     .y = testing_data,
@@ -286,12 +293,6 @@ tar_plan(
     }
   ),
 
-  # OUTER LOOP parts from here now ----
-  # We get out a set of out of sample predictions of length N
-  # Which we can compare to the true data (y-hat vs y)
-  ## TODO: remember to manage the length of the predictions so we only get
-  ## out length N out of sample predictions (the phenotypic predictions).
-  ## might be easiest to pad out the genotypic (M) predictions with NA values
   ir_data_mn_oos_predictions = bind_cols(
     .preds = bind_rows(out_of_sample_predictions),
     ir_data_mn
@@ -299,6 +300,15 @@ tar_plan(
 
   oos_diagnostics = diagnostics(ir_data_mn_oos_predictions),
   plot_diagnostics = gg_diagnostics(oos_diagnostics),
+
+  # --- model deployment to rasters -----
+  # We get out a set of out of sample predictions of length N
+  # Which we can compare to the true data (y-hat vs y)
+  ## TODO: remember to manage the length of the predictions so we only get
+  ## out length N out of sample predictions (the phenotypic predictions).
+  ## might be easiest to pad out the genotypic (M) predictions with NA values
+
+  ## API - so the user should be able to provide their own raster here
   coffee_raster_as_data = raster_to_df(raster_countries_coffee),
   ## TODO
   ## Convert this into something that makes a list of many insectidies
