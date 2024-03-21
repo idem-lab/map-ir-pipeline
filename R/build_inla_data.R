@@ -16,7 +16,11 @@ build_inla_data <- function(ir_data,
 
   covariate_names <- covariate_data %>%
     select(-starts_with("fold")) %>%
-    names()
+    names() %>%
+    ## TODO
+    ## Not sure about adding "type" here since there is only one level of
+    ## the data?
+    c(., "insecticide_id")
 
   workflow <- build_workflow(model_spec,
     outcomes = "percent_mortality",
@@ -24,7 +28,7 @@ build_inla_data <- function(ir_data,
   )
 
   data <- bind_cols(
-    select(ir_data, percent_mortality),
+    select(ir_data, percent_mortality, insecticide_id, type),
     covariate_data
   )
 
