@@ -33,35 +33,10 @@ inner_loop <- function(data,
     v = 10
   )
 
-  # this should be N* + M*
-  train_data_mn_star <- extract_training(train_predict)
-  # this should just be N*
-  predict_data_nstar <- extract_predict(train_predict)
-
-  # this should fit 10 models - preparing for out of sample (oos)
-  # currently splitting into two steps as the model takes a long time to fit
-  # and we are going to need to have a deeper think about cpu efficiency
-  zero_level_oos_mn_star_rf <- fit_zero_level_model(
-    data = train_data_mn_star,
-    model = l_zero_model_list$rf
-  )
-
-  zero_level_oos_mn_star_xgb <- fit_zero_level_model(
-    data = train_data_mn_star,
-    model = l_zero_model_list$xgb
-  )
-
-  # these prediction vectors should happen on each list of `predict_data`
-  # these will be of length N*
-  # oos = out of sample
-  oos_predictions_rf <- predict_model(
-    data = predict_data_nstar,
-    model = zero_level_oos_mn_star_rf
-  )
-
-  oos_predictions_xgb <- predict_model(
-    data = predict_data_nstar,
-    model = zero_level_oos_mn_star_xgb
+  browser()
+  oor_predictions <- train_predict_zero_level_model(
+    train_predict_data = train_predict,
+    level_zero_model_list = l_zero_model_list
   )
 
   # this should fit 1 model, for in-sample
