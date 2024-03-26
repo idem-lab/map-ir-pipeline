@@ -10,7 +10,7 @@
 #' @export
 create_in_sample_covariates <- function(workflow_list,
                                         data,
-                                        insecticide_vector) {
+                                        n_insecticides) {
 
   names(workflow_list) <- paste0(".pred_", names(workflow_list))
 
@@ -21,7 +21,7 @@ create_in_sample_covariates <- function(workflow_list,
     set_names(names(workflow_list))
 
   in_sample_covariates_insecticide <- create_insecticide_id_list(
-    id = insecticide_vector,
+    id = seq_len(n_insecticides),
     in_sample_covariates
   )
 
