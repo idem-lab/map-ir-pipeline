@@ -1,7 +1,3 @@
-#' .. content for \description{} (no empty lines) ..
-#'
-#' .. content for \details{} ..
-#'
 #' @title
 #' @param data
 #' @param new_data
@@ -38,6 +34,12 @@ inner_loop <- function(data,
     level_zero_model_list = l_zero_model_list
   )
 
+  # ---- the L1 models ---- #
+  # Take the out of sample predictions for each of the models,
+  # combine them together of length N*, into the fixed effects,
+  # one per model (XBG, RF, BGAM)
+  # A 3xN* matrix / AKA out of sample covariates?
+  oos_covariates <- combine_predictions(oos_predictions)
 
   # this should fit 1 model, for in-sample
   # 1 time to the full dataset, fitting to N*+M* data.
@@ -46,38 +48,11 @@ inner_loop <- function(data,
     .f = \(x) fit(object = x, data = ir_data_mn_star)
   )
 
-  # zero_level_in_sample_rf <- fit(
-  #   object = l_zero_model_list$rf,
-  #   data = as.data.frame(ir_data_mn_star)
-  # )
-  #
-  # zero_level_in_sample_xgb <- fit(
-  #   object = l_zero_model_list$xgb,
-  #   data = as.data.frame(ir_data_mn_star)
-  # )
-
-  # ---- the L1 models ---- #
-  # Take the out of sample predictions for each of the models,
-  # combine them together of length N*, into the fixed effects,
-  # one per model (XBG, RF, BGAM)
-  # A 3xN* matrix / AKA out of sample covariates?
-  oos_covariates <- combine_predictions(oos_predictions)
-
-  # Fit the whole L1 model to N* original data, using out of sample covariates
-  gp_inla_data_n_star_oos <- build_inla_data(
+  super_learner_oos <- fit_super_learner(
     ir_data = ir_data_n_star,
-    # including the out of sample covariates
-    covariate_data = oos_covariates
+    covariate_data = oos_covariates,
+    level_one_model_setup = l_one_model_setup
   )
-
-  # Fit the whole L1 model to N* original data, using out of sample covariates
-  # oos = out of sample
-  # super learner = L1 model
-  super_learner_oos <- gp_inla(
-    data = gp_inla_data_n_star_oos,
-    setup = l_one_model_setup
-  )
-
 
   # Finally, we make a prediction ----
   # Predict to the N* phenotypic data points, to get the in sample predictions
