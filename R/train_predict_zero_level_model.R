@@ -15,7 +15,6 @@ train_predict_zero_level_model <- function(train_predict_data,
   train_data_mn_star <- extract_training(train_predict_data)
   # this should just be N*
   predict_data_nstar <- extract_predict(train_predict_data)
-  browser()
   # this should fit 10 models - preparing for out of sample (oos)
   # currently splitting into two steps as the model takes a long time to fit
   # and we are going to need to have a deeper think about cpu efficiency
@@ -27,14 +26,11 @@ train_predict_zero_level_model <- function(train_predict_data,
   # these prediction vectors should happen on each list of `predict_data`
   # these will be of length N*
   # oos = out of sample
-  oos_predictions_rf <- predict_model(
-    data = predict_data_nstar,
-    model = zero_level_oos_mn_star_rf
+  oos_predictions <- map(
+    .x = zero_level_oos_mn_star,
+    .f = \(x) predict_model(data = predict_data_nstar, model = x)
   )
 
-  oos_predictions_xgb <- predict_model(
-    data = predict_data_nstar,
-    model = zero_level_oos_mn_star_xgb
-  )
+  oos_predictions
 
 }
