@@ -233,11 +233,10 @@ tar_plan(
   # currently going to remove the BGAM model at this stage, see issue #3
   # model_bgam = build_ir_bgam(),
 
-  model_list = list(
   ## TODO?
   # These models must be named after the model name in the workflow
-  # e.g., if you use set_engine("randomForest"), then you must
-  # name this `randomForest`
+  # e.g., if using set_engine("randomForest"), then name this `randomForest`
+  model_list = list(
     xgboost = workflow_xgb,
     randomForest = workflow_rf
   ),
