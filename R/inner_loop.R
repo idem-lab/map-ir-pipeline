@@ -60,13 +60,9 @@ inner_loop <- function(data,
   # once we have determined the parameters of the L1 model
   in_sample_covariates <- create_in_sample_covariates(
     workflow_list = zero_level_in_sample_fits,
-    data = new_data
+    data = new_data,
+    insecticide_vector = 1:5
     )
-
-  in_sample_covariates_insecticide <- create_insecticide_id_list(
-    id = 1:5,
-    in_sample_covariates
-  )
 
   ## TODO
   ## L1 model gets fit here with .pred as covariates
@@ -78,7 +74,7 @@ inner_loop <- function(data,
   # But we switch out-of-sample L0 covariates for L0 **in-sample covariates**
   # that gives a prediction of length N*
   gp_inla_data_n_star_is_pred <- map_dfc(
-    .x = in_sample_covariates_insecticide,
+    .x = in_sample_covariates,
     .f = \(x) predict(super_learner_oos,x)
   )
 
