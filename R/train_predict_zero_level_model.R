@@ -15,6 +15,12 @@ train_predict_zero_level_model <- function(train_predict_data,
   ## The generalisation step
   # Train on 90% ((N* + M*) x 0.9), predict on 10% (N* x 0.1)
 
+  ## generalisation folds: training and out of sample prediction
+  train_predict_data <- vfold_cv(
+    data = train_predict_data,
+    v = 10
+  )
+
   # this should be N* + M*
   train_data_mn_star <- extract_training(train_predict_data)
   # this should just be N*

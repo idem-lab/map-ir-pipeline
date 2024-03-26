@@ -8,16 +8,23 @@
 #' @return
 #' @author njtierney
 #' @export
-predict_out_of_sample_zero_level_models <- function(in_sample_data =
-                                                    ir_data_mn_star,
-                                                    level_zero_model_list =
-                                                    l_zero_model_list) {
+predict_out_of_sample_zero_level_models <- function(in_sample_data,
+                                                    level_zero_model_list,
+                                                    new_data,
+                                                    n_insecticides) {
 
   in_sample_predictions <- map(
     .x = level_zero_model_list,
     .f = \(x) fit(object = x, data = in_sample_data)
   )
 
-  in_sample_predictions
+
+  in_sample_covariates <- create_in_sample_covariates(
+    workflow_list = in_sample_predictions,
+    data = new_data,
+    n_insecticides = n_insecticides
+  )
+
+  in_sample_covariates
 
 }
