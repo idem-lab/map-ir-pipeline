@@ -11,6 +11,10 @@
 train_predict_zero_level_model <- function(train_predict_data,
                                            level_zero_model_list) {
 
+  # 10 times to get the 10 folds out of sample predictions
+  ## The generalisation step
+  # Train on 90% ((N* + M*) x 0.9), predict on 10% (N* x 0.1)
+
   # this should be N* + M*
   train_data_mn_star <- extract_training(train_predict_data)
   # this should just be N*
@@ -31,6 +35,10 @@ train_predict_zero_level_model <- function(train_predict_data,
     .f = \(x) predict_model(data = predict_data_nstar, model = x)
   )
 
-  oos_predictions
+  # Take out of sample predictions for each models, and combine to length N*
+  # into fixed effects, one per model (XBG, RF, BGAM), A 3xN* matrix
+  oos_covariates <- combine_predictions(oos_predictions)
+
+  oos_covariates
 
 }

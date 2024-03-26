@@ -13,9 +13,11 @@ predict_out_of_sample_zero_level_models <- function(in_sample_data =
                                                     level_zero_model_list =
                                                     l_zero_model_list) {
 
-  map(
+  in_sample_predictions <- map(
     .x = level_zero_model_list,
     .f = \(x) fit(object = x, data = in_sample_data)
   )
+
+  in_sample_predictions
 
 }
