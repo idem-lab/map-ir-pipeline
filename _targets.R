@@ -233,9 +233,12 @@ tar_plan(
   # currently going to remove the BGAM model at this stage, see issue #3
   # model_bgam = build_ir_bgam(),
 
+  ## TODO?
+  # These models must be named after the model name in the workflow
+  # e.g., if using set_engine("randomForest"), then name this `randomForest`
   model_list = list(
-    xgb = workflow_xgb,
-    rf = workflow_rf
+    xgboost = workflow_xgb,
+    randomForest = workflow_rf
   ),
   inla_mesh = create_mesh(ir_data),
   gp_inla_setup = setup_gp_inla_model(
