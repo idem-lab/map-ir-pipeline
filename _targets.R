@@ -191,6 +191,9 @@ tar_plan(
     all_spatial_covariates,
     by = c("uid", "country")
   ),
+
+  ir_data_mn = ir_data_subset_spatial_covariates,
+
   complete_spatial_covariates = identify_complete_vars(
     all_spatial_covariates
   ),
@@ -203,14 +206,11 @@ tar_plan(
   # dropping generation as it is missing too many values
   other_covariates = c("start_year", "insecticide_id"),
   model_covariates = c(other_covariates, spatial_covariate_sample),
-  predictors_missing = check_if_model_inputs_missing(
-    model_covariates,
-    ir_data_subset_spatial_covariates
-  ),
-
-  # m = Number of rows of full **genotypic** data
-  # n = Number of rows of full **phenotypic** data
-  # m + n = Number of rows of full dataset
+  # TODO fold this check into model_validate
+  # predictors_missing = check_if_model_inputs_missing(
+  #   model_covariates,
+  #   ir_data_subset_spatial_covariates
+  # ),
 
   # specify the details for the different models ahead of time
   # hyperparameters are hard coded internally inside these functions
@@ -247,53 +247,11 @@ tar_plan(
     mesh = inla_mesh
   ),
 
-  # ---- outer loop ---- #
-
-  # Outer Loop ----
-  # Take a full dataset (M+N)
-  ir_data_mn = ir_data_subset_spatial_covariates,
-  ir_data_mn_folds = vfold_cv(
-    ir_data_mn,
-    v = 10,
-    strata = type
-  ),
-
-  # then on the full dataset run 10 fold CV of the entire inner loop
-  # Every time we run inner loop, pass in N* = N x 0.9, and M* = M x 0.9
-  # Every time we run inner loop, we give it a prediction set
-  # N x 0.1 and M x 0.1
-
-  # ---- model validation ---- #
-  # We need to fit each of the L0 models, 11 times
-  # TODO: we need to do something special to appropriately handle
-  # how the V-fold CV data, `ir_data_mn` works here, but for demo purposes
-  # we will just assume that it runs on every fold separately.
-  # we can probably do something with map, or have `inner_loop_cv` or
-  # `inner_loop.vfold_cv` or something.
-
-  training_data = map(ir_data_mn_folds$splits, training),
-  testing_data = map(ir_data_mn_folds$splits, testing),
-
-  ## TODO
-  ## Does insecticide_id need to be a factor? It's currently an integer
-  ## Converting it to factor breaks the analysis ()
-  ## Returns one set of predictions because we fit the L1 model
-  ## out from the L0 models in here
-  ## NOTE - this is to evaluate how good our model/process is
-  ## API Note - this part is separate to the raster prediction step,
-  ## ## so we might want to consider keeping this as a logical/flagging
-  ## ## step so we
-  out_of_sample_predictions = map2(
-    .x = training_data,
-    .y = testing_data,
-    .f = function(.x, .y) {
-      inner_loop(
-        data = .x,
-        new_data = .y,
-        l_zero_model_list = model_list,
-        l_one_model_setup = gp_inla_setup
-      )
-    }
+  out_of_sample_predictions = model_validation(
+    covariate_rasters = all_spatial_covariates,
+    training_data = ir_data_subset,
+    list_of_l0_models = model_list,
+    inla_mesh_setup = gp_inla_setup
   ),
 
   ir_data_mn_oos_predictions = bind_cols(
