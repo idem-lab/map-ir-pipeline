@@ -26,9 +26,7 @@ combine_pheno_geno <- function(geno_pheno_match,
       no_dead = no_mosquitoes_dead,
       no_tested = no_mosquitoes_tested
     ) %>%
-    group_by(insecticide) %>%
     mutate(
-      insecticide_id = cur_group_id()
-    ) %>%
-    ungroup()
+      insecticide_id = as.integer(as.factor(insecticide))
+    )
 }
