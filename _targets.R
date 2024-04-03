@@ -157,25 +157,12 @@ tar_plan(
     ),
     format = format_sprc_geotiff
   ),
-  tar_target(
-    extracted_raster_covariates,
-    extract_from_rasters(
-      raster_covariates,
-      ir_data_subset
-    )
+
+  all_spatial_covariates = join_rasters_to_mosquito_data(
+    rasters = raster_covariates,
+    mosquito_data = ir_data_subset
   ),
-  all_spatial_covariates = reduce(
-    .x = extracted_raster_covariates,
-    .f = left_join,
-    by = c("uid", "country")
-  ) %>%
-    # impute 0 into missing values for all rasters
-    mutate(
-      across(
-        .cols = everything(),
-        .fns = impute_zero
-      )
-    ),
+
   vis_miss_covariates = vis_miss(
     all_spatial_covariates,
     sort_miss = TRUE,
@@ -236,8 +223,10 @@ tar_plan(
     outcome = "percent_mortality",
     mesh = inla_mesh
   ),
+
   out_of_sample_predictions = model_validation(
-    covariate_rasters = all_spatial_covariates,
+    # covariate_rasters = all_spatial_covariates,
+    covariate_rasters = raster_covariates,
     training_data = ir_data_subset,
     list_of_l0_models = model_list,
     inla_mesh_setup = gp_inla_setup
