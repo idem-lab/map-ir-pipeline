@@ -28,6 +28,8 @@ tar_plan(
     "data/6_Vgsc-allele-freq_complex-subgroup.csv"
   ),
   moyes_pheno_raw = read_csv_clean(moyes_pheno_path),
+
+  ## Checking functions
   moyes_pheno_count_nr = summarise_not_recorded(moyes_pheno_raw),
   moyes_pheno_count_nf = summarise_not_found(moyes_pheno_raw),
   gambiae_complex_list = create_valid_gambiae(),
@@ -35,9 +37,13 @@ tar_plan(
     moyes_pheno_raw,
     gambiae_complex_list
   ),
+
+  ## Checking functions
   moyes_pheno_check_dead = check_back_calculate_no_dead(moyes_pheno_prepared),
   moyes_pheno_check_pct_mort = check_mortality(moyes_pheno_prepared),
   moyes_geno_raw = read_csv_clean(moyes_geno_path),
+
+  ## Checking functions
   moyes_geno_count_nr = summarise_not_recorded(moyes_geno_raw),
   moyes_geno_count_nf = summarise_not_found(moyes_geno_raw),
   moyes_geno_geocode = geocode_geno_data(moyes_geno_raw),
@@ -134,45 +140,36 @@ tar_plan(
     get_elevation(subset_country_codes),
     format = format_geotiff
   ),
-  climate_variables = tibble(
-    vars = c("tmin", "tmax", "tavg", "prec", "wind", "vapr", "bio")
-  ),
   tar_target(
     raster_countries_worldclimate,
     get_worldclim(subset_country_codes, var = "tmin"),
     format = format_geotiff
   ),
-  extracted_countries_climate = extract_from_raster(
-    raster_countries_worldclimate,
-    ir_data_subset,
-    ir_data_sf_key
+  tar_target(
+    raster_covariates,
+    sprc(
+      list(
+        raster_countries_worldclimate,
+        raster_countries_elevation,
+        raster_countries_trees,
+        raster_countries_veg,
+        raster_countries_coffee
+      )
+    ),
+    format = format_sprc_geotiff
   ),
-  extracted_countries_elevation = extract_from_raster(
-    raster_countries_elevation,
-    ir_data_subset,
-    ir_data_sf_key
+  tar_target(
+    extracted_raster_covariates,
+    extract_from_rasters(
+      raster_covariates,
+      ir_data_subset,
+      ir_data_sf_key
+    )
   ),
-  extracted_countries_trees = extract_from_raster(
-    raster_countries_trees,
-    ir_data_subset,
-    ir_data_sf_key
-  ),
-  extracted_countries_veg = extract_from_raster(
-    raster_countries_veg,
-    ir_data_subset,
-    ir_data_sf_key
-  ),
-  extracted_countries_coffee = extract_from_raster(
-    raster_countries_coffee,
-    ir_data_subset,
-    ir_data_sf_key
-  ),
-  all_spatial_covariates = join_extracted(
-    extracted_countries_coffee,
-    extracted_countries_veg,
-    extracted_countries_trees,
-    extracted_countries_elevation,
-    extracted_countries_climate
+  all_spatial_covariates = reduce(
+    .x = extracted_raster_covariates,
+    .f = left_join,
+    by = c("uid", "country")
   ) %>%
     # impute 0 into missing values for all rasters
     mutate(
@@ -186,14 +183,11 @@ tar_plan(
     sort_miss = TRUE,
     cluster = TRUE
   ),
-  ir_data_subset_spatial_covariates = left_join(
+  ir_data_mn = left_join(
     ir_data_subset,
     all_spatial_covariates,
     by = c("uid", "country")
   ),
-
-  ir_data_mn = ir_data_subset_spatial_covariates,
-
   complete_spatial_covariates = identify_complete_vars(
     all_spatial_covariates
   ),
@@ -209,7 +203,7 @@ tar_plan(
   # TODO fold this check into model_validate
   # predictors_missing = check_if_model_inputs_missing(
   #   model_covariates,
-  #   ir_data_subset_spatial_covariates
+  #   ir_data_mn
   # ),
 
   # specify the details for the different models ahead of time
@@ -230,9 +224,6 @@ tar_plan(
     predictors = model_covariates
   ),
 
-  # currently going to remove the BGAM model at this stage, see issue #3
-  # model_bgam = build_ir_bgam(),
-
   ## TODO?
   # These models must be named after the model name in the workflow
   # e.g., if using set_engine("randomForest"), then name this `randomForest`
@@ -246,19 +237,16 @@ tar_plan(
     outcome = "percent_mortality",
     mesh = inla_mesh
   ),
-
   out_of_sample_predictions = model_validation(
     covariate_rasters = all_spatial_covariates,
     training_data = ir_data_subset,
     list_of_l0_models = model_list,
     inla_mesh_setup = gp_inla_setup
   ),
-
   ir_data_mn_oos_predictions = bind_cols(
     .preds = bind_rows(out_of_sample_predictions),
     ir_data_mn
   ),
-
   oos_diagnostics = diagnostics(ir_data_mn_oos_predictions),
   plot_diagnostics = gg_diagnostics(oos_diagnostics),
 
@@ -274,8 +262,9 @@ tar_plan(
   ## TODO
   ## Convert this into something that makes a list of many insectidies
   raster_example = raster_df_add_year_insecticide(coffee_raster_as_data,
-                                                  start_year = 2019,
-                                                  insecticide_id = 1),
+    start_year = 2019,
+    insecticide_id = 1
+  ),
 
   ## TODO
   ## maybe we wrap inner_loop to specify other prediction information that we
@@ -288,6 +277,13 @@ tar_plan(
   ## What do we pass this inner loop one more time?
   ## Because we just did the whole out_of_sample_predictions thing
   ## and we don't use it again?
+  # outer_loop_results = spatial_prediction(
+  #   covariate_rasters = ,
+  #   training_data = ,
+  #   list_of_l0_models = ,
+  #   inla_mesh_setup =
+  #   ),
+
   outer_loop_results = inner_loop(
     data = ir_data_mn,
     # full set of mapping data as an sf object
@@ -312,7 +308,6 @@ tar_plan(
     ),
     format = format_geotiff
   ),
-
   tar_target(
     predicted_raster_id_2,
     prediction_to_raster(
@@ -322,12 +317,10 @@ tar_plan(
     ),
     format = format_geotiff
   ),
-
   tar_file(
     plot_predicted_raster_id_1,
     save_plot(path = "plots/predicted_raster_id_1.png", predicted_raster_id_1),
   ),
-
   tar_file(
     plot_predicted_raster_id_2,
     save_plot(path = "plots/predicted_raster_id_2.png", predicted_raster_id_2),
