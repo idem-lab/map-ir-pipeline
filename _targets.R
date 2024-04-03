@@ -225,7 +225,6 @@ tar_plan(
   ),
 
   out_of_sample_predictions = model_validation(
-    # covariate_rasters = all_spatial_covariates,
     covariate_rasters = raster_covariates,
     training_data = ir_data_subset,
     list_of_l0_models = model_list,
@@ -261,17 +260,6 @@ tar_plan(
   ## insecticide_id
 
   # Run the inner loop one more time, to the full dataset, N+M
-  ## TODO
-  ## What do we pass this inner loop one more time?
-  ## Because we just did the whole out_of_sample_predictions thing
-  ## and we don't use it again?
-  # outer_loop_results = spatial_prediction(
-  #   covariate_rasters = ,
-  #   training_data = ,
-  #   list_of_l0_models = ,
-  #   inla_mesh_setup =
-  #   ),
-
   outer_loop_results = inner_loop(
     data = ir_data_mn,
     # full set of mapping data as an sf object
@@ -312,6 +300,17 @@ tar_plan(
   tar_file(
     plot_predicted_raster_id_2,
     save_plot(path = "plots/predicted_raster_id_2.png", predicted_raster_id_2),
+  ),
+
+  ## TODO
+  ## What do we pass this inner loop one more time?
+  ## Because we just did the whole out_of_sample_predictions thing
+  ## and we don't use it again?
+  outer_loop_results_spatial = spatial_prediction(
+    covariate_rasters = raster_covariates,
+    training_data = ir_data_subset,
+    list_of_l0_models = model_list,
+    inla_mesh_setup =gp_inla_setup
   ),
 
   # Predictions are made back to every pixel of map + year (spatiotemporal)
