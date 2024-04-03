@@ -32,6 +32,7 @@ tar_plan(
   ## Checking functions
   moyes_pheno_count_nr = summarise_not_recorded(moyes_pheno_raw),
   moyes_pheno_count_nf = summarise_not_found(moyes_pheno_raw),
+
   gambiae_complex_list = create_valid_gambiae(),
   moyes_pheno_prepared = prepare_pheno_data(
     moyes_pheno_raw,
@@ -100,8 +101,6 @@ tar_plan(
   # get cropland data from geodata package
   subset_country_codes = map_dfr(subset_countries, country_codes),
 
-  # crops = c("vege", "plnt", "bana", "toba", "teas", "coco", "acof", "cnut"),
-
   tar_target(
     raster_coffee,
     agcrop_area(crop = "acof"),
@@ -162,8 +161,7 @@ tar_plan(
     extracted_raster_covariates,
     extract_from_rasters(
       raster_covariates,
-      ir_data_subset,
-      ir_data_sf_key
+      ir_data_subset
     )
   ),
   all_spatial_covariates = reduce(
@@ -201,6 +199,7 @@ tar_plan(
   other_covariates = c("start_year", "insecticide_id"),
   model_covariates = c(other_covariates, spatial_covariate_sample),
   # TODO fold this check into model_validate
+  ## Checking function
   # predictors_missing = check_if_model_inputs_missing(
   #   model_covariates,
   #   ir_data_mn

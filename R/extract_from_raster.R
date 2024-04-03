@@ -8,9 +8,11 @@
 #' @return
 #' @author njtierney
 #' @export
-extract_from_raster <- function(raster, ir_data_subset, ir_data_sf_key) {
+extract_from_raster <- function(raster, ir_data_subset) {
   # filter down to the right SF data
-  sf_subset <- semi_join(ir_data_sf_key,
+  data_sf_key <- create_sf_id(ir_data_subset)
+
+  sf_subset <- semi_join(data_sf_key,
     ir_data_subset,
     by = "uid"
   )
