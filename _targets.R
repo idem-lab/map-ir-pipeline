@@ -244,21 +244,6 @@ tar_plan(
   ## out length N out of sample predictions (the phenotypic predictions).
   ## might be easiest to pad out the genotypic (M) predictions with NA values
 
-  ## API - so the user should be able to provide their own raster here
-  coffee_raster_as_data = raster_to_df(raster_countries_coffee),
-  ## TODO
-  ## Convert this into something that makes a list of many insectidies
-  raster_example = raster_df_add_year_insecticide(coffee_raster_as_data,
-    start_year = 2019,
-    insecticide_id = 1
-  ),
-
-  ## TODO
-  ## maybe we wrap inner_loop to specify other prediction information that we
-  ## care about, namely:
-  ## start_year, and
-  ## insecticide_id
-
   # Run the inner loop one more time, to the full dataset, N+M
   outer_loop_results = inner_loop(
     data = ir_data_mn,
@@ -310,7 +295,7 @@ tar_plan(
     covariate_rasters = raster_covariates,
     training_data = ir_data_subset,
     list_of_l0_models = model_list,
-    inla_mesh_setup =gp_inla_setup
+    inla_mesh_setup = gp_inla_setup
   ),
 
   # Predictions are made back to every pixel of map + year (spatiotemporal)
