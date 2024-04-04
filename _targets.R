@@ -179,12 +179,11 @@ tar_plan(
 
   # drop uid name and keep rest for use later
   spatial_covariate_names = get_covariate_names(complete_spatial_covariates),
-  spatial_covariate_sample = spatial_covariate_names[1:5],
 
   # other_covariates = c("start_year", "generation", "insecticide_class"),
   # dropping generation as it is missing too many values
   other_covariates = c("start_year", "insecticide_id"),
-  model_covariates = c(other_covariates, spatial_covariate_sample),
+  model_covariates = c(other_covariates, spatial_covariate_names),
   # TODO fold this check into model_validate
   ## Checking function
   # predictors_missing = check_if_model_inputs_missing(
