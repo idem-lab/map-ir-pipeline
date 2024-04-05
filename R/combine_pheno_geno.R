@@ -14,7 +14,6 @@ combine_pheno_geno <- function(geno_pheno_match,
   if (!geno_pheno_match$match) {
     abort("Genotypic and Phenotypic data do not match, see `geno_pheno_match`")
   }
-browser()
   bind_rows(
     phenotypic = moyes_pheno_prepared,
     genotypic = moyes_geno_prepared,

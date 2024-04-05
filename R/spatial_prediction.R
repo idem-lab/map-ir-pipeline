@@ -36,8 +36,8 @@ spatial_prediction <- function(covariate_rasters = raster_covariates,
       inner_loop(
         data = ir_data_subset_spatial_covariates,
         new_data = rasters,
-        l_zero_model_list = model_list,
-        l_one_model_setup = gp_inla_setup
+        l_zero_model_list = list_of_l0_models,
+        l_one_model_setup = inla_mesh_setup
       )
     }
   )

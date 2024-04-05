@@ -15,7 +15,6 @@ model_validation <- function(covariate_rasters = all_spatial_covariates,
                              list_of_l0_models = model_list,
                              inla_mesh_setup = gp_inla_setup) {
 
-  browser()
   ir_data_subset_spatial_covariates <- join_rasters_to_mosquito_data(
     rasters = covariate_rasters,
     mosquito_data = training_data
