@@ -7,6 +7,8 @@ tar_source()
 tar_option_set(
   # Save a workspace file for a target that errors out
   workspace_on_error = TRUE
+  # debug = "outer_loop_results_spatial", # Set the target you want to debug.
+  # cue = tar_cue(mode = "never") # Force skip non-debugging outdated targets.
 )
 
 ## tar_plan supports drake-style targets and also tar_target()
