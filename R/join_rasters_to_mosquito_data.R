@@ -28,5 +28,12 @@ join_rasters_to_mosquito_data <- function(rasters = raster_covariates,
       )
     )
 
-  all_spatial_covariates
+  ir_data_subset_spatial_covariates <- left_join(
+    mosquito_data,
+    all_spatial_covariates,
+    by = c("uid", "country")
+  )
+
+  ir_data_subset_spatial_covariates
+
 }

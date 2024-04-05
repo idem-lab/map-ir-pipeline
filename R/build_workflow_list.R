@@ -8,12 +8,10 @@
 #' @author njtierney
 #' @export
 build_workflow_list <- function(
-    models = list(
-      model_xgb,
-      model_rf
-    ),
-    outcomes = "percent_mortality",
-    predictors = model_covariates) {
+    models,
+    outcomes,
+    predictors
+    ) {
 
   workflows <- map(
     .x = models,

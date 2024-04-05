@@ -15,17 +15,10 @@ spatial_prediction <- function(covariate_rasters = raster_covariates,
                                list_of_l0_models = model_list,
                                inla_mesh_setup = gp_inla_setup) {
 
-  covariate_df <- join_rasters_to_mosquito_data(
+  ir_data_subset_spatial_covariates <- join_rasters_to_mosquito_data(
     rasters = covariate_rasters,
     mosquito_data = training_data
   )
-
-  ir_data_subset_spatial_covariates <- left_join(
-    training_data,
-    covariate_df,
-    by = c("uid", "country")
-  )
-
 
   rasters_for_inner_loop <- prepare_rasters_for_inner_loop(
     raster = covariate_rasters,

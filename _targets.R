@@ -223,7 +223,7 @@ tar_plan(
   ),
   ir_data_mn_oos_predictions = bind_cols(
     .preds = bind_rows(out_of_sample_predictions),
-    ir_data_mn
+    ir_data_subset
   ),
   oos_diagnostics = diagnostics(ir_data_mn_oos_predictions),
   plot_diagnostics = gg_diagnostics(oos_diagnostics),

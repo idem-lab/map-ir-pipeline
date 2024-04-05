@@ -7,6 +7,16 @@
 #' @return
 #' @author njtierney
 #' @export
-get_covariate_names <- function(complete_spatial_covariates) {
-  str_subset(complete_spatial_covariates, "uid|country", negate = TRUE)
+get_covariate_names <- function(
+    complete_spatial_covariates,
+    remove_vars = c(
+      "uid",
+      "country",
+      "percent_mortality",
+      "type",
+      "insecticide"
+      )
+    ) {
+  vars_to_remove <- paste0(remove_vars,collapse = "|")
+  str_subset(complete_spatial_covariates, vars_to_remove, negate = TRUE)
 }

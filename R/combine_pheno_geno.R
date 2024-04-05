@@ -14,7 +14,7 @@ combine_pheno_geno <- function(geno_pheno_match,
   if (!geno_pheno_match$match) {
     abort("Genotypic and Phenotypic data do not match, see `geno_pheno_match`")
   }
-
+browser()
   bind_rows(
     phenotypic = moyes_pheno_prepared,
     genotypic = moyes_geno_prepared,
@@ -28,5 +28,24 @@ combine_pheno_geno <- function(geno_pheno_match,
     ) %>%
     mutate(
       insecticide_id = as.integer(as.factor(insecticide))
+    ) %>%
+    # convert start_month, end_month, and end_year into integer
+    # but first remove "NR" and set to NA
+    mutate(
+      across(
+        c("start_month",
+          "end_month",
+          "end_year"),
+        \(x) na_if(x, "NR")
+      )
+    ) %>%
+    mutate(
+      across(
+        c("start_month",
+          "end_month",
+          "end_year"),
+        as.numeric
+      )
     )
+
 }
