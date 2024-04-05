@@ -43,16 +43,16 @@ tar_plan(
   moyes_pheno_check_dead = check_back_calculate_no_dead(moyes_pheno_prepared),
   moyes_pheno_check_pct_mort = check_mortality(moyes_pheno_prepared),
   moyes_geno_raw = read_csv_clean(moyes_geno_path),
-
-  ## Checking functions
   moyes_geno_count_nr = summarise_not_recorded(moyes_geno_raw),
   moyes_geno_count_nf = summarise_not_found(moyes_geno_raw),
+
   moyes_geno_geocode = geocode_geno_data(moyes_geno_raw),
   moyes_geno_countries = extract_country(moyes_geno_geocode),
   moyes_geno_prepared = prepare_geno_data(
     moyes_geno_raw,
     moyes_geno_countries
   ),
+  ## Checking functions
   moyes_geno_check_dead = check_back_calculate_no_dead(moyes_geno_prepared),
   moyes_geno_check_pct_mort = check_mortality(moyes_geno_prepared),
   geno_pheno_match = check_pheno_geno_match(
@@ -65,7 +65,7 @@ tar_plan(
     moyes_geno_prepared
   ),
 
-
+  ## Checking functions
   # there are times where PCT mortality is recorded, but neither tested or dead?
   explore_pct_mortality = why_pct_mortality(moyes_geno_pheno),
   vis_miss_moyes = vis_miss(
@@ -76,6 +76,8 @@ tar_plan(
 
   # explicitly drop NA values
   ir_data = create_ir_data(moyes_geno_pheno),
+
+  ## Checking functions
   vis_miss_ir_data = vis_miss(
     ir_data,
     sort_miss = TRUE,
@@ -163,6 +165,7 @@ tar_plan(
     mosquito_data = ir_data_subset
   ),
 
+  ## Checking functions
   vis_miss_covariates = vis_miss(
     all_spatial_covariates,
     sort_miss = TRUE,
@@ -180,7 +183,6 @@ tar_plan(
   # drop uid name and keep rest for use later
   spatial_covariate_names = get_covariate_names(complete_spatial_covariates),
 
-  # other_covariates = c("start_year", "generation", "insecticide_class"),
   # dropping generation as it is missing too many values
   other_covariates = c("start_year", "insecticide_id"),
   model_covariates = c(other_covariates, spatial_covariate_names),
@@ -193,29 +195,19 @@ tar_plan(
 
   # specify the details for the different models ahead of time
   # hyperparameters are hard coded internally inside these functions
-  ## NOTE that RMSE is used to measure performance, and is the default for
-  ## regression problems in tidymodels:
+  ## NOTE RMSE is the default performance metric in tidymodels:
   ## https://tune.tidymodels.org/articles/getting_started.html
   model_xgb = build_ir_xgboost(tree_depth = 2, trees = 5),
   model_rf = build_ir_rf(mtry = 2, trees = 5),
-  workflow_xgb = build_workflow(
-    model_spec = model_xgb,
-    outcomes = "percent_mortality",
-    predictors = model_covariates
-  ),
-  workflow_rf = build_workflow(
-    model_spec = model_rf,
+  model_list = build_workflow_list(
+    models = list(
+      model_xgb,
+      model_rf
+    ),
     outcomes = "percent_mortality",
     predictors = model_covariates
   ),
 
-  ## TODO?
-  # These models must be named after the model name in the workflow
-  # e.g., if using set_engine("randomForest"), then name this `randomForest`
-  model_list = list(
-    xgboost = workflow_xgb,
-    randomForest = workflow_rf
-  ),
   inla_mesh = create_mesh(ir_data),
   gp_inla_setup = setup_gp_inla_model(
     covariate_names = names(model_list),
