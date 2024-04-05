@@ -197,7 +197,7 @@ tar_plan(
 
   # drop uid name and keep rest for use later
   spatial_covariate_names = get_covariate_names(complete_spatial_covariates),
-  spatial_covariate_sample = spatial_covariate_names[1:5],
+  spatial_covariate_sample = spatial_covariate_names[1:6],
 
   # other_covariates = c("start_year", "generation", "insecticide_class"),
   # dropping generation as it is missing too many values
