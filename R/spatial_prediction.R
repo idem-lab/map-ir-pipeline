@@ -20,12 +20,22 @@ spatial_prediction <- function(covariate_rasters = raster_covariates,
     mosquito_data = training_data
   )
 
-  predictors <- workflow_predictors(list_of_l0_models[[1]])
+
   rasters_for_inner_loop <- prepare_rasters_for_inner_loop(
     raster = covariate_rasters,
     training_data = training_data,
     models = list_of_l0_models
   )
+
+  # preparation steps here to hang on to this larger list grouping
+  # structure of rasters >> insect_id
+  # so we need some way to name these rasters beforehand, so that
+  # after we do prediction in this step we can
+  # match each raster back to it's original raster
+  flattened_names <- flatten_names(rasters_for_inner_loop)
+  unfurled_rasters <- purrr::flatten(rasters_for_inner_loop)
+
+  names(unfurled_rasters) <- flattened_names
 
   # predict out for each raster in rasters_for_inner_loop
   # full set of map data (environmental covariates and coords)
@@ -33,7 +43,7 @@ spatial_prediction <- function(covariate_rasters = raster_covariates,
   # covariates for each pixel, and use stacked generalisation to predict to
   # all of them, then put predicted IR values back in a raster of predictions.
   spatial_predictions <- map(
-    .x = rasters_for_inner_loop,
+    .x = unfurled_rasters,
     .f = function(rasters){
       inner_loop(
         data = ir_data_subset_spatial_covariates,
@@ -43,5 +53,7 @@ spatial_prediction <- function(covariate_rasters = raster_covariates,
       )
     }
   )
+
+  spatial_predictions
 
 }
