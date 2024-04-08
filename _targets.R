@@ -237,20 +237,6 @@ tar_plan(
   ## out length N out of sample predictions (the phenotypic predictions).
   ## might be easiest to pad out the genotypic (M) predictions with NA values
 
-  # Run the inner loop one more time, to the full dataset, N+M
-  outer_loop_results = inner_loop(
-    data = ir_data_mn,
-    # full set of mapping data as an sf object
-    # (environmental covariates and coords)
-    # in this final step we take a set of rasters, pull out the coords and
-    # environmental covariates for each pixel, and use the
-    # stacked generalisation model to predict to all of them, then put
-    # the predicted IR values back in a raster of predictions.
-    new_data = raster_example,
-    l_zero_model_list = model_list,
-    l_one_model_setup = gp_inla_setup
-  ),
-
   ## TODO
   ## Write this out as a mapped pipeline
   tar_target(
@@ -280,10 +266,6 @@ tar_plan(
     save_plot(path = "plots/predicted_raster_id_2.png", predicted_raster_id_2),
   ),
 
-  ## TODO
-  ## What do we pass this inner loop one more time?
-  ## Because we just did the whole out_of_sample_predictions thing
-  ## and we don't use it again?
   outer_loop_results_spatial = spatial_prediction(
     covariate_rasters = raster_covariates,
     training_data = ir_data_subset,
@@ -292,8 +274,8 @@ tar_plan(
   ),
 
   # Predictions are made back to every pixel of map + year (spatiotemporal)
-  # this puts them out into a raster
-  pixel_map = create_pixel_maps(
+  # this puts them out into a raster, for each of raster_covariates
+  pixel_maps = create_pixel_maps(
     predictions = outer_loop_results_spatial,
     rasters = raster_covariates
     )
