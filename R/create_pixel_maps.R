@@ -7,6 +7,7 @@
 #' @return
 #' @author njtierney
 #' @export
-create_pixel_maps <- function(outer_loop_results) {
+create_pixel_maps <- function(predictions = outer_loop_results_spatial,
+                              rasters = raster_covariates) {
   NULL
 }
