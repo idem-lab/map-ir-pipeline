@@ -11,8 +11,17 @@
 add_empty_covariates <- function(rasters = rasters_w_year, models = models) {
   predictors <- workflow_predictors(models[[1]])
 
-  other_names <- map(rasters_w_year, \(x) setdiff(names(x, predictors)))
+  other_names <- map(rasters, \(x) setdiff(predictors, names(x)))
+
   # something like this?
-  # rasters_w_year[[1]] %>%
-  #   mutate(!!!other_names[[1]] = 0)
+  added_covariates <- map2(
+    .x = rasters,
+    .y = other_names,
+    .f = function(x, y){
+      add_new_columns(x, y, 0)
+    }
+  )
+
+  added_covariates
+
 }

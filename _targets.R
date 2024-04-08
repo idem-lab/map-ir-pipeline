@@ -6,9 +6,9 @@ tar_source()
 
 tar_option_set(
   # Save a workspace file for a target that errors out
-  workspace_on_error = TRUE,
-  debug = "outer_loop_results_spatial", # Set the target you want to debug.
-  cue = tar_cue(mode = "never") # Force skip non-debugging outdated targets.
+  workspace_on_error = TRUE
+  # debug = "outer_loop_results_spatial", # Set the target you want to debug.
+  # cue = tar_cue(mode = "never") # Force skip non-debugging outdated targets.
 )
 
 ## tar_plan supports drake-style targets and also tar_target()
@@ -293,7 +293,10 @@ tar_plan(
 
   # Predictions are made back to every pixel of map + year (spatiotemporal)
   # this puts them out into a raster
-  pixel_map = create_pixel_map(outer_loop_results)
+  pixel_map = create_pixel_maps(
+    predictions = outer_loop_results_spatial,
+    rasters = raster_covariates
+    )
 )
 
 # other target outcomes for plotting, country level resistance

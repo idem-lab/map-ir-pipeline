@@ -7,6 +7,6 @@
 #' @return
 #' @author njtierney
 #' @export
-create_pixel_map <- function(outer_loop_results) {
+create_pixel_maps <- function(outer_loop_results) {
   NULL
 }
