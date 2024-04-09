@@ -8,7 +8,9 @@
 #' @return
 #' @author njtierney
 #' @export
-extract_from_raster <- function(raster, ir_data_subset) {
+extract_from_raster <- function(raster,
+                                ir_data_subset,
+                                extract_method = "bilinear") {
   # filter down to the right SF data
   data_sf_key <- create_sf_id(ir_data_subset)
 
@@ -21,8 +23,7 @@ extract_from_raster <- function(raster, ir_data_subset) {
     raster,
     sf_subset,
     ID = FALSE,
-    ## TODO let user know they are doing bilinear interpolation
-    method = "bilinear"
+    method = extract_method
   ) %>%
     as_tibble(.name_repair = make_clean_names) %>%
     mutate(

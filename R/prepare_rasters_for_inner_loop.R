@@ -14,53 +14,38 @@ prepare_rasters_for_inner_loop <- function(rasters = covariate_rasters,
   insecticide_ids <- sort(unique(training_data$insecticide_id))
   chosen_year <- max(as.integer(training_data$start_year))
 
-  rasters_as_data <- map(as.list(rasters), raster_to_df)
+  rasters_as_data <- raster_to_df(rasters)
+
+  rasters_w_basic_info <- rasters_as_data %>%
+    mutate(
+      start_year = chosen_year,
+      start_month = 1,
+      end_month = 12,
+      end_year = chosen_year,
+      int = 1,
+      .before = everything()
+    )
 
 
-  # adds covariates as 0s
-  rasters_w_all_covariates <- add_empty_covariates(
-    rasters = rasters_as_data,
-    models = models
-  )
+  # need to add the following variables?
+  # no_mosquitoes_tested...
+  # no_mosquitoes_dead...
 
-  rasters_w_basic_info <- map(
-    .x = rasters_w_all_covariates,
-    .f = function(x) {
-      mutate(
-        x,
-        start_year = chosen_year,
-        start_month = 1,
-        end_month = 12,
-        end_year = chosen_year,
-        int = 1,
-        # TODO - these variables seem important??
-        # no_mosquitoes_tested...?
-        # no_mosquitoes_dead...?
-        .before = everything()
-      )
-    }
-  )
-
-  names(rasters_w_basic_info) <- glue("raster_{seq_len(length(rasters))}")
+  # names(rasters_w_basic_info) <- glue("raster_{seq_len(length(rasters))}")
 
   prepared_rasters <- map(
-    .x = rasters_w_basic_info,
-    .f = function(raster_data) {
-      insect_id_name <- glue("insecticide_{insecticide_ids}")
-      raster_w_insecticide <- map(
-        .x = insecticide_ids,
-        function(x) {
-          id_added <- mutate(
-            .data = raster_data,
-            insecticide_id = x,
-            .before = everything()
-          )
-          id_added
-        }
-      )
-      setNames(raster_w_insecticide, insect_id_name)
+    .x = insecticide_ids,
+    .f = function(ids) {
+      mutate(
+        .data = rasters_w_basic_info,
+        insecticide_id = ids,
+        .before = everything()
+        )
     }
   )
 
+  names(prepared_rasters) <- glue("insect_id_{insecticide_ids}")
+
   prepared_rasters
+
 }

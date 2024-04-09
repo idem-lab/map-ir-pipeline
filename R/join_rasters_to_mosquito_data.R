@@ -9,16 +9,19 @@
 #' @author njtierney
 #' @export
 join_rasters_to_mosquito_data <- function(rasters = raster_covariates,
-                                          mosquito_data = ir_data_subset) {
-  extracted_raster_covariates <- extract_from_rasters(
-    rasters,
-    mosquito_data
+                                          mosquito_data = ir_data_subset,
+                                          extract_method = "bilinear") {
+  cli_inform(
+    message = c(
+      "Using extraction method: {.var {extract_method}}",
+      "In {.fn extract_from_raster}"
+    )
   )
 
-  all_spatial_covariates <- reduce(
-    .x = extracted_raster_covariates,
-    .f = left_join,
-    by = c("uid", "country")
+  extracted_raster_covariates <- extract_from_raster(
+    raster = rasters,
+    ir_data_subset = mosquito_data,
+    extract_method = extract_method
   ) %>%
     # impute 0 into missing values for all rasters
     mutate(
@@ -30,7 +33,7 @@ join_rasters_to_mosquito_data <- function(rasters = raster_covariates,
 
   ir_data_subset_spatial_covariates <- left_join(
     mosquito_data,
-    all_spatial_covariates,
+    extracted_raster_covariates,
     by = c("uid", "country")
   )
 

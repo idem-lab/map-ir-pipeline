@@ -105,61 +105,54 @@ tar_plan(
   # get cropland data from geodata package
   subset_country_codes = map_dfr(subset_countries, country_codes),
 
-  tar_target(
+  tar_terra_vect(
+    country_shapefile,
+    cgaz_country(subset_country_codes$NAME)
+  ),
+  tar_terra_rast(
     raster_coffee,
-    agcrop_area(crop = "acof"),
-    format = format_geotiff
+    agcrop_area(crop = "acof")
   ),
-  tar_target(
+  tar_terra_rast(
     raster_countries_coffee,
-    crop_raster_to_country(raster_coffee, subset_country_codes),
-    format = format_geotiff
+    crop_raster_to_country(raster_coffee, country_shapefile)
   ),
-  tar_target(
+  tar_terra_rast(
     raster_veg,
-    agcrop_area(crop = "vege"),
-    format = format_geotiff
+    agcrop_area(crop = "vege")
   ),
-  tar_target(
+  tar_terra_rast(
+    reference_rast,
+    raster_countries_coffee[[1]]
+  ),
+  tar_terra_rast(
     raster_countries_veg,
-    crop_raster_to_country(raster_veg, subset_country_codes),
-    format = format_geotiff
+    crop_raster_to_country(raster_veg, reference_rast)
   ),
-  tar_target(
+  tar_terra_rast(
     raster_trees,
-    get_landcover("trees"),
-    format = format_geotiff
+    get_landcover("trees")
   ),
-  tar_target(
+  tar_terra_rast(
     raster_countries_trees,
-    crop_raster_to_country(
-      raster_trees,
-      subset_country_codes
-    ),
-    format = format_geotiff
+    resample(raster_trees, reference_rast) %>%
+    crop_raster_to_country(reference_rast)
   ),
-  tar_target(
-    raster_countries_elevation,
-    get_elevation(subset_country_codes),
-    format = format_geotiff
-  ),
-  tar_target(
-    raster_countries_worldclimate,
-    get_worldclim(subset_country_codes, var = "tmin"),
-    format = format_geotiff
-  ),
-  tar_target(
+  ## Currently removing these as they don't subset to the right countries
+  # tar_terra_rast(
+  #   raster_countries_elevation,
+    # get_elevation(subset_country_codes)
+  # ),
+  # tar_terra_rast(
+  #   raster_countries_worldclimate,
+  #   get_worldclim(subset_country_codes, var = "tmin")
+  # ),
+  # this step should make the rasters match extent etc
+  tar_terra_rast(
     raster_covariates,
-    sprc(
-      list(
-        raster_countries_worldclimate,
-        raster_countries_elevation,
-        raster_countries_trees,
-        raster_countries_veg,
-        raster_countries_coffee
-      )
-    ),
-    format = format_sprc_geotiff
+    c(raster_countries_trees,
+      raster_countries_veg,
+      raster_countries_coffee)
   ),
 
   all_spatial_covariates = join_rasters_to_mosquito_data(
@@ -187,7 +180,7 @@ tar_plan(
 
   # dropping generation as it is missing too many values
   other_covariates = c("start_year", "insecticide_id"),
-  model_covariates = c(other_covariates, spatial_covariate_names),
+  model_covariates = unique(c(other_covariates, spatial_covariate_names)),
   # TODO fold this check into model_validate
   ## Checking function
   # predictors_missing = check_if_model_inputs_missing(
@@ -239,23 +232,21 @@ tar_plan(
 
   ## TODO
   ## Write this out as a mapped pipeline
-  tar_target(
+  tar_terra_rast(
     predicted_raster_id_1,
     prediction_to_raster(
       raster = raster_countries_coffee,
       predictions = outer_loop_results,
       insecticide_id = 1
-    ),
-    format = format_geotiff
+    )
   ),
-  tar_target(
+  tar_terra_rast(
     predicted_raster_id_2,
     prediction_to_raster(
       raster = raster_countries_coffee,
       predictions = outer_loop_results,
       insecticide_id = 2
-    ),
-    format = format_geotiff
+    )
   ),
   tar_file(
     plot_predicted_raster_id_1,
