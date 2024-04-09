@@ -8,11 +8,8 @@
 #' @return
 #' @author njtierney
 #' @export
-predict_l1_with_in_sample_covariates <- function(in_sample_covariates =
-                                                 in_sample_covariates,
-                                                 super_learner_fits =
-                                                 super_learner_oos) {
-
+predict_level_one_with_in_sample_covariates <- function(in_sample_covariates,
+                                                        super_learner_fits) {
   ## TODO
   ## L1 model gets fit here with .pred as covariates
   ## AND the original response data as the response
@@ -23,8 +20,6 @@ predict_l1_with_in_sample_covariates <- function(in_sample_covariates =
   # that gives a prediction of length N*
   gp_inla_data_n_star_is_pred <- map_dfc(
     .x = in_sample_covariates,
-    .f = \(x) predict(super_learner_fits,x)
+    .f = \(x) predict(super_learner_fits, x)
   ) %>% rename_to_pred_insectide_id()
-
-
 }

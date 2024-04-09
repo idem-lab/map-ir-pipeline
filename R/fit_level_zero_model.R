@@ -8,9 +8,9 @@
 #' @return
 #' @author njtierney
 #' @export
-fit_zero_level_model <- function(data,
+fit_level_zero_model <- function(data,
                                  model) {
-  fits <- map(data, function(x) fit(model, data = as.data.frame(x)))
+  fits <- map(data, \(x) fit(model, data = x))
 
   fits
 }

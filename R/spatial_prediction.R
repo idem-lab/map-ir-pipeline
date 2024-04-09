@@ -5,14 +5,14 @@
 #' @title
 #' @param covariate_rasters
 #' @param training_data
-#' @param list_of_l0_models
+#' @param level_zero_models
 #' @param inla_mesh_setup
 #' @return
 #' @author njtierney
 #' @export
 spatial_prediction <- function(covariate_rasters = raster_covariates,
                                training_data = ir_data_subset,
-                               list_of_l0_models = model_list,
+                               level_zero_models = model_list,
                                inla_mesh_setup = gp_inla_setup) {
 
   ir_data_subset_spatial_covariates <- join_rasters_to_mosquito_data(
@@ -23,7 +23,7 @@ spatial_prediction <- function(covariate_rasters = raster_covariates,
   rasters_for_inner_loop <- prepare_rasters_for_inner_loop(
     raster = covariate_rasters,
     training_data = training_data,
-    models = list_of_l0_models
+    models = level_zero_models
   )
 
   # predict out for each raster in rasters_for_inner_loop
@@ -37,8 +37,8 @@ spatial_prediction <- function(covariate_rasters = raster_covariates,
       inner_loop(
         data = ir_data_subset_spatial_covariates,
         new_data = rasters,
-        l_zero_model_list = list_of_l0_models,
-        l_one_model_setup = inla_mesh_setup
+        level_zero_models = level_zero_models,
+        level_one_model_setup = inla_mesh_setup
       )
     }
   )

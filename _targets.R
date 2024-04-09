@@ -213,7 +213,7 @@ tar_plan(
   out_of_sample_predictions = model_validation(
     covariate_rasters = raster_covariates,
     training_data = ir_data_subset,
-    list_of_l0_models = model_list,
+    level_zero_models = model_list,
     inla_mesh_setup = gp_inla_setup
   ),
   ir_data_mn_oos_predictions = bind_cols(
@@ -230,37 +230,10 @@ tar_plan(
   ## out length N out of sample predictions (the phenotypic predictions).
   ## might be easiest to pad out the genotypic (M) predictions with NA values
 
-  ## TODO
-  ## Write this out as a mapped pipeline
-  tar_terra_rast(
-    predicted_raster_id_1,
-    prediction_to_raster(
-      raster = raster_countries_coffee,
-      predictions = outer_loop_results,
-      insecticide_id = 1
-    )
-  ),
-  tar_terra_rast(
-    predicted_raster_id_2,
-    prediction_to_raster(
-      raster = raster_countries_coffee,
-      predictions = outer_loop_results,
-      insecticide_id = 2
-    )
-  ),
-  tar_file(
-    plot_predicted_raster_id_1,
-    save_plot(path = "plots/predicted_raster_id_1.png", predicted_raster_id_1),
-  ),
-  tar_file(
-    plot_predicted_raster_id_2,
-    save_plot(path = "plots/predicted_raster_id_2.png", predicted_raster_id_2),
-  ),
-
   outer_loop_results_spatial = spatial_prediction(
     covariate_rasters = raster_covariates,
     training_data = ir_data_subset,
-    list_of_l0_models = model_list,
+    level_zero_models = model_list,
     inla_mesh_setup = gp_inla_setup
   ),
 

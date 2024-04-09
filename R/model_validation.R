@@ -5,14 +5,14 @@
 #' @title
 #' @param covariate_rasters
 #' @param training_data
-#' @param list_of_l0_models
+#' @param level_zero_models
 #' @param inla_mesh_setup
 #' @return
 #' @author njtierney
 #' @export
 model_validation <- function(covariate_rasters = all_spatial_covariates,
                              training_data = ir_data_mn_folds,
-                             list_of_l0_models = model_list,
+                             level_zero_models = model_list,
                              inla_mesh_setup = gp_inla_setup) {
 
   ir_data_subset_spatial_covariates <- join_rasters_to_mosquito_data(
@@ -55,8 +55,8 @@ model_validation <- function(covariate_rasters = all_spatial_covariates,
       inner_loop(
         data = .x,
         new_data = .y,
-        l_zero_model_list = list_of_l0_models,
-        l_one_model_setup = inla_mesh_setup
+        level_zero_models = level_zero_models,
+        level_one_model_setup = inla_mesh_setup
       )
     }
   )

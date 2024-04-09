@@ -8,9 +8,9 @@
 #' @return
 #' @author njtierney
 #' @export
-prepare_rasters_for_inner_loop <- function(rasters = covariate_rasters,
-                                           training_data = training_data,
-                                           models = list_of_l0_models) {
+prepare_rasters_for_inner_loop <- function(rasters,
+                                           training_data,
+                                           models) {
   insecticide_ids <- sort(unique(training_data$insecticide_id))
   chosen_year <- max(as.integer(training_data$start_year))
 

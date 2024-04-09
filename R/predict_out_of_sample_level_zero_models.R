@@ -8,7 +8,7 @@
 #' @return
 #' @author njtierney
 #' @export
-predict_out_of_sample_zero_level_models <- function(in_sample_data,
+predict_out_of_sample_level_zero_models <- function(in_sample_data,
                                                     level_zero_model_list,
                                                     new_data,
                                                     n_insecticides) {

@@ -4,12 +4,12 @@
 #'
 #' @title
 #' @param train_predict_data
-#' @param level_zero_model_list
+#' @param level_zero_models
 #' @return
 #' @author njtierney
 #' @export
-train_predict_zero_level_model <- function(train_predict_data,
-                                           level_zero_model_list) {
+train_predict_level_zero_model <- function(train_predict_data,
+                                           level_zero_models) {
 
   # 10 times to get the 10 folds out of sample predictions
   ## The generalisation step
@@ -28,16 +28,16 @@ train_predict_zero_level_model <- function(train_predict_data,
   # this should fit 10 models - preparing for out of sample (oos)
   # currently splitting into two steps as the model takes a long time to fit
   # and we are going to need to have a deeper think about cpu efficiency
-  zero_level_oos_mn_star <- train_zero_level_models(
+  level_zero_oos_mn_star <- train_level_zero_models(
     training_data = train_data_mn_star,
-    model_list = level_zero_model_list
+    model_list = level_zero_models
   )
 
   # these prediction vectors should happen on each list of `predict_data`
   # these will be of length N*
   # oos = out of sample
   oos_predictions <- map(
-    .x = zero_level_oos_mn_star,
+    .x = level_zero_oos_mn_star,
     .f = \(x) predict_model(data = predict_data_nstar, model = x)
   )
 
