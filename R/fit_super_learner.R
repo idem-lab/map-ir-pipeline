@@ -9,9 +9,9 @@
 #' @return
 #' @author njtierney
 #' @export
-fit_super_learner <- function(ir_data = ir_data_n_star, covariate_data =
-                              oos_covariates, level_one_model_setup =
-                              l_one_model_setup) {
+fit_super_learner <- function(ir_data,
+                              covariate_data,
+                              level_one_model_setup) {
 
   # Fit the whole L1 model to N* original data, using out of sample covariates
   gp_inla_data_n_star_oos <- build_inla_data(
