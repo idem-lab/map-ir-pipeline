@@ -1,6 +1,6 @@
 {
   "R": {
-    "Version": "4.3.2",
+    "Version": "4.3.3",
     "Repositories": [
       {
         "Name": "milesmcbain",
@@ -16,38 +16,8 @@
     "DBI": {
       "Source": "Repository",
       "Package": "DBI",
-      "Version": "1.1.3",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "DBI",
-      "RemoteRef": "DBI",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.1.3"
-    },
-    "DiceDesign": {
-      "Source": "Repository",
-      "Package": "DiceDesign",
-      "Version": "1.9",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "DiceDesign",
-      "RemoteRef": "DiceDesign",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.9"
-    },
-    "GPfit": {
-      "Source": "Repository",
-      "Package": "GPfit",
-      "Version": "1.0-8",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "GPfit",
-      "RemoteRef": "GPfit",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.0-8"
+      "Version": "1.2.2",
+      "Repository": "CRAN"
     },
     "R6": {
       "Source": "Repository",
@@ -76,20 +46,26 @@
     "Rcpp": {
       "Source": "Repository",
       "Package": "Rcpp",
-      "Version": "1.0.11",
-      "Repository": "CRAN"
-    },
-    "SQUAREM": {
-      "Source": "Repository",
-      "Package": "SQUAREM",
-      "Version": "2021.1",
-      "Repository": "CRAN"
+      "Version": "1.0.12",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "Rcpp",
+      "RemoteRef": "Rcpp",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.0.12"
     },
     "askpass": {
       "Source": "Repository",
       "Package": "askpass",
       "Version": "1.2.0",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "askpass",
+      "RemoteRef": "askpass",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.2.0"
     },
     "backports": {
       "Source": "Repository",
@@ -114,18 +90,6 @@
       "RemoteRepos": "https://cloud.r-project.org",
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "0.1-3"
-    },
-    "base64url": {
-      "Source": "Repository",
-      "Package": "base64url",
-      "Version": "1.4",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "base64url",
-      "RemoteRef": "base64url",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.4"
     },
     "bit": {
       "Source": "Repository",
@@ -163,47 +127,47 @@
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "1.2.4"
     },
-    "brew": {
-      "Source": "Repository",
-      "Package": "brew",
-      "Version": "1.0-8",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "brew",
-      "RemoteRef": "brew",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.0-8"
-    },
     "broom": {
       "Source": "Repository",
       "Package": "broom",
       "Version": "1.0.5",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "broom",
+      "RemoteRef": "broom",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.0.5"
     },
     "bslib": {
       "Source": "Repository",
       "Package": "bslib",
-      "Version": "0.5.1",
-      "Repository": "CRAN"
+      "Version": "0.6.1",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "bslib",
+      "RemoteRef": "bslib",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.6.1"
     },
     "cachem": {
       "Source": "Repository",
       "Package": "cachem",
       "Version": "1.0.8",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "cachem",
+      "RemoteRef": "cachem",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.0.8"
     },
     "callr": {
       "Source": "Repository",
       "Package": "callr",
-      "Version": "3.7.3",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "callr",
-      "RemoteRef": "callr",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "3.7.3"
+      "Version": "3.7.5",
+      "Repository": "CRAN"
     },
     "cellranger": {
       "Source": "Repository",
@@ -233,7 +197,13 @@
       "Source": "Repository",
       "Package": "cli",
       "Version": "3.6.2",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "cli",
+      "RemoteRef": "cli",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "3.6.2"
     },
     "clipr": {
       "Source": "Repository",
@@ -247,12 +217,6 @@
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "0.8.0"
     },
-    "clock": {
-      "Source": "Repository",
-      "Package": "clock",
-      "Version": "0.7.0",
-      "Repository": "CRAN"
-    },
     "colorspace": {
       "Source": "Repository",
       "Package": "colorspace",
@@ -265,23 +229,17 @@
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "2.1-0"
     },
-    "conflicted": {
+    "countrycode": {
       "Source": "Repository",
-      "Package": "conflicted",
-      "Version": "1.2.0",
+      "Package": "countrycode",
+      "Version": "1.6.0",
       "Repository": "CRAN",
       "RemoteType": "standard",
-      "RemotePkgRef": "conflicted",
-      "RemoteRef": "conflicted",
+      "RemotePkgRef": "countrycode",
+      "RemoteRef": "countrycode",
       "RemoteRepos": "https://cloud.r-project.org",
       "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.2.0"
-    },
-    "cpp11": {
-      "Source": "Repository",
-      "Package": "cpp11",
-      "Version": "0.4.7",
-      "Repository": "CRAN"
+      "RemoteSha": "1.6.0"
     },
     "crayon": {
       "Source": "Repository",
@@ -295,95 +253,83 @@
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "1.5.2"
     },
-    "crosstalk": {
-      "Source": "Repository",
-      "Package": "crosstalk",
-      "Version": "1.2.0",
-      "Repository": "CRAN"
-    },
     "curl": {
       "Source": "Repository",
       "Package": "curl",
-      "Version": "5.1.0",
+      "Version": "5.2.0",
       "Repository": "CRAN"
     },
     "data.table": {
       "Source": "Repository",
       "Package": "data.table",
-      "Version": "1.14.8",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "data.table",
-      "RemoteRef": "data.table",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.14.8"
+      "Version": "1.15.0",
+      "Repository": "CRAN"
     },
     "dbplyr": {
       "Source": "Repository",
       "Package": "dbplyr",
-      "Version": "2.3.2",
+      "Version": "2.4.0",
       "Repository": "CRAN",
       "RemoteType": "standard",
       "RemotePkgRef": "dbplyr",
       "RemoteRef": "dbplyr",
       "RemoteRepos": "https://cloud.r-project.org",
       "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "2.3.2"
-    },
-    "diagram": {
-      "Source": "Repository",
-      "Package": "diagram",
-      "Version": "1.6.5",
-      "Repository": "CRAN"
+      "RemoteSha": "2.4.0"
     },
     "dials": {
       "Source": "Repository",
       "Package": "dials",
-      "Version": "1.2.0",
+      "Version": "1.2.1",
       "Repository": "CRAN"
     },
     "digest": {
       "Source": "Repository",
       "Package": "digest",
-      "Version": "0.6.33",
-      "Repository": "CRAN"
-    },
-    "dotenv": {
-      "Source": "Repository",
-      "Package": "dotenv",
-      "Version": "1.0.3",
+      "Version": "0.6.34",
       "Repository": "CRAN",
       "RemoteType": "standard",
-      "RemotePkgRef": "dotenv",
-      "RemoteRef": "dotenv",
+      "RemotePkgRef": "digest",
+      "RemoteRef": "digest",
       "RemoteRepos": "https://cloud.r-project.org",
       "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.0.3"
+      "RemoteSha": "0.6.34"
     },
     "dplyr": {
       "Source": "Repository",
       "Package": "dplyr",
-      "Version": "1.1.3",
-      "Repository": "CRAN"
-    },
-    "dtplyr": {
-      "Source": "Repository",
-      "Package": "dtplyr",
-      "Version": "1.3.1",
+      "Version": "1.1.4",
       "Repository": "CRAN",
       "RemoteType": "standard",
-      "RemotePkgRef": "dtplyr",
-      "RemoteRef": "dtplyr",
+      "RemotePkgRef": "dplyr",
+      "RemoteRef": "dplyr",
       "RemoteRepos": "https://cloud.r-project.org",
       "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.3.1"
+      "RemoteSha": "1.1.4"
+    },
+    "dsn": {
+      "Source": "GitHub",
+      "Package": "dsn",
+      "Version": "0.0.1.9011",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "dsn",
+      "RemoteUsername": "hypertidy",
+      "RemotePkgRef": "hypertidy/dsn",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "15743da3a6c892f6654a3deab707425f86cabe98"
     },
     "e1071": {
       "Source": "Repository",
       "Package": "e1071",
-      "Version": "1.7-13",
-      "Repository": "CRAN"
+      "Version": "1.7-14",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "e1071",
+      "RemoteRef": "e1071",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.7-14"
     },
     "ellipsis": {
       "Source": "Repository",
@@ -401,13 +347,25 @@
       "Source": "Repository",
       "Package": "evaluate",
       "Version": "0.23",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "evaluate",
+      "RemoteRef": "evaluate",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.23"
     },
     "fansi": {
       "Source": "Repository",
       "Package": "fansi",
-      "Version": "1.0.5",
-      "Repository": "CRAN"
+      "Version": "1.0.6",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "fansi",
+      "RemoteRef": "fansi",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.0.6"
     },
     "farver": {
       "Source": "Repository",
@@ -437,7 +395,13 @@
       "Source": "Repository",
       "Package": "fontawesome",
       "Version": "0.5.2",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "fontawesome",
+      "RemoteRef": "fontawesome",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.5.2"
     },
     "forcats": {
       "Source": "Repository",
@@ -455,43 +419,25 @@
       "Source": "Repository",
       "Package": "foreach",
       "Version": "1.5.2",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "foreach",
+      "RemoteRef": "foreach",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.5.2"
     },
     "fs": {
       "Source": "Repository",
       "Package": "fs",
       "Version": "1.6.3",
-      "Repository": "CRAN"
-    },
-    "furrr": {
-      "Source": "Repository",
-      "Package": "furrr",
-      "Version": "0.3.1",
-      "Repository": "CRAN"
-    },
-    "future.apply": {
-      "Source": "Repository",
-      "Package": "future.apply",
-      "Version": "1.11.0",
-      "Repository": "CRAN"
-    },
-    "future": {
-      "Source": "Repository",
-      "Package": "future",
-      "Version": "1.33.0",
-      "Repository": "CRAN"
-    },
-    "gargle": {
-      "Source": "Repository",
-      "Package": "gargle",
-      "Version": "1.4.0",
       "Repository": "CRAN",
       "RemoteType": "standard",
-      "RemotePkgRef": "gargle",
-      "RemoteRef": "gargle",
+      "RemotePkgRef": "fs",
+      "RemoteRef": "fs",
       "RemoteRepos": "https://cloud.r-project.org",
       "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.4.0"
+      "RemoteSha": "1.6.3"
     },
     "generics": {
       "Source": "Repository",
@@ -505,83 +451,38 @@
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "0.1.3"
     },
-    "geojsonsf": {
+    "geodata": {
       "Source": "Repository",
-      "Package": "geojsonsf",
-      "Version": "2.0.3",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "geojsonsf",
-      "RemoteRef": "geojsonsf",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "2.0.3"
+      "Package": "geodata",
+      "Version": "0.5-9",
+      "Repository": "CRAN"
     },
-    "geometries": {
+    "geotargets": {
       "Source": "Repository",
-      "Package": "geometries",
-      "Version": "0.2.3",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "geometries",
-      "RemoteRef": "geometries",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "0.2.3"
+      "Package": "geotargets",
+      "Version": "0.0.0.9000",
+      "Repository": "https://njtierney.r-universe.dev",
+      "RemoteUrl": "https://github.com/njtierney/geotargets",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "66d027db269166b87477fbcd64ebf39d2e5c0ce2"
     },
     "ggplot2": {
       "Source": "Repository",
       "Package": "ggplot2",
-      "Version": "3.4.4",
-      "Repository": "CRAN"
-    },
-    "globals": {
-      "Source": "Repository",
-      "Package": "globals",
-      "Version": "0.16.2",
+      "Version": "3.5.0",
       "Repository": "CRAN"
     },
     "glue": {
       "Source": "Repository",
       "Package": "glue",
-      "Version": "1.6.2",
+      "Version": "1.7.0",
       "Repository": "CRAN",
       "RemoteType": "standard",
       "RemotePkgRef": "glue",
       "RemoteRef": "glue",
       "RemoteRepos": "https://cloud.r-project.org",
       "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.6.2"
-    },
-    "googledrive": {
-      "Source": "Repository",
-      "Package": "googledrive",
-      "Version": "2.1.0",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "googledrive",
-      "RemoteRef": "googledrive",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "2.1.0"
-    },
-    "googlesheets4": {
-      "Source": "Repository",
-      "Package": "googlesheets4",
-      "Version": "1.1.0",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "googlesheets4",
-      "RemoteRef": "googlesheets4",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.1.0"
-    },
-    "gower": {
-      "Source": "Repository",
-      "Package": "gower",
-      "Version": "1.0.1",
-      "Repository": "CRAN"
+      "RemoteSha": "1.7.0"
     },
     "gridExtra": {
       "Source": "Repository",
@@ -599,25 +500,37 @@
       "Source": "Repository",
       "Package": "gtable",
       "Version": "0.3.4",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "gtable",
+      "RemoteRef": "gtable",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.3.4"
     },
     "hardhat": {
       "Source": "Repository",
       "Package": "hardhat",
-      "Version": "1.3.0",
-      "Repository": "CRAN"
+      "Version": "1.3.1",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "hardhat",
+      "RemoteRef": "hardhat",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.3.1"
     },
     "haven": {
       "Source": "Repository",
       "Package": "haven",
-      "Version": "2.5.2",
+      "Version": "2.5.4",
       "Repository": "CRAN",
       "RemoteType": "standard",
       "RemotePkgRef": "haven",
       "RemoteRef": "haven",
       "RemoteRepos": "https://cloud.r-project.org",
       "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "2.5.2"
+      "RemoteSha": "2.5.4"
     },
     "highr": {
       "Source": "Repository",
@@ -647,66 +560,42 @@
       "Source": "Repository",
       "Package": "htmltools",
       "Version": "0.5.7",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "htmltools",
+      "RemoteRef": "htmltools",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.5.7"
     },
     "htmlwidgets": {
       "Source": "Repository",
       "Package": "htmlwidgets",
-      "Version": "1.6.2",
+      "Version": "1.6.4",
       "Repository": "CRAN",
       "RemoteType": "standard",
       "RemotePkgRef": "htmlwidgets",
       "RemoteRef": "htmlwidgets",
       "RemoteRepos": "https://cloud.r-project.org",
       "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.6.2"
-    },
-    "httpuv": {
-      "Source": "Repository",
-      "Package": "httpuv",
-      "Version": "1.6.9",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "httpuv",
-      "RemoteRef": "httpuv",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.6.9"
+      "RemoteSha": "1.6.4"
     },
     "httr": {
       "Source": "Repository",
       "Package": "httr",
       "Version": "1.4.7",
-      "Repository": "CRAN"
-    },
-    "ids": {
-      "Source": "Repository",
-      "Package": "ids",
-      "Version": "1.0.1",
       "Repository": "CRAN",
       "RemoteType": "standard",
-      "RemotePkgRef": "ids",
-      "RemoteRef": "ids",
+      "RemotePkgRef": "httr",
+      "RemoteRef": "httr",
       "RemoteRepos": "https://cloud.r-project.org",
       "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.0.1"
+      "RemoteSha": "1.4.7"
     },
     "igraph": {
       "Source": "Repository",
       "Package": "igraph",
-      "Version": "1.5.1",
-      "Repository": "CRAN"
-    },
-    "infer": {
-      "Source": "Repository",
-      "Package": "infer",
-      "Version": "1.0.5",
-      "Repository": "CRAN"
-    },
-    "ipred": {
-      "Source": "Repository",
-      "Package": "ipred",
-      "Version": "0.9-14",
+      "Version": "2.0.2",
       "Repository": "CRAN"
     },
     "isoband": {
@@ -725,7 +614,13 @@
       "Source": "Repository",
       "Package": "iterators",
       "Version": "1.0.14",
-      "Repository": "CRAN"
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "iterators",
+      "RemoteRef": "iterators",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.0.14"
     },
     "jquerylib": {
       "Source": "Repository",
@@ -739,6 +634,995 @@
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "0.1.4"
     },
+    "jsonlite": {
+      "Source": "Repository",
+      "Package": "jsonlite",
+      "Version": "1.8.8",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "jsonlite",
+      "RemoteRef": "jsonlite",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.8.8"
+    },
+    "knitr": {
+      "Source": "Repository",
+      "Package": "knitr",
+      "Version": "1.45",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "knitr",
+      "RemoteRef": "knitr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.45"
+    },
+    "labeling": {
+      "Source": "Repository",
+      "Package": "labeling",
+      "Version": "0.4.3",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "labeling",
+      "RemoteRef": "labeling",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.4.3"
+    },
+    "lazyeval": {
+      "Source": "Repository",
+      "Package": "lazyeval",
+      "Version": "0.2.2",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "lazyeval",
+      "RemoteRef": "lazyeval",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.2.2"
+    },
+    "lifecycle": {
+      "Source": "Repository",
+      "Package": "lifecycle",
+      "Version": "1.0.4",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "lifecycle",
+      "RemoteRef": "lifecycle",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.0.4"
+    },
+    "lubridate": {
+      "Source": "Repository",
+      "Package": "lubridate",
+      "Version": "1.9.3",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "lubridate",
+      "RemoteRef": "lubridate",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.9.3"
+    },
+    "magrittr": {
+      "Source": "Repository",
+      "Package": "magrittr",
+      "Version": "2.0.3",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "magrittr",
+      "RemoteRef": "magrittr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "2.0.3"
+    },
+    "memoise": {
+      "Source": "GitHub",
+      "Package": "memoise",
+      "Version": "2.0.1.9000",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "memoise",
+      "RemoteUsername": "hadley",
+      "RemotePkgRef": "hadley/memoise",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "40db995d57e1790ed2519f5a653ca0f497a53c71"
+    },
+    "mime": {
+      "Source": "Repository",
+      "Package": "mime",
+      "Version": "0.12",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "mime",
+      "RemoteRef": "mime",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.12"
+    },
+    "munsell": {
+      "Source": "Repository",
+      "Package": "munsell",
+      "Version": "0.5.0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "munsell",
+      "RemoteRef": "munsell",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.5.0"
+    },
+    "naniar": {
+      "Source": "unknown",
+      "Package": "naniar",
+      "Version": "1.1.0"
+    },
+    "openssl": {
+      "Source": "Repository",
+      "Package": "openssl",
+      "Version": "2.1.1",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "openssl",
+      "RemoteRef": "openssl",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "2.1.1"
+    },
+    "parallelly": {
+      "Source": "Repository",
+      "Package": "parallelly",
+      "Version": "1.37.0",
+      "Repository": "CRAN"
+    },
+    "parsnip": {
+      "Source": "Repository",
+      "Package": "parsnip",
+      "Version": "1.2.0",
+      "Repository": "CRAN"
+    },
+    "patchwork": {
+      "Source": "Repository",
+      "Package": "patchwork",
+      "Version": "1.2.0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "patchwork",
+      "RemoteRef": "patchwork",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.2.0"
+    },
+    "pillar": {
+      "Source": "Repository",
+      "Package": "pillar",
+      "Version": "1.9.0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "pillar",
+      "RemoteRef": "pillar",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.9.0"
+    },
+    "pkgconfig": {
+      "Source": "Repository",
+      "Package": "pkgconfig",
+      "Version": "2.0.3",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "pkgconfig",
+      "RemoteRef": "pkgconfig",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "2.0.3"
+    },
+    "plyr": {
+      "Source": "Repository",
+      "Package": "plyr",
+      "Version": "1.8.9",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "plyr",
+      "RemoteRef": "plyr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.8.9"
+    },
+    "prettyunits": {
+      "Source": "Repository",
+      "Package": "prettyunits",
+      "Version": "1.2.0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "prettyunits",
+      "RemoteRef": "prettyunits",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.2.0"
+    },
+    "processx": {
+      "Source": "Repository",
+      "Package": "processx",
+      "Version": "3.8.3",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "processx",
+      "RemoteRef": "processx",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "3.8.3"
+    },
+    "progress": {
+      "Source": "Repository",
+      "Package": "progress",
+      "Version": "1.2.3",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "progress",
+      "RemoteRef": "progress",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.2.3"
+    },
+    "proxy": {
+      "Source": "Repository",
+      "Package": "proxy",
+      "Version": "0.4-27",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "proxy",
+      "RemoteRef": "proxy",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.4-27"
+    },
+    "ps": {
+      "Source": "Repository",
+      "Package": "ps",
+      "Version": "1.7.6",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ps",
+      "RemoteRef": "ps",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.7.6"
+    },
+    "purrr": {
+      "Source": "Repository",
+      "Package": "purrr",
+      "Version": "1.0.2",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "purrr",
+      "RemoteRef": "purrr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.0.2"
+    },
+    "rappdirs": {
+      "Source": "Repository",
+      "Package": "rappdirs",
+      "Version": "0.3.3",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "rappdirs",
+      "RemoteRef": "rappdirs",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.3.3"
+    },
+    "readr": {
+      "Source": "Repository",
+      "Package": "readr",
+      "Version": "2.1.5",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "readr",
+      "RemoteRef": "readr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "2.1.5"
+    },
+    "readxl": {
+      "Source": "Repository",
+      "Package": "readxl",
+      "Version": "1.4.3",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "readxl",
+      "RemoteRef": "readxl",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.4.3"
+    },
+    "recipes": {
+      "Source": "Repository",
+      "Package": "recipes",
+      "Version": "1.0.10",
+      "Repository": "CRAN"
+    },
+    "rematch": {
+      "Source": "Repository",
+      "Package": "rematch",
+      "Version": "2.0.0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "rematch",
+      "RemoteRef": "rematch",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "2.0.0"
+    },
+    "rematch2": {
+      "Source": "Repository",
+      "Package": "rematch2",
+      "Version": "2.1.2",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "rematch2",
+      "RemoteRef": "rematch2",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "2.1.2"
+    },
+    "rlang": {
+      "Source": "Repository",
+      "Package": "rlang",
+      "Version": "1.1.3",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "rlang",
+      "RemoteRef": "rlang",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.1.3"
+    },
+    "rmarkdown": {
+      "Source": "Repository",
+      "Package": "rmarkdown",
+      "Version": "2.25",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "rmarkdown",
+      "RemoteRef": "rmarkdown",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "2.25"
+    },
+    "rstudioapi": {
+      "Source": "Repository",
+      "Package": "rstudioapi",
+      "Version": "0.15.0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "rstudioapi",
+      "RemoteRef": "rstudioapi",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.15.0"
+    },
+    "rvest": {
+      "Source": "Repository",
+      "Package": "rvest",
+      "Version": "1.0.4",
+      "Repository": "CRAN"
+    },
+    "s2": {
+      "Source": "Repository",
+      "Package": "s2",
+      "Version": "1.1.6",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "s2",
+      "RemoteRef": "s2",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.1.6"
+    },
+    "sass": {
+      "Source": "Repository",
+      "Package": "sass",
+      "Version": "0.4.8",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "sass",
+      "RemoteRef": "sass",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.4.8"
+    },
+    "satellite": {
+      "Source": "Repository",
+      "Package": "satellite",
+      "Version": "1.0.5",
+      "Repository": "CRAN"
+    },
+    "scales": {
+      "Source": "Repository",
+      "Package": "scales",
+      "Version": "1.3.0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "scales",
+      "RemoteRef": "scales",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.3.0"
+    },
+    "sds": {
+      "Source": "GitHub",
+      "Package": "sds",
+      "Version": "0.0.1.9004",
+      "RemoteType": "github",
+      "RemoteHost": "api.github.com",
+      "RemoteRepo": "sds",
+      "RemoteUsername": "hypertidy",
+      "RemotePkgRef": "hypertidy/sds",
+      "RemoteRef": "HEAD",
+      "RemoteSha": "87c56949b637dab6915f419d1ff919733893b55e"
+    },
+    "secretbase": {
+      "Source": "Repository",
+      "Package": "secretbase",
+      "Version": "0.3.0",
+      "Repository": "CRAN"
+    },
+    "servr": {
+      "Source": "Repository",
+      "Package": "servr",
+      "Version": "0.29",
+      "Repository": "CRAN"
+    },
+    "sf": {
+      "Source": "Repository",
+      "Package": "sf",
+      "Version": "1.0-16",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "sf",
+      "RemoteRef": "sf",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.0-16"
+    },
+    "sfheaders": {
+      "Source": "Repository",
+      "Package": "sfheaders",
+      "Version": "0.4.4",
+      "Repository": "CRAN"
+    },
+    "shape": {
+      "Source": "Repository",
+      "Package": "shape",
+      "Version": "1.4.6.1",
+      "Repository": "CRAN"
+    },
+    "sp": {
+      "Source": "Repository",
+      "Package": "sp",
+      "Version": "2.1-3",
+      "Repository": "CRAN"
+    },
+    "stringi": {
+      "Source": "Repository",
+      "Package": "stringi",
+      "Version": "1.8.3",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "stringi",
+      "RemoteRef": "stringi",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.8.3"
+    },
+    "stringr": {
+      "Source": "Repository",
+      "Package": "stringr",
+      "Version": "1.5.1",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "stringr",
+      "RemoteRef": "stringr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.5.1"
+    },
+    "sys": {
+      "Source": "Repository",
+      "Package": "sys",
+      "Version": "3.4.2",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "sys",
+      "RemoteRef": "sys",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "3.4.2"
+    },
+    "tarchetypes": {
+      "Source": "Repository",
+      "Package": "tarchetypes",
+      "Version": "0.7.12",
+      "Repository": "CRAN"
+    },
+    "targets": {
+      "Source": "Repository",
+      "Package": "targets",
+      "Version": "1.5.1",
+      "Repository": "CRAN"
+    },
+    "terra": {
+      "Source": "Repository",
+      "Package": "terra",
+      "Version": "1.7-71",
+      "Repository": "CRAN"
+    },
+    "tibble": {
+      "Source": "Repository",
+      "Package": "tibble",
+      "Version": "3.2.1",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "tibble",
+      "RemoteRef": "tibble",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "3.2.1"
+    },
+    "tidygeocoder": {
+      "Source": "Repository",
+      "Package": "tidygeocoder",
+      "Version": "1.0.5",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "tidygeocoder",
+      "RemoteRef": "tidygeocoder",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.0.5"
+    },
+    "tidyr": {
+      "Source": "Repository",
+      "Package": "tidyr",
+      "Version": "1.3.1",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "tidyr",
+      "RemoteRef": "tidyr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.3.1"
+    },
+    "tidyselect": {
+      "Source": "Repository",
+      "Package": "tidyselect",
+      "Version": "1.2.0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "tidyselect",
+      "RemoteRef": "tidyselect",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.2.0"
+    },
+    "timeDate": {
+      "Source": "Repository",
+      "Package": "timeDate",
+      "Version": "4032.109",
+      "Repository": "CRAN"
+    },
+    "timechange": {
+      "Source": "Repository",
+      "Package": "timechange",
+      "Version": "0.3.0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "timechange",
+      "RemoteRef": "timechange",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.3.0"
+    },
+    "tinytex": {
+      "Source": "Repository",
+      "Package": "tinytex",
+      "Version": "0.49",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "tinytex",
+      "RemoteRef": "tinytex",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.49"
+    },
+    "tzdb": {
+      "Source": "Repository",
+      "Package": "tzdb",
+      "Version": "0.4.0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "tzdb",
+      "RemoteRef": "tzdb",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.4.0"
+    },
+    "units": {
+      "Source": "Repository",
+      "Package": "units",
+      "Version": "0.8-5",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "units",
+      "RemoteRef": "units",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.8-5"
+    },
+    "utf8": {
+      "Source": "Repository",
+      "Package": "utf8",
+      "Version": "1.2.4",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "utf8",
+      "RemoteRef": "utf8",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.2.4"
+    },
+    "uuid": {
+      "Source": "Repository",
+      "Package": "uuid",
+      "Version": "1.2-0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "uuid",
+      "RemoteRef": "uuid",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.2-0"
+    },
+    "vctrs": {
+      "Source": "Repository",
+      "Package": "vctrs",
+      "Version": "0.6.5",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "vctrs",
+      "RemoteRef": "vctrs",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.6.5"
+    },
+    "viridis": {
+      "Source": "Repository",
+      "Package": "viridis",
+      "Version": "0.6.5",
+      "Repository": "CRAN"
+    },
+    "viridisLite": {
+      "Source": "Repository",
+      "Package": "viridisLite",
+      "Version": "0.4.2",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "viridisLite",
+      "RemoteRef": "viridisLite",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.4.2"
+    },
+    "vroom": {
+      "Source": "Repository",
+      "Package": "vroom",
+      "Version": "1.6.5",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "vroom",
+      "RemoteRef": "vroom",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.6.5"
+    },
+    "withr": {
+      "Source": "Repository",
+      "Package": "withr",
+      "Version": "3.0.0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "withr",
+      "RemoteRef": "withr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "3.0.0"
+    },
+    "wk": {
+      "Source": "Repository",
+      "Package": "wk",
+      "Version": "0.9.1",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "wk",
+      "RemoteRef": "wk",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.9.1"
+    },
+    "workflows": {
+      "Source": "Repository",
+      "Package": "workflows",
+      "Version": "1.1.4",
+      "Repository": "CRAN"
+    },
+    "xfun": {
+      "Source": "Repository",
+      "Package": "xfun",
+      "Version": "0.42",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "xfun",
+      "RemoteRef": "xfun",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "0.42"
+    },
+    "xgboost": {
+      "Source": "Repository",
+      "Package": "xgboost",
+      "Version": "1.7.7.1",
+      "Repository": "CRAN"
+    },
+    "xml2": {
+      "Source": "Repository",
+      "Package": "xml2",
+      "Version": "1.3.6",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "xml2",
+      "RemoteRef": "xml2",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.3.6"
+    },
+    "yaml": {
+      "Source": "Repository",
+      "Package": "yaml",
+      "Version": "2.3.8",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "yaml",
+      "RemoteRef": "yaml",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "2.3.8"
+    },
+    "yardstick": {
+      "Source": "Repository",
+      "Package": "yardstick",
+      "Version": "1.3.0",
+      "Repository": "CRAN"
+    },
+    "DiceDesign": {
+      "Source": "Repository",
+      "Package": "DiceDesign",
+      "Version": "1.10",
+      "Repository": "CRAN"
+    },
+    "GPfit": {
+      "Source": "Repository",
+      "Package": "GPfit",
+      "Version": "1.0-8",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "GPfit",
+      "RemoteRef": "GPfit",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.0-8"
+    },
+    "SQUAREM": {
+      "Source": "Repository",
+      "Package": "SQUAREM",
+      "Version": "2021.1",
+      "Repository": "CRAN"
+    },
+    "UpSetR": {
+      "Source": "Repository",
+      "Package": "UpSetR",
+      "Version": "1.4.0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "UpSetR",
+      "RemoteRef": "UpSetR",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.4.0"
+    },
+    "base64url": {
+      "Source": "Repository",
+      "Package": "base64url",
+      "Version": "1.4",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "base64url",
+      "RemoteRef": "base64url",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.4"
+    },
+    "brew": {
+      "Source": "Repository",
+      "Package": "brew",
+      "Version": "1.0-10",
+      "Repository": "CRAN"
+    },
+    "clock": {
+      "Source": "Repository",
+      "Package": "clock",
+      "Version": "0.7.0",
+      "Repository": "CRAN"
+    },
+    "conflicted": {
+      "Source": "Repository",
+      "Package": "conflicted",
+      "Version": "1.2.0",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "conflicted",
+      "RemoteRef": "conflicted",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.2.0"
+    },
+    "cpp11": {
+      "Source": "Repository",
+      "Package": "cpp11",
+      "Version": "0.4.7",
+      "Repository": "CRAN"
+    },
+    "crosstalk": {
+      "Source": "Repository",
+      "Package": "crosstalk",
+      "Version": "1.2.1",
+      "Repository": "CRAN"
+    },
+    "diagram": {
+      "Source": "Repository",
+      "Package": "diagram",
+      "Version": "1.6.5",
+      "Repository": "CRAN"
+    },
+    "dotenv": {
+      "Source": "Repository",
+      "Package": "dotenv",
+      "Version": "1.0.3",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "dotenv",
+      "RemoteRef": "dotenv",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.0.3"
+    },
+    "dtplyr": {
+      "Source": "Repository",
+      "Package": "dtplyr",
+      "Version": "1.3.1",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "dtplyr",
+      "RemoteRef": "dtplyr",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.3.1"
+    },
+    "furrr": {
+      "Source": "Repository",
+      "Package": "furrr",
+      "Version": "0.3.1",
+      "Repository": "CRAN"
+    },
+    "future.apply": {
+      "Source": "Repository",
+      "Package": "future.apply",
+      "Version": "1.11.1",
+      "Repository": "CRAN"
+    },
+    "future": {
+      "Source": "Repository",
+      "Package": "future",
+      "Version": "1.33.1",
+      "Repository": "CRAN"
+    },
+    "gargle": {
+      "Source": "Repository",
+      "Package": "gargle",
+      "Version": "1.5.2",
+      "Repository": "CRAN"
+    },
+    "geojsonsf": {
+      "Source": "Repository",
+      "Package": "geojsonsf",
+      "Version": "2.0.3",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "geojsonsf",
+      "RemoteRef": "geojsonsf",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "2.0.3"
+    },
+    "geometries": {
+      "Source": "Repository",
+      "Package": "geometries",
+      "Version": "0.2.4",
+      "Repository": "CRAN"
+    },
+    "globals": {
+      "Source": "Repository",
+      "Package": "globals",
+      "Version": "0.16.2",
+      "Repository": "CRAN"
+    },
+    "googledrive": {
+      "Source": "Repository",
+      "Package": "googledrive",
+      "Version": "2.1.1",
+      "Repository": "CRAN"
+    },
+    "googlesheets4": {
+      "Source": "Repository",
+      "Package": "googlesheets4",
+      "Version": "1.1.1",
+      "Repository": "CRAN"
+    },
+    "gower": {
+      "Source": "Repository",
+      "Package": "gower",
+      "Version": "1.0.1",
+      "Repository": "CRAN"
+    },
+    "httpuv": {
+      "Source": "Repository",
+      "Package": "httpuv",
+      "Version": "1.6.14",
+      "Repository": "CRAN"
+    },
+    "ids": {
+      "Source": "Repository",
+      "Package": "ids",
+      "Version": "1.0.1",
+      "Repository": "CRAN",
+      "RemoteType": "standard",
+      "RemotePkgRef": "ids",
+      "RemoteRef": "ids",
+      "RemoteRepos": "https://cloud.r-project.org",
+      "RemotePkgPlatform": "aarch64-apple-darwin20",
+      "RemoteSha": "1.0.1"
+    },
+    "infer": {
+      "Source": "Repository",
+      "Package": "infer",
+      "Version": "1.0.6",
+      "Repository": "CRAN"
+    },
+    "ipred": {
+      "Source": "Repository",
+      "Package": "ipred",
+      "Version": "0.9-14",
+      "Repository": "CRAN"
+    },
+    "janitor": {
+      "Source": "Repository",
+      "Package": "janitor",
+      "Version": "2.2.0",
+      "Repository": "CRAN"
+    },
     "jsonify": {
       "Source": "Repository",
       "Package": "jsonify",
@@ -751,46 +1635,16 @@
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "1.2.2"
     },
-    "jsonlite": {
-      "Source": "Repository",
-      "Package": "jsonlite",
-      "Version": "1.8.7",
-      "Repository": "CRAN"
-    },
-    "knitr": {
-      "Source": "Repository",
-      "Package": "knitr",
-      "Version": "1.45",
-      "Repository": "CRAN"
-    },
-    "labeling": {
-      "Source": "Repository",
-      "Package": "labeling",
-      "Version": "0.4.3",
-      "Repository": "CRAN"
-    },
     "later": {
       "Source": "Repository",
       "Package": "later",
-      "Version": "1.3.0",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "later",
-      "RemoteRef": "later",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.3.0"
+      "Version": "1.3.2",
+      "Repository": "CRAN"
     },
     "lava": {
       "Source": "Repository",
       "Package": "lava",
-      "Version": "1.7.2.1",
-      "Repository": "CRAN"
-    },
-    "lazyeval": {
-      "Source": "Repository",
-      "Package": "lazyeval",
-      "Version": "0.2.2",
+      "Version": "1.7.3",
       "Repository": "CRAN"
     },
     "leafem": {
@@ -835,41 +1689,11 @@
       "Version": "1.1.6",
       "Repository": "CRAN"
     },
-    "lifecycle": {
-      "Source": "Repository",
-      "Package": "lifecycle",
-      "Version": "1.0.4",
-      "Repository": "CRAN"
-    },
     "listenv": {
       "Source": "Repository",
       "Package": "listenv",
-      "Version": "0.9.0",
+      "Version": "0.9.1",
       "Repository": "CRAN"
-    },
-    "lubridate": {
-      "Source": "Repository",
-      "Package": "lubridate",
-      "Version": "1.9.2",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "lubridate",
-      "RemoteRef": "lubridate",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.9.2"
-    },
-    "magrittr": {
-      "Source": "Repository",
-      "Package": "magrittr",
-      "Version": "2.0.3",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "magrittr",
-      "RemoteRef": "magrittr",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "2.0.3"
     },
     "mapview": {
       "Source": "Repository",
@@ -883,34 +1707,10 @@
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "2.11.2"
     },
-    "memoise": {
-      "Source": "Repository",
-      "Package": "memoise",
-      "Version": "2.0.1",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "memoise",
-      "RemoteRef": "memoise",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "2.0.1"
-    },
-    "mime": {
-      "Source": "Repository",
-      "Package": "mime",
-      "Version": "0.12",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "mime",
-      "RemoteRef": "mime",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "0.12"
-    },
     "modeldata": {
       "Source": "Repository",
       "Package": "modeldata",
-      "Version": "1.2.0",
+      "Version": "1.3.0",
       "Repository": "CRAN"
     },
     "modelenv": {
@@ -931,76 +1731,16 @@
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "0.1.11"
     },
-    "munsell": {
+    "norm": {
       "Source": "Repository",
-      "Package": "munsell",
-      "Version": "0.5.0",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "munsell",
-      "RemoteRef": "munsell",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "0.5.0"
+      "Package": "norm",
+      "Version": "1.0-11.1",
+      "Repository": "CRAN"
     },
     "numDeriv": {
       "Source": "Repository",
       "Package": "numDeriv",
       "Version": "2016.8-1.1",
-      "Repository": "CRAN"
-    },
-    "openssl": {
-      "Source": "Repository",
-      "Package": "openssl",
-      "Version": "2.1.1",
-      "Repository": "CRAN"
-    },
-    "parallelly": {
-      "Source": "Repository",
-      "Package": "parallelly",
-      "Version": "1.36.0",
-      "Repository": "CRAN"
-    },
-    "parsnip": {
-      "Source": "Repository",
-      "Package": "parsnip",
-      "Version": "1.1.1",
-      "Repository": "CRAN"
-    },
-    "patchwork": {
-      "Source": "Repository",
-      "Package": "patchwork",
-      "Version": "1.1.3",
-      "Repository": "CRAN"
-    },
-    "pillar": {
-      "Source": "Repository",
-      "Package": "pillar",
-      "Version": "1.9.0",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "pillar",
-      "RemoteRef": "pillar",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.9.0"
-    },
-    "pkgconfig": {
-      "Source": "Repository",
-      "Package": "pkgconfig",
-      "Version": "2.0.3",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "pkgconfig",
-      "RemoteRef": "pkgconfig",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "2.0.3"
-    },
-    "plyr": {
-      "Source": "Repository",
-      "Package": "plyr",
-      "Version": "1.8.9",
       "Repository": "CRAN"
     },
     "png": {
@@ -1009,83 +1749,29 @@
       "Version": "0.1-8",
       "Repository": "CRAN"
     },
-    "prettyunits": {
-      "Source": "Repository",
-      "Package": "prettyunits",
-      "Version": "1.2.0",
-      "Repository": "CRAN"
-    },
-    "processx": {
-      "Source": "Repository",
-      "Package": "processx",
-      "Version": "3.8.3",
-      "Repository": "CRAN"
-    },
     "prodlim": {
       "Source": "Repository",
       "Package": "prodlim",
       "Version": "2023.08.28",
       "Repository": "CRAN"
     },
-    "progress": {
-      "Source": "Repository",
-      "Package": "progress",
-      "Version": "1.2.2",
-      "Repository": "CRAN"
-    },
     "progressr": {
       "Source": "Repository",
       "Package": "progressr",
-      "Version": "0.13.0",
+      "Version": "0.14.0",
       "Repository": "CRAN"
     },
     "promises": {
       "Source": "Repository",
       "Package": "promises",
-      "Version": "1.2.0.1",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "promises",
-      "RemoteRef": "promises",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.2.0.1"
-    },
-    "proxy": {
-      "Source": "Repository",
-      "Package": "proxy",
-      "Version": "0.4-27",
-      "Repository": "CRAN"
-    },
-    "ps": {
-      "Source": "Repository",
-      "Package": "ps",
-      "Version": "1.7.5",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "ps",
-      "RemoteRef": "ps",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.7.5"
-    },
-    "purrr": {
-      "Source": "Repository",
-      "Package": "purrr",
-      "Version": "1.0.2",
+      "Version": "1.2.1",
       "Repository": "CRAN"
     },
     "ragg": {
       "Source": "Repository",
       "Package": "ragg",
-      "Version": "1.2.5",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "ragg",
-      "RemoteRef": "ragg",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.2.5"
+      "Version": "1.2.7",
+      "Repository": "CRAN"
     },
     "randomForest": {
       "Source": "Repository",
@@ -1105,100 +1791,16 @@
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "1.2.0"
     },
-    "rappdirs": {
-      "Source": "Repository",
-      "Package": "rappdirs",
-      "Version": "0.3.3",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "rappdirs",
-      "RemoteRef": "rappdirs",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "0.3.3"
-    },
     "raster": {
       "Source": "Repository",
       "Package": "raster",
       "Version": "3.6-26",
       "Repository": "CRAN"
     },
-    "readr": {
-      "Source": "Repository",
-      "Package": "readr",
-      "Version": "2.1.4",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "readr",
-      "RemoteRef": "readr",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "2.1.4"
-    },
-    "readxl": {
-      "Source": "Repository",
-      "Package": "readxl",
-      "Version": "1.4.2",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "readxl",
-      "RemoteRef": "readxl",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.4.2"
-    },
-    "recipes": {
-      "Source": "Repository",
-      "Package": "recipes",
-      "Version": "1.0.8",
-      "Repository": "CRAN"
-    },
-    "rematch": {
-      "Source": "Repository",
-      "Package": "rematch",
-      "Version": "1.0.1",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "rematch",
-      "RemoteRef": "rematch",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.0.1"
-    },
-    "rematch2": {
-      "Source": "Repository",
-      "Package": "rematch2",
-      "Version": "2.1.2",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "rematch2",
-      "RemoteRef": "rematch2",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "2.1.2"
-    },
     "reprex": {
       "Source": "Repository",
       "Package": "reprex",
-      "Version": "2.0.2",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "reprex",
-      "RemoteRef": "reprex",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "2.0.2"
-    },
-    "rlang": {
-      "Source": "Repository",
-      "Package": "rlang",
-      "Version": "1.1.2",
-      "Repository": "CRAN"
-    },
-    "rmarkdown": {
-      "Source": "Repository",
-      "Package": "rmarkdown",
-      "Version": "2.25",
+      "Version": "2.1.0",
       "Repository": "CRAN"
     },
     "rsample": {
@@ -1206,66 +1808,6 @@
       "Package": "rsample",
       "Version": "1.2.0",
       "Repository": "CRAN"
-    },
-    "rstudioapi": {
-      "Source": "Repository",
-      "Package": "rstudioapi",
-      "Version": "0.15.0",
-      "Repository": "CRAN"
-    },
-    "rvest": {
-      "Source": "Repository",
-      "Package": "rvest",
-      "Version": "1.0.3",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "rvest",
-      "RemoteRef": "rvest",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.0.3"
-    },
-    "s2": {
-      "Source": "Repository",
-      "Package": "s2",
-      "Version": "1.1.5",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "s2",
-      "RemoteRef": "s2",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.1.5"
-    },
-    "sass": {
-      "Source": "Repository",
-      "Package": "sass",
-      "Version": "0.4.7",
-      "Repository": "CRAN"
-    },
-    "satellite": {
-      "Source": "Repository",
-      "Package": "satellite",
-      "Version": "1.0.4",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "satellite",
-      "RemoteRef": "satellite",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.0.4"
-    },
-    "scales": {
-      "Source": "Repository",
-      "Package": "scales",
-      "Version": "1.2.1",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "scales",
-      "RemoteRef": "scales",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.2.1"
     },
     "selectr": {
       "Source": "Repository",
@@ -1279,70 +1821,16 @@
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "0.4-2"
     },
-    "servr": {
-      "Source": "Repository",
-      "Package": "servr",
-      "Version": "0.27",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "servr",
-      "RemoteRef": "servr",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "0.27"
-    },
-    "sf": {
-      "Source": "Repository",
-      "Package": "sf",
-      "Version": "1.0-15",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "sf",
-      "RemoteRef": "sf",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.0-15"
-    },
-    "sfheaders": {
-      "Source": "Repository",
-      "Package": "sfheaders",
-      "Version": "0.4.3",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "sfheaders",
-      "RemoteRef": "sfheaders",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "0.4.3"
-    },
-    "shape": {
-      "Source": "Repository",
-      "Package": "shape",
-      "Version": "1.4.6",
-      "Repository": "CRAN"
-    },
     "slider": {
       "Source": "Repository",
       "Package": "slider",
       "Version": "0.3.1",
       "Repository": "CRAN"
     },
-    "sp": {
+    "snakecase": {
       "Source": "Repository",
-      "Package": "sp",
-      "Version": "1.6-0",
-      "Repository": "CRAN"
-    },
-    "stringi": {
-      "Source": "Repository",
-      "Package": "stringi",
-      "Version": "1.8.3",
-      "Repository": "CRAN"
-    },
-    "stringr": {
-      "Source": "Repository",
-      "Package": "stringr",
-      "Version": "1.5.1",
+      "Package": "snakecase",
+      "Version": "0.11.1",
       "Repository": "CRAN"
     },
     "svglite": {
@@ -1357,107 +1845,23 @@
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "2.1.3"
     },
-    "sys": {
-      "Source": "Repository",
-      "Package": "sys",
-      "Version": "3.4.2",
-      "Repository": "CRAN"
-    },
     "systemfonts": {
       "Source": "Repository",
       "Package": "systemfonts",
-      "Version": "1.0.4",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "systemfonts",
-      "RemoteRef": "systemfonts",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.0.4"
-    },
-    "tarchetypes": {
-      "Source": "Repository",
-      "Package": "tarchetypes",
-      "Version": "0.7.9",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "tarchetypes",
-      "RemoteRef": "tarchetypes",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "0.7.9"
-    },
-    "targets": {
-      "Source": "Repository",
-      "Package": "targets",
-      "Version": "1.3.2",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "targets",
-      "RemoteRef": "targets",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.3.2"
-    },
-    "terra": {
-      "Source": "Repository",
-      "Package": "terra",
-      "Version": "1.7-55",
+      "Version": "1.0.5",
       "Repository": "CRAN"
     },
     "textshaping": {
       "Source": "Repository",
       "Package": "textshaping",
-      "Version": "0.3.6",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "textshaping",
-      "RemoteRef": "textshaping",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "0.3.6"
-    },
-    "tibble": {
-      "Source": "Repository",
-      "Package": "tibble",
-      "Version": "3.2.1",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "tibble",
-      "RemoteRef": "tibble",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "3.2.1"
+      "Version": "0.3.7",
+      "Repository": "CRAN"
     },
     "tidymodels": {
       "Source": "Repository",
       "Package": "tidymodels",
       "Version": "1.1.1",
       "Repository": "CRAN"
-    },
-    "tidyr": {
-      "Source": "Repository",
-      "Package": "tidyr",
-      "Version": "1.3.0",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "tidyr",
-      "RemoteRef": "tidyr",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.3.0"
-    },
-    "tidyselect": {
-      "Source": "Repository",
-      "Package": "tidyselect",
-      "Version": "1.2.0",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "tidyselect",
-      "RemoteRef": "tidyselect",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.2.0"
     },
     "tidyverse": {
       "Source": "Repository",
@@ -1471,95 +1875,23 @@
       "RemotePkgPlatform": "aarch64-apple-darwin20",
       "RemoteSha": "2.0.0"
     },
-    "timeDate": {
-      "Source": "Repository",
-      "Package": "timeDate",
-      "Version": "4022.108",
-      "Repository": "CRAN"
-    },
-    "timechange": {
-      "Source": "Repository",
-      "Package": "timechange",
-      "Version": "0.2.0",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "timechange",
-      "RemoteRef": "timechange",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "0.2.0"
-    },
-    "tinytex": {
-      "Source": "Repository",
-      "Package": "tinytex",
-      "Version": "0.48",
-      "Repository": "CRAN"
-    },
     "tune": {
       "Source": "Repository",
       "Package": "tune",
       "Version": "1.1.2",
       "Repository": "CRAN"
     },
-    "tzdb": {
+    "visdat": {
       "Source": "Repository",
-      "Package": "tzdb",
-      "Version": "0.4.0",
-      "Repository": "CRAN"
-    },
-    "units": {
-      "Source": "Repository",
-      "Package": "units",
-      "Version": "0.8-5",
+      "Package": "visdat",
+      "Version": "0.6.0",
       "Repository": "CRAN",
       "RemoteType": "standard",
-      "RemotePkgRef": "units",
-      "RemoteRef": "units",
+      "RemotePkgRef": "visdat",
+      "RemoteRef": "visdat",
       "RemoteRepos": "https://cloud.r-project.org",
       "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "0.8-5"
-    },
-    "utf8": {
-      "Source": "Repository",
-      "Package": "utf8",
-      "Version": "1.2.4",
-      "Repository": "CRAN"
-    },
-    "uuid": {
-      "Source": "Repository",
-      "Package": "uuid",
-      "Version": "1.1-0",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "uuid",
-      "RemoteRef": "uuid",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.1-0"
-    },
-    "vctrs": {
-      "Source": "Repository",
-      "Package": "vctrs",
-      "Version": "0.6.5",
-      "Repository": "CRAN"
-    },
-    "viridis": {
-      "Source": "Repository",
-      "Package": "viridis",
-      "Version": "0.6.4",
-      "Repository": "CRAN"
-    },
-    "viridisLite": {
-      "Source": "Repository",
-      "Package": "viridisLite",
-      "Version": "0.4.2",
-      "Repository": "CRAN"
-    },
-    "vroom": {
-      "Source": "Repository",
-      "Package": "vroom",
-      "Version": "1.6.4",
-      "Repository": "CRAN"
+      "RemoteSha": "0.6.0"
     },
     "warp": {
       "Source": "Repository",
@@ -1567,70 +1899,10 @@
       "Version": "0.2.1",
       "Repository": "CRAN"
     },
-    "withr": {
-      "Source": "Repository",
-      "Package": "withr",
-      "Version": "2.5.2",
-      "Repository": "CRAN"
-    },
-    "wk": {
-      "Source": "Repository",
-      "Package": "wk",
-      "Version": "0.9.1",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "wk",
-      "RemoteRef": "wk",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "0.9.1"
-    },
-    "workflows": {
-      "Source": "Repository",
-      "Package": "workflows",
-      "Version": "1.1.3",
-      "Repository": "CRAN"
-    },
     "workflowsets": {
       "Source": "Repository",
       "Package": "workflowsets",
       "Version": "1.0.1",
-      "Repository": "CRAN"
-    },
-    "xfun": {
-      "Source": "Repository",
-      "Package": "xfun",
-      "Version": "0.41",
-      "Repository": "CRAN"
-    },
-    "xgboost": {
-      "Source": "Repository",
-      "Package": "xgboost",
-      "Version": "1.7.6.1",
-      "Repository": "CRAN",
-      "RemoteType": "standard",
-      "RemotePkgRef": "xgboost",
-      "RemoteRef": "xgboost",
-      "RemoteRepos": "https://cloud.r-project.org",
-      "RemotePkgPlatform": "aarch64-apple-darwin20",
-      "RemoteSha": "1.7.6.1"
-    },
-    "xml2": {
-      "Source": "Repository",
-      "Package": "xml2",
-      "Version": "1.3.6",
-      "Repository": "CRAN"
-    },
-    "yaml": {
-      "Source": "Repository",
-      "Package": "yaml",
-      "Version": "2.3.8",
-      "Repository": "CRAN"
-    },
-    "yardstick": {
-      "Source": "Repository",
-      "Package": "yardstick",
-      "Version": "1.2.0",
       "Repository": "CRAN"
     }
   }
