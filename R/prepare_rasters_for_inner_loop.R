@@ -18,11 +18,11 @@ prepare_rasters_for_inner_loop <- function(rasters = covariate_rasters,
 
   cli_warn(
     message = c(
-      "OK so interpret with caution here, Golding",
+      "Dear Golding: Interpret with caution",
       "The {.var no_mosquitoes_tested} and {.var no_mosquitoes_dead} values \\
       are totally made up because I haven't worked out how to find the \\
       nearest corresponding values, but I should have that sorted after \\
-      Mike tomorrow"
+      Mike tomorrow (10th April)"
     )
   )
   rasters_w_basic_info <- rasters_as_data %>%

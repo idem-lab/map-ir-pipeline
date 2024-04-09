@@ -269,7 +269,8 @@ tar_plan(
   pixel_maps = create_pixel_maps(
     predictions = outer_loop_results_spatial,
     rasters = raster_covariates
-    )
+    ),
+
 )
 
 # other target outcomes for plotting, country level resistance
