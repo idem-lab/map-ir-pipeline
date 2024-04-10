@@ -11,6 +11,7 @@
 prepare_rasters_for_inner_loop <- function(rasters,
                                            training_data,
                                            models) {
+
   insecticide_ids <- sort(unique(training_data$insecticide_id))
   chosen_year <- max(as.integer(training_data$start_year))
 
@@ -20,9 +21,9 @@ prepare_rasters_for_inner_loop <- function(rasters,
     message = c(
       "Dear Golding: Interpret with caution",
       "The {.var no_mosquitoes_tested} and {.var no_mosquitoes_dead} values \\
-      are totally made up because I haven't worked out how to find the \\
-      nearest corresponding values, but I should have that sorted after \\
-      Mike tomorrow (10th April)"
+      are totally made up because I haven't worked out how to populate the \\
+      raster with corresponding values from the training data...hopefully \\
+      that makes sense!"
     )
   )
   rasters_w_basic_info <- rasters_as_data %>%
