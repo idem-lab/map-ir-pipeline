@@ -14,29 +14,39 @@ join_rasters_to_mosquito_data <- function(rasters = raster_covariates,
   cli_inform(
     message = c(
       "Using extraction method: {.var {extract_method}}",
-      "In {.fn extract_from_raster}"
+      "In {.fn join_rasters_to_mosquito_data}"
     )
   )
 
-  extracted_raster_covariates <- extract_from_raster(
-    raster = rasters,
-    ir_data_subset = mosquito_data,
-    extract_method = extract_method
-  ) %>%
-    # impute 0 into missing values for all rasters
+  data_pts <- vect(
+    mosquito_data,
+    geom = c("longitude", "latitude"),
+    crs = "EPSG:4326"
+    )
+
+  ir_data_subset_spatial_covariates <- extract(
+    rasters,
+    data_pts,
+    method = extract_method,
+    xy = TRUE,
+    bind = TRUE
+  ) |>
+    as.data.frame() |>
+    as_tibble(.name_repair = make_clean_names) |>
+    rename(
+      longitude = x,
+      latitude = y
+    ) |>
+    relocate(
+      latitude,
+      longitude,
+      .after = end_year
+    ) |>
     mutate(
       across(
         .cols = everything(),
         .fns = impute_zero
       )
     )
-
-  ir_data_subset_spatial_covariates <- left_join(
-    mosquito_data,
-    extracted_raster_covariates,
-    by = c("uid", "country")
-  )
-
-  ir_data_subset_spatial_covariates
 
 }
