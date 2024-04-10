@@ -7,7 +7,7 @@
 #' @return
 #' @author njtierney
 #' @export
-create_pixel_maps <- function(predictions = outer_loop_results_spatial,
+create_pixel_map_data <- function(predictions = outer_loop_results_spatial,
                               rasters = raster_covariates) {
   # TODO
   # make this work for all rasters

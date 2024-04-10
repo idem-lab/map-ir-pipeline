@@ -20,6 +20,8 @@ spatial_prediction <- function(covariate_rasters = raster_covariates,
     mosquito_data = training_data
   )
 
+  browser()
+
   rasters_for_inner_loop <- prepare_rasters_for_inner_loop(
     raster = covariate_rasters,
     training_data = training_data,

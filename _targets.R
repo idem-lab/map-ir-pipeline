@@ -239,7 +239,7 @@ tar_plan(
 
   # Predictions are made back to every pixel of map + year (spatiotemporal)
   # this puts them out into a raster, for each of raster_covariates
-  pixel_maps = create_pixel_maps(
+  pixel_maps = create_pixel_map_data(
     predictions = outer_loop_results_spatial,
     rasters = raster_covariates
     ),

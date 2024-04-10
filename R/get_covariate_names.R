@@ -14,7 +14,9 @@ get_covariate_names <- function(
       "country",
       "percent_mortality",
       "type",
-      "insecticide"
+      "insecticide",
+      "no_mosquitoes_tested",
+      "no_mosquitoes_dead"
       )
     ) {
   vars_to_remove <- paste0(remove_vars,collapse = "|")
