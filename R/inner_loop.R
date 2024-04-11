@@ -28,7 +28,7 @@ inner_loop <- function(data,
     in_sample_data = ir_data_mn_star,
     level_zero_model_list = level_zero_models,
     new_data = new_data,
-    n_insecticides = 5
+    n_insecticides = max(unique(ir_data_mn_star$insecticide_id))
   )
 
   super_learner_oos <- fit_super_learner(
