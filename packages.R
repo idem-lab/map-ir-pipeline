@@ -2,6 +2,7 @@
 library(cli)
 library(conflicted)
 library(countrycode)
+library(crew)
 library(dotenv)
 library(fs)
 library(glue)
