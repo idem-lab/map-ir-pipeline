@@ -26,5 +26,7 @@ predict_l1_with_in_sample_covariates <- function(in_sample_covariates =
     .f = \(x) predict(super_learner_fits,x)
   ) %>% rename_to_pred_insectide_id()
 
+  gp_inla_data_n_star_is_pred
+
 
 }
