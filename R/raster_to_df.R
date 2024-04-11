@@ -19,4 +19,5 @@ raster_to_df <- function(raster) {
       latitude = x,
       longitude = y
     )
+  raster_tibble
 }
