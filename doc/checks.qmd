@@ -1,0 +1,153 @@
+---
+title: "Untitled Draft"
+author: "Report Author"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+format: html
+---
+
+```{r}
+#| label: setup
+#| include: false
+knitr::opts_chunk$set(echo = TRUE)
+## target knits qmds in their own session, so load libraries here.
+source(here::here("packages.R"))
+source(here::here("conflicts.R"))
+## if you want access to the functions you've written
+lapply(list.files(here::here("./R"), full.names = TRUE), source)
+```
+
+```{r}
+#| label: load-targets
+#| include: false
+# tar_load(c(target_1, target_2, target_3))
+
+# # If your chunk output is shown in-line, then you'll need to wrap tar_load()
+# # like so:
+# 
+withr::with_dir(here::here(), {
+  tar_load(
+    c(
+      moyes_pheno_raw,
+      moyes_pheno_prepared,
+      moyes_geno_raw,
+      moyes_geno_prepared,
+      moyes_geno_pheno,
+      ir_data,
+      ir_data_sf_key,
+      ir_data_sf_key_subset,
+      all_spatial_covariates
+      )
+  )
+})
+# 
+# # This is not needed when using tar_make() to render the document.
+```
+
+## Checks
+
+```{r}
+#| label: summarise-pheno-raw
+#| warning: false
+summarise_not_recorded(moyes_pheno_raw)
+summarise_not_found(moyes_pheno_raw)
+```
+
+
+```{r}
+#| label: summarise-pheno-prep
+check_back_calculate_no_dead(moyes_pheno_prepared)
+check_mortality(moyes_pheno_prepared)
+```
+
+
+```{r}
+#| label: summarise-pheno-geno-raw
+#| warning: false
+summarise_not_recorded(moyes_geno_raw)
+summarise_not_found(moyes_geno_raw)
+```
+
+
+```{r}
+#| label: summarise-geno-prep
+check_back_calculate_no_dead(moyes_geno_prepared)
+check_mortality(moyes_geno_prepared)
+```
+
+```{r}
+#| label: summarise-pheno-geno
+# there are times where PCT mortality is recorded, but neither tested or dead?
+why_pct_mortality(moyes_geno_pheno)
+vis_miss(
+    moyes_geno_pheno,
+    sort_miss = TRUE,
+    cluster = TRUE
+  )
+```
+
+
+```{r}
+#| label: summarise-ir-data
+vis_miss(
+    ir_data,
+    sort_miss = TRUE,
+    cluster = TRUE
+  )
+count(ir_data, country, type, sort = TRUE)
+```
+
+```{r}
+#| label: leaflet
+library(leaflet)
+```
+
+
+```{r}
+#| label: summarise-ir-data-sf-key
+ir_data_sf_key |> 
+  leaflet() |> 
+  addTiles() |> 
+  addCircles()
+```
+
+```{r}
+#| label: summarise-ir-data-sf-key-subset
+ir_data_sf_key_subset |> 
+  leaflet() |> 
+  addTiles() |> 
+  addCircles()
+```
+
+```{r}
+#| label: summarise-all-spatial-covariates
+vis_miss(
+    all_spatial_covariates,
+    sort_miss = TRUE,
+    cluster = TRUE
+  )
+```
+
+
+## Reproducibility
+
+<details><summary>Reproducibility receipt</summary>
+
+```{r}
+## datetime
+Sys.time()
+
+## repository
+if(requireNamespace('git2r', quietly = TRUE)) {
+  git2r::repository()
+} else {
+  c(
+    system2("git", args = c("log", "--name-status", "-1"), stdout = TRUE),
+    system2("git", args = c("remote", "-v"), stdout = TRUE)
+  )
+}
+
+## session info
+sessionInfo()
+```
+
+</details>
