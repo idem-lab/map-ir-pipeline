@@ -40,21 +40,13 @@ tar_plan(
   ),
   moyes_pheno_raw = read_csv_clean(moyes_pheno_path),
 
-  ## Checking functions
-  moyes_pheno_count_nr = summarise_not_recorded(moyes_pheno_raw),
-  moyes_pheno_count_nf = summarise_not_found(moyes_pheno_raw),
   gambiae_complex_list = create_valid_gambiae(),
   moyes_pheno_prepared = prepare_pheno_data(
     moyes_pheno_raw,
     gambiae_complex_list
   ),
 
-  ## Checking functions
-  moyes_pheno_check_dead = check_back_calculate_no_dead(moyes_pheno_prepared),
-  moyes_pheno_check_pct_mort = check_mortality(moyes_pheno_prepared),
   moyes_geno_raw = read_csv_clean(moyes_geno_path),
-  moyes_geno_count_nr = summarise_not_recorded(moyes_geno_raw),
-  moyes_geno_count_nf = summarise_not_found(moyes_geno_raw),
 
   ## TODO this can be an expensive operation taking 15 minutes
   ## Need to explore other option for hard coding this
@@ -65,44 +57,21 @@ tar_plan(
     moyes_geno_raw,
     moyes_geno_countries
   ),
-  ## Checking functions
-  moyes_geno_check_dead = check_back_calculate_no_dead(moyes_geno_prepared),
-  moyes_geno_check_pct_mort = check_mortality(moyes_geno_prepared),
-  geno_pheno_match = check_pheno_geno_match(
-    moyes_pheno_prepared,
-    moyes_geno_prepared
-  ),
-  moyes_geno_pheno = combine_pheno_geno(
-    geno_pheno_match,
-    moyes_pheno_prepared,
-    moyes_geno_prepared
-  ),
 
-  ## Checking functions
-  # there are times where PCT mortality is recorded, but neither tested or dead?
-  explore_pct_mortality = why_pct_mortality(moyes_geno_pheno),
-  vis_miss_moyes = vis_miss(
-    moyes_geno_pheno,
-    sort_miss = TRUE,
-    cluster = TRUE
+  moyes_geno_pheno = combine_pheno_geno(
+    moyes_pheno_prepared,
+    moyes_geno_prepared
   ),
 
   # explicitly drop NA values
   ir_data = create_ir_data(moyes_geno_pheno),
 
-  ## Checking functions
-  vis_miss_ir_data = vis_miss(
-    ir_data,
-    sort_miss = TRUE,
-    cluster = TRUE
-  ),
+  tar_quarto(q_explore, "doc/explore.qmd"),
+  tar_quarto(q_checks, "doc/checks.qmd"),
 
   # Create a spatial dataset with linked ID so we can join this on later
   ir_data_sf_key = create_sf_id(ir_data),
 
-  # Check the map
-  ir_data_map = mapview(ir_data_sf_key),
-  ir_country_count = count(ir_data, country, type, sort = TRUE),
   # setup analysis to work on a few countries
   subset_countries = c("Kenya", "Tanzania", "Benin"),
   ir_data_subset = filter(ir_data, country %in% subset_countries),
@@ -111,7 +80,6 @@ tar_plan(
     ir_data_subset,
     by = "uid"
   ),
-  ir_data_map_subset = mapview(ir_data_sf_key_subset),
 
   # get cropland data from geodata package
   subset_country_codes = map_dfr(subset_countries, country_codes),
@@ -171,12 +139,6 @@ tar_plan(
     mosquito_data = ir_data_subset
   ),
 
-  ## Checking functions
-  vis_miss_covariates = vis_miss(
-    all_spatial_covariates,
-    sort_miss = TRUE,
-    cluster = TRUE
-  ),
   ir_data_mn = left_join(
     ir_data_subset,
     all_spatial_covariates,
@@ -253,6 +215,19 @@ tar_plan(
     create_pixel_map_data(
       predictions = outer_loop_results_spatial,
       rasters = raster_covariates
+    )
+  ),
+
+  tar_target(
+    pixel_map_paths,
+    here("plots/pixel-maps-insecticide-1-5.png")
+  ),
+
+  tar_file(
+    pixel_map_plots,
+    save_plot(
+      path = pixel_map_paths,
+      raster = pixel_maps
     )
   )
 

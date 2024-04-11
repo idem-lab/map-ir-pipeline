@@ -9,6 +9,7 @@ library(glue)
 library(geodata)
 # from njtierney/geotargets
 library(geotargets)
+library(here)
 library(janitor)
 library(mapview)
 library(naniar)
@@ -27,3 +28,4 @@ library(xgboost)
 library(sds)
 # from hypertidy/dsn
 library(dsn)
+library(quarto)

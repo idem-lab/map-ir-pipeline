@@ -8,9 +8,14 @@
 #' @return
 #' @author njtierney
 #' @export
-combine_pheno_geno <- function(geno_pheno_match,
-                               moyes_pheno_prepared,
+combine_pheno_geno <- function(moyes_pheno_prepared,
                                moyes_geno_prepared) {
+
+  geno_pheno_match <- check_pheno_geno_match(
+    moyes_pheno_prepared,
+    moyes_geno_prepared
+  )
+
   if (!geno_pheno_match$match) {
     abort("Genotypic and Phenotypic data do not match, see `geno_pheno_match`")
   }
