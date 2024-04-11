@@ -22,7 +22,13 @@ create_pixel_map_data <- function(predictions = outer_loop_results_spatial,
   # TODO
   # make this work for all rasters
   prediction_raster[] <- NA
-  prediction_raster[which_cells_not_missing] <- predictions[[1]][[1]]
 
-  prediction_raster
+  prediction_rasters <- map(
+    .x = predictions,
+    .f = function(predictions){
+      `[<-`(prediction_raster, which_cells_not_missing, value = predictions)
+    }
+  )
+
+  rast(prediction_rasters)
 }

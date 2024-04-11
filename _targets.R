@@ -43,7 +43,6 @@ tar_plan(
   ## Checking functions
   moyes_pheno_count_nr = summarise_not_recorded(moyes_pheno_raw),
   moyes_pheno_count_nf = summarise_not_found(moyes_pheno_raw),
-
   gambiae_complex_list = create_valid_gambiae(),
   moyes_pheno_prepared = prepare_pheno_data(
     moyes_pheno_raw,
@@ -116,7 +115,6 @@ tar_plan(
 
   # get cropland data from geodata package
   subset_country_codes = map_dfr(subset_countries, country_codes),
-
   tar_terra_vect(
     country_shapefile,
     cgaz_country(subset_country_codes$NAME)
@@ -148,12 +146,12 @@ tar_plan(
   tar_terra_rast(
     raster_countries_trees,
     resample(raster_trees, reference_rast) %>%
-    crop_raster_to_country(reference_rast)
+      crop_raster_to_country(reference_rast)
   ),
   ## Currently removing these as they don't subset to the right countries
   # tar_terra_rast(
   #   raster_countries_elevation,
-    # get_elevation(subset_country_codes)
+  # get_elevation(subset_country_codes)
   # ),
   # tar_terra_rast(
   #   raster_countries_worldclimate,
@@ -162,11 +160,12 @@ tar_plan(
   # this step should make the rasters match extent etc
   tar_terra_rast(
     raster_covariates,
-    c(raster_countries_trees,
+    c(
+      raster_countries_trees,
       raster_countries_veg,
-      raster_countries_coffee)
+      raster_countries_coffee
+    )
   ),
-
   all_spatial_covariates = join_rasters_to_mosquito_data(
     rasters = raster_covariates,
     mosquito_data = ir_data_subset
@@ -214,14 +213,12 @@ tar_plan(
     outcomes = "percent_mortality",
     predictors = model_covariates
   ),
-
   inla_mesh = create_mesh(ir_data),
   gp_inla_setup = setup_gp_inla_model(
     covariate_names = names(model_list),
     outcome = "percent_mortality",
     mesh = inla_mesh
   ),
-
   out_of_sample_predictions = model_validation(
     covariate_rasters = raster_covariates,
     training_data = ir_data_subset,
@@ -251,10 +248,13 @@ tar_plan(
 
   # Predictions are made back to every pixel of map + year (spatiotemporal)
   # this puts them out into a raster, for each of raster_covariates
-  pixel_maps = create_pixel_map_data(
-    predictions = outer_loop_results_spatial,
-    rasters = raster_covariates
+  tar_terra_rast(
+    pixel_maps,
+    create_pixel_map_data(
+      predictions = outer_loop_results_spatial,
+      rasters = raster_covariates
     )
+  )
 
 ) |>
   tar_hook_before(
