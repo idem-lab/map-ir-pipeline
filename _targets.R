@@ -1,5 +1,6 @@
 ## Load your packages, e.g. library(targets).
 source("./packages.R")
+source("./conflicts.R")
 
 ## Load your R files
 tar_source()
@@ -56,6 +57,9 @@ tar_plan(
   moyes_geno_count_nr = summarise_not_recorded(moyes_geno_raw),
   moyes_geno_count_nf = summarise_not_found(moyes_geno_raw),
 
+  ## TODO this can be an expensive operation taking 15 minutes
+  ## Need to explore other option for hard coding this
+  ## or saving more static/friendly output
   moyes_geno_geocode = geocode_geno_data(moyes_geno_raw),
   moyes_geno_countries = extract_country(moyes_geno_geocode),
   moyes_geno_prepared = prepare_geno_data(
@@ -252,6 +256,10 @@ tar_plan(
     rasters = raster_covariates
     )
 
-)
+) |>
+  tar_hook_before(
+    hook = source("conflicts.R"),
+    names = everything()
+  )
 
 # other target outcomes for plotting, country level resistance
