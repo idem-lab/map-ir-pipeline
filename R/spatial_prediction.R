@@ -25,11 +25,11 @@ spatial_prediction <- function(covariate_rasters = raster_covariates,
   rasters_as_data <- raster_to_df(covariate_rasters)
 
   ## TODO
-  ## I'm not sure on the values that we want to provide here for this raster
-  ## currently this just gives them some choice start year, month, end year,
-  ## end month, and also sets insecticide_id to be 1
-  ## Later on the model gets fit with each insecticide, but I'm a little bit
-  ## uncertain here of this process, so just flagging this
+  ## I'm not 100% sure on the values we want to provide here for this raster
+  ## currently this gives them some selected start year, month, end year,
+  ## end month, and also sets insecticide_id to be 1.
+  ## The model later fits each insecticide separately, BUT this data is  used
+  ## again in fitting. I'm uncertain the below is right?
   rasters_w_basic_info <- rasters_as_data %>%
     mutate(
       start_year = chosen_year,
