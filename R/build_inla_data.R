@@ -17,8 +17,6 @@ build_inla_data <- function(ir_data,
   covariate_names <- covariate_data %>%
     select(-starts_with("fold")) %>%
     names() %>%
-    ## TODO
-    ## Unsure about adding "type" here since there's only one level of the data?
     c(., "insecticide_id")
 
   workflow <- build_workflow(model_spec,

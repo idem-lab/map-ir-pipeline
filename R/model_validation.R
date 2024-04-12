@@ -20,10 +20,6 @@ model_validation <- function(covariate_rasters = all_spatial_covariates,
     mosquito_data = training_data
   )
 
-  ## TODO
-  ## Does insecticide_id need to be a factor? It's currently an integer
-  ## Converting it to factor breaks the analysis...
-
   ## Returns one set of predictions because we fit the L1 model
   ## out from L0 models in here
   ## NOTE: this is to evaluate how good our model/process is

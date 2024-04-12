@@ -151,12 +151,6 @@ tar_plan(
   # dropping generation as it is missing too many values
   other_covariates = c("start_year", "insecticide_id"),
   model_covariates = unique(c(other_covariates, spatial_covariate_names)),
-  # TODO fold this check into model_validate
-  ## Checking function
-  # predictors_missing = check_if_model_inputs_missing(
-  #   model_covariates,
-  #   ir_data_mn
-  # ),
 
   # specify the details for the different models ahead of time
   # hyperparameters are hard coded internally inside these functions
@@ -194,10 +188,6 @@ tar_plan(
   # --- model deployment to rasters -----
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)
-  ## TODO: remember to manage the length of the predictions so we only get
-  ## out length N out of sample predictions (the phenotypic predictions).
-  ## might be easiest to pad out the genotypic (M) predictions with NA values
-
   outer_loop_results_spatial = spatial_prediction(
     covariate_rasters = raster_covariates,
     training_data = ir_data_subset,
