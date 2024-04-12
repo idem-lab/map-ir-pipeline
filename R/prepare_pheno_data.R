@@ -29,7 +29,6 @@ prepare_pheno_data <- function(moyes_pheno_raw, gambiae_complex_list) {
   ir_data_contains_nf <- which_vars_contain(ir_data_subset, "NF")
 
   prepared_moyes <- ir_data_subset %>%
-    # replace NR values with NA
     mutate(
       across(
         all_of(ir_data_contains_nr),

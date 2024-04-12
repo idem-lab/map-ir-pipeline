@@ -18,7 +18,6 @@ predict_out_of_sample_level_zero_models <- function(in_sample_data,
     .f = \(x) fit(object = x, data = in_sample_data)
   )
 
-
   in_sample_covariates <- create_in_sample_covariates(
     workflow_list = in_sample_predictions,
     data = new_data,

@@ -9,7 +9,7 @@
 #' @author njtierney
 #' @export
 predict_level_one_with_in_sample_covariates <- function(in_sample_covariates,
-                                                        super_learner_fits) {
+                                                        level_one_fits) {
   ## L1 model gets fit here with .preds as covariates/predictors
   ## AND the original response data as the response
   ## which is the (transformed) percent_mortality
@@ -19,7 +19,7 @@ predict_level_one_with_in_sample_covariates <- function(in_sample_covariates,
   # that gives a prediction of length N*
   gp_inla_data_n_star_is_pred <- map_dfc(
     .x = in_sample_covariates,
-    .f = \(x) predict(super_learner_fits, x)
+    .f = \(x) predict(level_one_fits, x)
   ) %>% rename_to_pred_insectide_id()
 
   gp_inla_data_n_star_is_pred

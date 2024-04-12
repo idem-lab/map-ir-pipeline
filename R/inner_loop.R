@@ -31,7 +31,7 @@ inner_loop <- function(data,
     n_insecticides = max(unique(ir_data_mn_star$insecticide_id))
   )
 
-  super_learner_oos <- fit_super_learner(
+  level_one_oos <- fit_level_one_model(
     ir_data = ir_data_n_star,
     covariate_data = oos_covariates,
     level_one_model_setup = level_one_model_setup
@@ -43,7 +43,7 @@ inner_loop <- function(data,
   # is = in sample
   gp_inla_data_n_star_is_pred <- predict_level_one_with_in_sample_covariates(
     in_sample_covariates = in_sample_covariates,
-    super_learner_fits = super_learner_oos
+    level_one_fits = level_one_oos
   )
 
   gp_inla_data_n_star_is_pred
