@@ -34,10 +34,6 @@ tar_plan(
     moyes_pheno_path,
     "data/2_standard-WHO-susc-test_species.csv"
   ),
-  tar_file(
-    moyes_geno_path,
-    "data/6_Vgsc-allele-freq_complex-subgroup.csv"
-  ),
   moyes_pheno_raw = read_csv_clean(moyes_pheno_path),
 
   gambiae_complex_list = create_valid_gambiae(),
@@ -46,6 +42,10 @@ tar_plan(
     gambiae_complex_list
   ),
 
+  tar_file(
+    moyes_geno_path,
+    "data/6_Vgsc-allele-freq_complex-subgroup.csv"
+  ),
   moyes_geno_raw = read_csv_clean(moyes_geno_path),
 
   moyes_geno_geocode = geocode_geno_data(moyes_geno_raw),
@@ -136,11 +136,6 @@ tar_plan(
     mosquito_data = ir_data_subset
   ),
 
-  ir_data_mn = left_join(
-    ir_data_subset,
-    all_spatial_covariates,
-    by = c("uid", "country")
-  ),
   complete_spatial_covariates = identify_complete_vars(
     all_spatial_covariates
   ),
@@ -186,8 +181,8 @@ tar_plan(
   plot_diagnostics = gg_diagnostics(oos_diagnostics),
 
   # --- model deployment to rasters -----
-  # We get out a set of out of sample predictions of length N
-  # Which we can compare to the true data (y-hat vs y)
+  # Predictions are made to every pixel of map + year (spatiotemporal)
+  # Year is currently fixed
   outer_loop_results_spatial = spatial_prediction(
     covariate_rasters = raster_covariates,
     training_data = ir_data_subset,
@@ -195,10 +190,11 @@ tar_plan(
     inla_mesh_setup = gp_inla_setup
   ),
 
-  # Predictions are made back to every pixel of map + year (spatiotemporal)
-  # this puts them out into a raster, for each of raster_covariates
+  # We get out a set of out of sample predictions of length N
+  # Which we can compare to the true data (y-hat vs y)
+
   tar_terra_rast(
-    pixel_maps,
+    pixel_maps_data,
     create_pixel_map_data(
       predictions = outer_loop_results_spatial,
       rasters = raster_covariates
@@ -206,15 +202,15 @@ tar_plan(
   ),
 
   tar_target(
-    pixel_map_paths,
+    pixel_maps_paths,
     here("plots/pixel-maps-insecticide-1-5.png")
   ),
 
   tar_file(
     pixel_map_plots,
     save_plot(
-      path = pixel_map_paths,
-      raster = pixel_maps
+      path = pixel_maps_paths,
+      raster = pixel_maps_data
     )
   )
 
@@ -223,5 +219,3 @@ tar_plan(
     hook = source("conflicts.R"),
     names = everything()
   )
-
-# other target outcomes for plotting, country level resistance

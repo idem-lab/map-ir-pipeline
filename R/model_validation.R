@@ -20,11 +20,8 @@ model_validation <- function(covariate_rasters = all_spatial_covariates,
     mosquito_data = training_data
   )
 
-  ## Returns one set of predictions because we fit the L1 model
-  ## out from L0 models in here
-  ## NOTE: this is to evaluate how good our model/process is
-  ## API Note: This part is separate to raster prediction, so we might want
-  ## to consider keeping this as a logical/flagging step so we
+  # Returns a set of predictions per test set, fitting L1 model from L0 models
+  # to evaluate how good our model/process is
 
   # m = Number of rows of full **genotypic** data
   # n = Number of rows of full **phenotypic** data
@@ -40,8 +37,6 @@ model_validation <- function(covariate_rasters = all_spatial_covariates,
   # Every time we run inner loop, we give it a prediction set
   # N x 0.1 and M x 0.1
 
-  # ---- model validation ---- #
-  # We need to fit each of the L0 models, 11 times
   training_data <- map(ir_data_mn_folds$splits, training)
   testing_data <- map(ir_data_mn_folds$splits, testing)
 
