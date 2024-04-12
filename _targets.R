@@ -48,9 +48,6 @@ tar_plan(
 
   moyes_geno_raw = read_csv_clean(moyes_geno_path),
 
-  ## TODO this can be an expensive operation taking 15 minutes
-  ## Need to explore other option for hard coding this
-  ## or saving more static/friendly output
   moyes_geno_geocode = geocode_geno_data(moyes_geno_raw),
   moyes_geno_countries = extract_country(moyes_geno_geocode),
   moyes_geno_prepared = prepare_geno_data(

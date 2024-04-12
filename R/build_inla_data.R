@@ -18,8 +18,7 @@ build_inla_data <- function(ir_data,
     select(-starts_with("fold")) %>%
     names() %>%
     ## TODO
-    ## Not sure about adding "type" here since there is only one level of
-    ## the data?
+    ## Unsure about adding "type" here since there's only one level of the data?
     c(., "insecticide_id")
 
   workflow <- build_workflow(model_spec,
