@@ -47,11 +47,14 @@ tar_plan(
     "data/6_Vgsc-allele-freq_complex-subgroup.csv"
   ),
   moyes_geno_raw = read_csv_clean(moyes_geno_path),
+  moyes_geno_no_na_long_lat = drop_na_long_lat_moyes(moyes_geno_raw),
 
-  moyes_geno_geocode = geocode_geno_data(moyes_geno_raw),
-  moyes_geno_countries = extract_country(moyes_geno_geocode),
+  moyes_geno_countries = extract_country(
+    africa_df = moyes_geno_no_na_long_lat,
+    shapefile = africa_shapefile
+  ),
   moyes_geno_prepared = prepare_geno_data(
-    moyes_geno_raw,
+    moyes_geno_no_na_long_lat,
     moyes_geno_countries
   ),
 
@@ -78,11 +81,24 @@ tar_plan(
     by = "uid"
   ),
 
-  # get cropland data from geodata package
-  subset_country_codes = map_dfr(subset_countries, country_codes),
+  tar_target(
+    africa_countries,
+    create_africa_country_list()
+  ),
+
+  tar_terra_vect(
+    africa_shapefile,
+    cgaz_country(africa_countries$iso3c)
+  ),
+
+  subset_country_codes = countrycode(
+    sourcevar = subset_countries,
+    origin = "country.name",
+    destination = "iso3c"
+  ),
   tar_terra_vect(
     country_shapefile,
-    cgaz_country(subset_country_codes$NAME)
+    cgaz_country(subset_country_codes)
   ),
   tar_terra_rast(
     raster_coffee,

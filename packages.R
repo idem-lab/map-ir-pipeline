@@ -1,4 +1,6 @@
 ## library() calls go here
+# from afrimapr/afriadmin
+library(afriadmin)
 library(cli)
 library(conflicted)
 library(countrycode)
@@ -19,7 +21,6 @@ library(rlang)
 library(sf)
 library(targets)
 library(tarchetypes)
-library(tidygeocoder)
 library(tidymodels)
 library(tidyverse)
 library(visdat)
