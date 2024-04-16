@@ -73,7 +73,7 @@ tar_plan(
   ir_data_sf_key = create_sf_id(ir_data),
 
   # setup analysis to work on a few countries
-  subset_countries = c("Kenya", "Tanzania", "Benin"),
+  subset_countries = c("Benin", "Nigeria", "Cameroon", "Togo", "Ghana", "Burkina Faso", "Niger", "Chad", "Central African Republic"),
   ir_data_subset = filter(ir_data, country %in% subset_countries),
   ir_data_sf_key_subset = semi_join(
     ir_data_sf_key,
