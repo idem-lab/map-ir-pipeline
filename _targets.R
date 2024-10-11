@@ -73,7 +73,7 @@ tar_plan(
   ir_data_sf_key = create_sf_id(ir_data),
 
   # setup analysis to work on a few countries
-  subset_countries = c("Kenya", "Tanzania", "Benin"),
+  subset_countries = c("Benin", "Nigeria"),
   ir_data_subset = filter(ir_data, country %in% subset_countries),
   ir_data_sf_key_subset = semi_join(
     ir_data_sf_key,
@@ -126,8 +126,7 @@ tar_plan(
   ),
   tar_terra_rast(
     raster_countries_trees,
-    resample(raster_trees, reference_rast) %>%
-      crop_raster_to_country(reference_rast)
+    crop_raster_to_country(raster_trees, reference_rast)
   ),
   ## Currently removing these as they don't subset to the right countries
   # tar_terra_rast(
@@ -142,7 +141,7 @@ tar_plan(
   tar_terra_rast(
     raster_covariates,
     c(
-      raster_countries_trees,
+      # raster_countries_trees,
       raster_countries_veg,
       raster_countries_coffee
     )
@@ -177,17 +176,18 @@ tar_plan(
     outcomes = "percent_mortality",
     predictors = model_covariates
   ),
-  inla_mesh = create_mesh(ir_data),
+  inla_meshes = create_meshes(ir_data_subset),
   gp_inla_setup = setup_gp_inla_model(
+    ir_data_subset,
     covariate_names = names(model_list),
     outcome = "percent_mortality",
-    mesh = inla_mesh
+    meshes = inla_meshes
   ),
   out_of_sample_predictions = model_validation(
     covariate_rasters = raster_covariates,
     training_data = ir_data_subset,
     level_zero_models = model_list,
-    inla_mesh_setup = gp_inla_setup
+    inla_setup = gp_inla_setup
   ),
   ir_data_mn_oos_predictions = bind_cols(
     .preds = bind_rows(out_of_sample_predictions),

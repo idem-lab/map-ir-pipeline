@@ -11,7 +11,7 @@ create_africa_country_list <- function() {
 
   afriadmin::afcountries |>
     mutate(
-      alt_name = countrycode(
+      alt_name = countrycode::countrycode(
         sourcevar = iso3c,
         origin = "iso3c",
         destination = "country.name"
