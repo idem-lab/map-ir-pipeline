@@ -13,16 +13,20 @@ predict_out_of_sample_level_zero_models <- function(in_sample_data,
                                                     new_data,
                                                     n_insecticides) {
 
-  in_sample_predictions <- map(
+  # fit models to full training dataset
+  in_sample_fitted <- map(
     .x = level_zero_model_list,
     .f = \(x) fit(object = x, data = in_sample_data)
   )
 
-  in_sample_covariates <- create_in_sample_covariates(
-    workflow_list = in_sample_predictions,
-    data = new_data,
-    n_insecticides = n_insecticides
-  )
+  # and predict to full prediction dataset (messing around with names)
+  old_names <- names(in_sample_fitted)
+  names(in_sample_fitted) <- paste0(".pred_", old_names)
+  in_sample_covariates <- map_dfc(
+    in_sample_fitted,
+    \(x) predict(x, new_data)
+  ) %>%
+    set_names(old_names)
 
   in_sample_covariates
 
