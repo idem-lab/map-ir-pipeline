@@ -6,14 +6,14 @@
 #' @param covariate_rasters
 #' @param training_data
 #' @param level_zero_models
-#' @param inla_mesh_setup
+#' @param inla_setup
 #' @return
 #' @author njtierney
 #' @export
-model_validation <- function(covariate_rasters = all_spatial_covariates,
-                             training_data = ir_data_mn_folds,
-                             level_zero_models = model_list,
-                             inla_mesh_setup = gp_inla_setup) {
+model_validation <- function(covariate_rasters,
+                             training_data,
+                             level_zero_models,
+                             inla_setup) {
 
   ir_data_subset_spatial_covariates <- join_rasters_to_mosquito_data(
     rasters = covariate_rasters,
@@ -40,15 +40,20 @@ model_validation <- function(covariate_rasters = all_spatial_covariates,
   training_data <- map(ir_data_mn_folds$splits, training)
   testing_data <- map(ir_data_mn_folds$splits, testing)
 
+  # The level 1 model only considers phenotypic data (though we train the L0 on
+  # genottypic too), so only retain phenotypic data in the testing data here
+  testing_data_pheno <- testing_data %>%
+    map(\(x) filter(x, type == "phenotypic"))
+
   model_for_validation <- map2(
     .x = training_data,
-    .y = testing_data,
+    .y = testing_data_pheno,
     .f = function(.x, .y) {
       inner_loop(
         data = .x,
         new_data = .y,
         level_zero_models = level_zero_models,
-        level_one_model_setup = inla_mesh_setup
+        level_one_model_setup = inla_setup
       )
     }
   )
