@@ -30,3 +30,5 @@ library(sds)
 # from hypertidy/dsn
 library(dsn)
 library(quarto)
+# from INLA website: https://www.r-inla.org/download-install
+library(INLA)
