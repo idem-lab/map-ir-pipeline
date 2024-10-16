@@ -19,12 +19,15 @@ fit_predict_level_one_model <- function(training_data,
   # set up the data objects for fitting and prediction, based on Penny's code
 
   # need to create separate objects and terms for each of the different
-  # insecticides, and stack them together
+  # insecticides, and for training and prediction for each, and stack them
+  # together
+
+  # the insecticides we are modelling
+  insecticide_ids <- sort(unique(prediction_data$insecticide_id))
 
   # get the number of groups (insecticide types modelled simultaneously) and the
   # names of the covariates/models used in stacking
-  n_groups <- length(level_one_model_setup$temporal_effects)
-  group_vec <- seq_len(n_groups)
+  n_groups <- length(insecticide_ids)
   covariate_names <- names(training_covariates)
 
   # get the mesh and SPDE objects
@@ -38,8 +41,7 @@ fit_predict_level_one_model <- function(training_data,
   # just need to split on insecticide type, e.g. with a grouping/filtering
   # statement.
 
-  # Need to work out what format each of Penny and Nick T are using for the
-  # training and prediction data to amke sure they match
+  # compute the year from various temporal information
 
   # combine required training data and covariates
   training_all <- training_data %>%
@@ -53,12 +55,16 @@ fit_predict_level_one_model <- function(training_data,
     mutate(
       mort = percent_mortality,
       w = 1,
-      year = "?"
+      year = year_midpoint(start_year = start_year,
+                           start_month = start_month,
+                           end_year = end_year,
+                           end_month = end_month)
     ) %>%
     # keep the stuff we need from here
     select(mort,
            w,
            year,
+           insecticide_id,
            x, y, z) %>%
     # and add on the level 0 OOS covariates
     bind_cols(training_covariates)
@@ -75,12 +81,16 @@ fit_predict_level_one_model <- function(training_data,
     mutate(
       mort = NA,
       w = 1,
-      year = "?"
+      year = year_midpoint(start_year = start_year,
+                           start_month = start_month,
+                           end_year = end_year,
+                           end_month = end_month)
     ) %>%
     # keep the stuff we need from here
     select(mort,
            w,
            year,
+           insecticide_id,
            x, y, z) %>%
     # and add on the level 0 predictions from in-sample models
     bind_cols(prediction_covariates)
@@ -89,108 +99,68 @@ fit_predict_level_one_model <- function(training_data,
   # for each of these, split them up by insecticide type, and make data stack
   # objects
 
+  # loop through insecticide types, making the relevant object and putting them
+  # in this environment
 
+  stack_list <- list()
+  for (this_insecticide_id in insecticide_ids) {
 
-  # build up the INLA stack object for a single group (insecticide type)
-  # IRT_dat_c <- ir_data %>%
-  #   mutate(mort = ?,
-  #          w = 1,
-  #          year = ?) %>%
-  #   # add on training covariates (level 0 stacker out-of-sample predictions)
-  #   left_join(training_covariates,
-  #             by = ?) %>%
-  #   # add on x,y,z coordinates from latlongs
+    # what to call the INLA effects for this insecticide
+    this_intercept_name <- paste0("b0.", this_insecticide_id)
+    this_field_name <- paste0("field", this_insecticide_id)
 
-  # prediction data (flagged with NAs in the response column)
-  # use prediction_covariates, and make sure the coordinates match
-  # IRT_dat_v <- prediction_covariates %>%
-  #   mutate(y = NA,
-  #          w = 1,
-  #          year = ?) %>%
-  # add on x,y,z coordinates from latlongs
+    # indices to the combined space-time SPDE mesh
+    spde_indices <- INLA::inla.spde.make.index(this_field_name,
+                                           n.spde = meshes$spatial_mesh$n,
+                                           n.group = meshes$temporal_mesh$m)
 
-  # IRT_dat1_c <- IRT_dat_c %>%
-  #   filter(insecticide_id == 1)
+    # loop through the training and prediction stacks
+    for (type in c("training", "prediction")) {
 
-  # IRT_dat1_v <- IRT_dat_c %>%
-  #   filter(insecticide_id == 1)
+      # replace data1, val1, with training1, prediction1
+      this_stack_name <- paste0(type, this_insecticide_id)
 
-  # replaces this:
-  # IRT_dat1 <- data.frame(y = as.vector(data1[,7]),
-  #                        w = rep(1, length(data1[,7])),
-  #                        year = year1,
-  #                        xcoo = coords_est1[,1],
-  #                        ycoo = coords_est1[,2],
-  #                        zcoo = coords_est1[,3],
-  #                        cov = training_covariates)
-  # IRT_dat1_c <- IRT_dat1[-isel1a, ]
-  # IRT_dat1_v <- data.frame(
-  #   y = rep(NA, nrow(IRT_dat1)),
-  #   w = rep(1, length(data1[,7])),
-  #   year = year1,
-  #   xcoo = coords_est1[,1],
-  #   ycoo = coords_est1[,2],
-  #   zcoo = coords_est1[,3],
-  #   cov = prediction_covariates)
+      dataset_all <- switch(type,
+                        training = training_all,
+                        prediction = prediction_all)
 
-  # # indices for making the projection 'A' matrices from the mesh to each of the
-  # # training and prediction datasets
-  # IRT_iset1 <- inla.spde.make.index('field1',
-  #                                   n.spde = meshes$spatial_mesh$n,
-  #                                   n.group = meshes$temporal_mesh$m)
-  #
-  # # training data stack:
-  #
-  # # projection matrix for mapping from the mesh nodes to prediction data
-  # IRT_A1_c <- inla.spde.make.A(meshes$spatial_mesh,
-  #                              loc = cbind(IRT_dat1_c$xcoo,
-  #                                          IRT_dat1_c$ycoo,
-  #                                          IRT_dat1_c$zcoo),
-  #                              group = IRT_dat1_c$year,
-  #                              group.mesh = meshes$temporal_mesh)
-  # # in an INLA stack object
-  # IRT_stk1_c <- inla.stack(
-  #   tag = "data1",
-  #   data = list(y = cbind(IRT_dat1_c$y, NA, NA, NA)),
-  #   A = list(IRT_A1_c, 1),
-  #   effects = list(IRT_iset1,
-  #                  list(b0.1 = IRT_dat1_c$w,
-  #                       IRT_dat1_c[, covariate_names])))
-  #
-  # # prediction data stack:
-  #
-  # # projection matrix for mapping from the mesh nodes to prediction data
-  # IRT_A1_v <- inla.spde.make.A(meshes$spatial_mesh,
-  #                              loc = cbind(IRT_dat1_v$xcoo,
-  #                                          IRT_dat1_v$ycoo,
-  #                                          IRT_dat1_v$zcoo),
-  #                              group = IRT_dat1_v$year,
-  #                              group.mesh = meshes$temporal_mesh)
-  #
-  # # in an INLA stack object
-  # IRT_stk1_v <- inla.stack(
-  #   tag = "val1",
-  #   data = list(y = cbind(IRT_dat1_v$y, NA, NA, NA)),
-  #   A = list(IRT_A1_v, 1),
-  #   effects = list(IRT_iset1,
-  #                  list(b0.1 = IRT_dat1_v$w,
-  #                       IRT_dat1_v[, covariate_names])))
+      dataset <- dataset_all %>%
+        filter(insecticide_id == this_insecticide_id) %>%
+        select(-insecticide_id)
 
+      coords <- dataset %>%
+        select(x, y, z) %>%
+        as.matrix()
 
+      # projection matrix for mapping from the mesh nodes to these data
+      this_A <- INLA::inla.spde.make.A(meshes$spatial_mesh,
+                                      loc = coords,
+                                      group = dataset$year,
+                                      group.mesh = meshes$temporal_mesh)
 
+      # name the intercept effects
+      effects_sub <- list(dataset$w, dataset[, covariate_names])
+      names(effects_sub) <- c(this_intercept_name, names(effects_sub)[-1])
 
-  # make the overall INLA stack object, combining the fitting (c) and prediction
-  # data (v) for each group
-  # j.stk <- inla.stack(IRT_stk1_c,
-  #                     IRT_stk1_v,
-  #                     IRT_stk2_c,
-  #                     IRT_stk2_v,
-  #                     IRT_stk3_c,
-  #                     IRT_stk3_v,
-  #                     IRT_stk4_c,
-  #                     IRT_stk4_v)
+      # put it in an INLA stack object
+      this_stack <- INLA::inla.stack(
+        tag = this_stack_name,
+        data = list(mort = cbind(dataset$mort, NA, NA, NA)),
+        A = list(this_A, 1),
+        effects = list(spde_indices, effects_sub))
 
-  # make this by combining the two lists of stack objects
+      # and add this stack to the list of stacks for more stacking
+      stack_list <- c(
+        stack_list,
+        list(this_stack)
+      )
+
+    } # training/prediction loop
+
+  } # insecticide_id loop
+
+  # combine all these stack elements in the main stack
+  j.stk <- do.call(INLA::inla.stack, stack_list)
 
   # Specify priors on the measurement noise and the temporal autocorrelation
   eprec <- list(
@@ -212,15 +182,15 @@ fit_predict_level_one_model <- function(training_data,
   # set up the INLA formula object, with some horrible text manipulation
 
   # each group (insecticide type) has its own intercept (mean logit-prevalence)
-  group_intercept_terms <- paste0("b0.", group_vec, collapse = " + ")
+  group_intercept_terms <- paste0("b0.", insecticide_ids, collapse = " + ")
 
   # each group has a space-time random effect (Matern x AR1), represented as an
   # SPDE, with pcrho giving the penalised complexity prior for the rho parameter
   # (temporal correlation) of the AR1 process
   field_fixed <- "model = spatial_spde,
   control.group = list(model = 'ar1', hyper = pcrho)"
-  field_terms_vec <- sprintf("f(field%i, group = field_group%i, %s)",
-                             group_vec, group_vec, field_fixed)
+  field_terms_vec <- sprintf("f(field%i, group = field%i.group, %s)",
+                             insecticide_ids, insecticide_ids, field_fixed)
   group_field_terms <- paste(field_terms_vec, collapse = " + ")
 
   # add the stacking weights for the level 0 models (making predictions to all
@@ -240,10 +210,8 @@ fit_predict_level_one_model <- function(training_data,
         "mort ~ -1",
         covariate_terms, # "f(x, model = 'clinear') + ..."
         group_intercept_terms, # "b0.1 + ...",
-        group_field_terms,  # "f(field1, group = field_group1, ...) + ...",
+        group_field_terms,  # "f(field1, group = field1.group, ...) + ...",
         sep = " + "))
-
-  stop("not yet implemented")
 
   # Run the INLA model
   result <- INLA::inla(
@@ -256,7 +224,7 @@ fit_predict_level_one_model <- function(training_data,
                  n_groups),
 
     # provide the full dataset, for all the fields, etc.
-    data = inla.stack.data(j.stk),
+    data = INLA::inla.stack.data(j.stk),
 
     # specify the measurement noise priors
     control.family = replicate(n_groups,
@@ -265,7 +233,7 @@ fit_predict_level_one_model <- function(training_data,
 
     # make predictions
     control.predictor = list(compute = TRUE,
-                             A = inla.stack.A(j.stk)),
+                             A = INLA::inla.stack.A(j.stk)),
     # compute validation stats and hypers
     control.compute = list(config = TRUE,
                            cpo = TRUE,
@@ -277,19 +245,55 @@ fit_predict_level_one_model <- function(training_data,
     control.inla = list(int.strategy = "eb")
   )
 
-  # for now, return the full list of things that Penny did
-  output <- list(
-    gauss_j.res = result,
-    isel1 = isel1,
-    isel2 = isel2,
-    isel3 = isel3,
-    isel4 = isel4,
-    isel1a = isel1a,
-    isel2a = isel2a,
-    isel3a = isel3a,
-    isel4a = isel4a
-  )
+  # now pull out predictions for the insecticides and observation data in the
+  # format Nick T's code expects
 
+  # the model has identity link, so we can use either
+  # result$summary.linear.predictor or result$summary.fitted.values
+
+  # Pull out the training and prediction data represented in the stacks
+  # (APredictor elements)
+  all_preds <- result$summary.linear.predictor[, 1, drop = FALSE]
+  keep_idx <- str_starts(rownames(all_preds), "APredictor")
+  preds <- all_preds[keep_idx, "mean"]
+  preds
+
+  # reconstitute the predictions for the different insecticide_id levels, by
+  # making a look up table based on the order of observations within each of the
+  # groups
+  pred_list <- list()
+  for (this_insecticide_id in insecticide_ids) {
+    this_element <- paste0("prediction", this_insecticide_id)
+    index <- j.stk$data$index[[this_element]]
+    this_pred_set <- tibble(
+      insecticide_id = this_insecticide_id,
+      mort = preds[index]
+    ) %>%
+      mutate(
+        idx = row_number()
+      )
+    pred_list <- c(pred_list, list(this_pred_set))
+
+  }
+
+  pred_tibble <- do.call(bind_rows, pred_list)
+
+  # join this back onto prediction_all to get the predictions in the right
+  # order, then return those as a vector
+  output <- prediction_data %>%
+    group_by(
+      insecticide_id
+    ) %>%
+    mutate(idx = row_number()) %>%
+    ungroup() %>%
+    left_join(
+      pred_tibble,
+      by = c("insecticide_id", "idx")
+    ) %>%
+    # now pull out the predictions, in the right order
+    pull(mort)
+
+  # return them
   output
 
 }
