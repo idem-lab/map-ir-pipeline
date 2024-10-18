@@ -23,7 +23,7 @@ fit_predict_level_one_model <- function(training_data,
   # together
 
   # the insecticides we are modelling
-  insecticide_ids <- sort(unique(prediction_data$insecticide_id))
+  insecticide_ids <- sort(unique(training_data$insecticide_id))
 
   # get the number of groups (insecticide types modelled simultaneously) and the
   # names of the covariates/models used in stacking
