@@ -267,7 +267,7 @@ fit_predict_level_one_model <- function(training_data,
     index <- j.stk$data$index[[this_element]]
     this_pred_set <- tibble(
       insecticide_id = this_insecticide_id,
-      mort = preds[index]
+      .pred = preds[index]
     ) %>%
       mutate(
         idx = row_number()
@@ -290,8 +290,8 @@ fit_predict_level_one_model <- function(training_data,
       pred_tibble,
       by = c("insecticide_id", "idx")
     ) %>%
-    # now pull out the predictions, in the right order
-    pull(mort)
+    # now pull out the predictions, in the right order, as a tibble
+    select(.pred)
 
   # return them
   output

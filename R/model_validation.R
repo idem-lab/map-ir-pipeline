@@ -45,7 +45,7 @@ model_validation <- function(covariate_rasters,
   testing_data_pheno <- testing_data %>%
     map(\(x) filter(x, type == "phenotypic"))
 
-  model_for_validation <- map2(
+  out_of_sample_predictions <- map2(
     .x = training_data,
     .y = testing_data_pheno,
     .f = function(.x, .y) {
@@ -58,5 +58,14 @@ model_validation <- function(covariate_rasters,
     }
   )
 
-  model_for_validation
+  # recombine them, fold-wise
+  combined_predictions <- map2(
+    .x = out_of_sample_predictions,
+    .y = testing_data_pheno,
+    .f = bind_cols
+  )
+
+  # combine folds
+  bind_rows(combined_predictions)
+
 }

@@ -183,15 +183,11 @@ tar_plan(
     outcome = "percent_mortality",
     meshes = inla_meshes
   ),
-  out_of_sample_predictions = model_validation(
+  ir_data_mn_oos_predictions = model_validation(
     covariate_rasters = raster_covariates,
     training_data = ir_data_subset,
     level_zero_models = model_list,
     inla_setup = gp_inla_setup
-  ),
-  ir_data_mn_oos_predictions = bind_cols(
-    .preds = bind_rows(out_of_sample_predictions),
-    ir_data_subset
   ),
   oos_diagnostics = diagnostics(ir_data_mn_oos_predictions),
   plot_diagnostics = gg_diagnostics(oos_diagnostics),
