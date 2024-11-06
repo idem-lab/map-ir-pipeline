@@ -31,7 +31,8 @@ combine_pheno_geno <- function(moyes_pheno_prepared,
       no_tested = no_mosquitoes_tested
     ) %>%
     mutate(
-      insecticide_id = as.integer(as.factor(insecticide))
+      insecticide_id = as.integer(as.factor(insecticide)),
+      type_id = as.integer(as.factor(type))
     ) %>%
     # convert start_month, end_month, and end_year into integer
     # but first remove "NR" and set to NA
