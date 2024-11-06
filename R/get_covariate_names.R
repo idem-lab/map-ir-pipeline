@@ -19,9 +19,7 @@ get_covariate_names <- function(
       "end_year",
       "latitude",
       "longitude",
-      "int",
       "type",
-      "type_id",
       "insecticide",
       "no_mosquitoes_tested",
       "no_mosquitoes_dead"

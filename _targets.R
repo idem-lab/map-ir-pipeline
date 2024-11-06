@@ -160,8 +160,7 @@ tar_plan(
 
   # dropping generation as it is missing too many values
   other_covariates = c("start_year",
-                       "insecticide_id"#, "type_id"
-                       ),
+                       "insecticide_id"),
   model_covariates = unique(c(other_covariates, spatial_covariate_names)),
 
   # specify the details for the different models ahead of time
