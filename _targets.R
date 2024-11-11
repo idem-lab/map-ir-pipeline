@@ -132,6 +132,42 @@ tar_plan(
     raster_countries_trees,
     crop_raster_to_country(raster_trees, reference_rast)
   ),
+  tar_file(
+    path_map_irs,
+    "data/map-covariates/ir_irs.tif"
+  ),
+  tar_terra_rast(
+    raster_map_irs,
+    rast(path_map_irs)
+  ),
+  tar_terra_rast(
+    raster_countries_irs,
+    resample(raster_map_irs, reference_rast, method = "near")
+  ),
+  tar_file(
+    path_map_itn,
+    "data/map-covariates/ir_itn.tif"
+  ),
+  tar_terra_rast(
+    raster_map_itn,
+    rast(path_map_itn)
+  ),
+  tar_terra_rast(
+    raster_countries_itn,
+    resample(raster_map_itn, reference_rast, method = "near")
+  ),
+  tar_file(
+    path_map_pop,
+    "data/map-covariates/ir_pop.tif"
+  ),
+  tar_terra_rast(
+    raster_map_pop,
+    rast(path_map_pop)
+  ),
+  tar_terra_rast(
+    raster_countries_pop,
+    resample(raster_map_pop, reference_rast, method = "near")
+  ),
   ## Currently removing these as they don't subset to the right countries
   # tar_terra_rast(
   #   raster_countries_elevation,
@@ -147,7 +183,10 @@ tar_plan(
     c(
       # raster_countries_trees,
       raster_countries_veg,
-      raster_countries_coffee
+      raster_countries_coffee,
+      raster_countries_irs,
+      raster_countries_itn,
+      raster_countries_pop
     )
   ),
   all_spatial_covariates = join_rasters_to_mosquito_data(
