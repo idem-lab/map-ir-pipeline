@@ -29,7 +29,8 @@ create_pixel_map_data <- function(predictions,
                                       simplify = FALSE)
 
   prediction_stack <- do.call(c, prediction_raster_list)
-  names(prediction_stack) <- glue("insecticide_{insecticide_names}_{year_id}")
+  names(prediction_stack) <- glue("insecticide_{insecticide_names}_\\
+                                  (id={insecticide_ids})_{year_id}")
 
   for (i in seq_len(n_insecticides)) {
 

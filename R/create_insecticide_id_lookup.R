@@ -10,7 +10,8 @@
 create_insecticide_id_lookup <- function(ir_data_subset) {
 
   data_unit <- ir_data_subset |>
-    distinct(insecticide, insecticide_id)
+    distinct(insecticide, insecticide_id) |>
+    arrange(insecticide_id)
 
   insecticide_unit <- data_unit$insecticide
   names(insecticide_unit) <- data_unit$insecticide_id
