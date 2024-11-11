@@ -63,6 +63,8 @@ tar_plan(
     moyes_geno_prepared
   ),
 
+  theta_ihs_value = unique(moyes_geno_pheno$theta_ihs),
+
   # explicitly drop NA values
   ir_data = create_ir_data(moyes_geno_pheno),
 
@@ -202,6 +204,10 @@ tar_plan(
     level_zero_models = model_list,
     inla_mesh_setup = gp_inla_setup
   ),
+
+  converted_mort = invert_pct_mortality(ir_data_subset,
+                                        theta = theta_ihs_value),
+
 
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)

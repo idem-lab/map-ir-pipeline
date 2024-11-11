@@ -30,9 +30,10 @@ add_pct_mortality <- function(ir_data_raw, no_dead, no_tested) {
 
   ir_data <- ir_data_emp %>%
     mutate(
+      theta_ihs = theta2$maximum,
       percent_mortality = IHS(
         pct_mortality_emp,
-        theta2$maximum
+        theta_ihs
       ),
       # add an intercept
       int = 1

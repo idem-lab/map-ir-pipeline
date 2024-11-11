@@ -22,5 +22,6 @@ create_ir_data <- function(moyes_geno_pheno) {
   ) %>%
     rowid_to_column(
       var = "uid"
-    )
+    ) |>
+    select(-theta_ihs)
 }

@@ -30,6 +30,20 @@ invelogit <- function(L, N) {
   return(top / bottom)
 }
 
+inv_emplogit2 <- function(emp_logit, N) {
+  L <- exp(emp_logit)
+  top <- (L * N + 0.5 * L - 0.5)
+  bottom <- (1 + L)
+
+  top / bottom
+}
+
+# vec <- runif(10)
+# vec
+# emplogit2(vec, 10)
+# res <- emplogit2(vec, 10) |> inv_emplogit2(10)
+# dplyr::near(vec, res)
+
 # IHS transformation
 IHS <- function(x, theta) {
   (1 / theta) * asinh(theta * x)
