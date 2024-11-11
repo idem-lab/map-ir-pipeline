@@ -9,13 +9,13 @@
 #' @author njtierney
 #' @export
 invert_pct_mortality <- function(ir_data, theta){
-  ir_data |>
+  res <- ir_data |>
     mutate(
       inv_pct_mort = Inv.IHS(
-        x = percent_mortality,
+        x = transformed_mortality,
         theta = theta
       ),
-      prop_susceptible = inv_emplogit2(emp_logit = inv_pct_mort,
+      no_mosquitoes_dead2 = inv_emplogit2(emp_logit = inv_pct_mort,
                                        N = no_mosquitoes_tested)
     )
 }

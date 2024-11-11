@@ -19,7 +19,7 @@ check_mortality <- function(moyes_pheno_prepared) {
 
   ir_check_mortality <- ir_subset %>%
     mutate(
-      pct_mort_check = percent_mortality(
+      pct_mort_check = pct_mortality(
         no_mosquitoes_dead,
         no_mosquitoes_tested
       ),

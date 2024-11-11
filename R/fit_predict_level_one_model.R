@@ -53,7 +53,7 @@ fit_predict_level_one_model <- function(training_data,
     ) %>%
     # rename stuff and add dummy weights column
     mutate(
-      mort = percent_mortality,
+      mort = transformed_mortality,
       w = 1,
       year = year_midpoint(start_year = start_year,
                            start_month = start_month,

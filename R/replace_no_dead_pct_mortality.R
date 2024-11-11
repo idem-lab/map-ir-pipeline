@@ -18,7 +18,7 @@ replace_no_dead_pct_mortality <- function(ir_data_moyes_prepared) {
         .default = no_mosquitoes_dead
       ),
       percent_mortality = case_when(
-        is.na(percent_mortality) ~ percent_mortality(
+        is.na(percent_mortality) ~ pct_mortality(
           no_mosquitoes_dead,
           no_mosquitoes_tested
         ),

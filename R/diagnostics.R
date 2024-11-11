@@ -12,7 +12,7 @@ diagnostics <- function(ir_data_mn_oos_predictions) {
     ir_data_mn_oos_predictions,
     aes(
       x = .pred,
-      y = percent_mortality
+      y = transformed_mortality
     )
   ) +
     geom_point()
