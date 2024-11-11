@@ -101,32 +101,23 @@ tar_plan(
     cgaz_country(subset_country_codes)
   ),
   tar_terra_rast(
-    raster_coffee,
-    agcrop_area(crop = "acof")
+    reference_rast_africa,
+    rast("data/map-covariates/ir_mask.tif")
   ),
   tar_terra_rast(
-    raster_countries_coffee,
-    crop_raster_to_country(raster_coffee, country_shapefile)
+    reference_rast_countries,
+    crop_raster_to_shapefile(
+      raster = reference_rast_africa,
+      shapefile = country_shapefile
+      )
   ),
   tar_terra_rast(
-    raster_veg,
-    agcrop_area(crop = "vege")
-  ),
-  tar_terra_rast(
-    reference_rast,
-    raster_countries_coffee[[1]]
-  ),
-  tar_terra_rast(
-    raster_countries_veg,
-    crop_raster_to_country(raster_veg, reference_rast)
-  ),
-  tar_terra_rast(
-    raster_trees,
-    get_landcover("trees")
-  ),
-  tar_terra_rast(
-    raster_countries_trees,
-    crop_raster_to_country(raster_trees, reference_rast)
+    raster_countries_irs,
+    crop_raster_to_reference(
+      raster = raster_map_irs,
+      reference = reference_rast_countries,
+      data_type = "continuous"
+    )
   ),
   tar_file(
     path_map_irs,
@@ -163,6 +154,34 @@ tar_plan(
   tar_terra_rast(
     raster_countries_pop,
     resample(raster_map_pop, reference_rast, method = "near")
+  ),
+  tar_terra_rast(
+    raster_coffee,
+    agcrop_area(crop = "acof")
+  ),
+  tar_terra_rast(
+    raster_countries_coffee,
+    crop_raster_to_reference(
+      raster = raster_coffee,
+      reference = reference_rast_countries,
+      data_type = "continuous"
+    )
+  ),
+  tar_terra_rast(
+    raster_veg,
+    agcrop_area(crop = "vege")
+  ),
+  tar_terra_rast(
+    raster_countries_veg,
+    crop_raster_to_country(raster_veg, reference_rast)
+  ),
+  tar_terra_rast(
+    raster_trees,
+    get_landcover("trees")
+  ),
+  tar_terra_rast(
+    raster_countries_trees,
+    crop_raster_to_country(raster_trees, reference_rast)
   ),
   ## Currently removing these as they don't subset to the right countries
   # tar_terra_rast(
