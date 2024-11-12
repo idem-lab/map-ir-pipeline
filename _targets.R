@@ -14,10 +14,10 @@ controller <- crew_controller_local(
 
 tar_option_set(
   # Save a workspace file for a target that errors out
-  workspace_on_error = TRUE,
+  workspace_on_error = TRUE
   # debug = "outer_loop_results_spatial", # Set the target you want to debug.
   # cue = tar_cue(mode = "never") # Force skip non-debugging outdated targets.
-  controller = controller
+  # controller = controller
 )
 
 ## tar_plan supports drake-style targets and also tar_target()
@@ -49,6 +49,16 @@ tar_plan(
   moyes_geno_raw = read_csv_clean(moyes_geno_path),
   moyes_geno_no_na_long_lat = drop_na_long_lat_moyes(moyes_geno_raw),
 
+  tar_target(
+    africa_countries,
+    create_africa_country_list()
+  ),
+
+  tar_terra_vect(
+    africa_shapefile,
+    cgaz_country(africa_countries$iso3c)
+  ),
+
   moyes_geno_countries = extract_country(
     africa_df = moyes_geno_no_na_long_lat,
     shapefile = africa_shapefile
@@ -63,6 +73,10 @@ tar_plan(
     moyes_geno_prepared
   ),
 
+  theta_ihs_value = unique(moyes_geno_pheno$theta_ihs),
+
+  inverted_pct_mortality = invert_pct_mortality(moyes_geno_pheno,
+                                                theta = theta_ihs_value),
   # explicitly drop NA values
   ir_data = create_ir_data(moyes_geno_pheno),
 
@@ -81,52 +95,46 @@ tar_plan(
     by = "uid"
   ),
 
-  tar_target(
-    africa_countries,
-    create_africa_country_list()
-  ),
-
-  tar_terra_vect(
-    africa_shapefile,
-    cgaz_country(africa_countries$iso3c)
-  ),
-
   subset_country_codes = countrycode(
     sourcevar = subset_countries,
     origin = "country.name",
     destination = "iso3c"
   ),
-  tar_terra_vect(
-    country_shapefile,
-    cgaz_country(subset_country_codes)
+  tar_file(
+    path_map_irs,
+    "data/map-covariates/ir_irs.tif"
+  ),
+  tar_terra_rast(
+    raster_map_irs,
+    rast(path_map_irs)
+  ),
+  tar_file(
+    path_map_itn,
+    "data/map-covariates/ir_itn.tif"
+  ),
+  tar_terra_rast(
+    raster_map_itn,
+    rast(path_map_itn)
+  ),
+  tar_file(
+    path_map_pop,
+    "data/map-covariates/ir_pop.tif"
+  ),
+  tar_terra_rast(
+    raster_map_pop,
+    rast(path_map_pop)
   ),
   tar_terra_rast(
     raster_coffee,
     agcrop_area(crop = "acof")
   ),
   tar_terra_rast(
-    raster_countries_coffee,
-    crop_raster_to_country(raster_coffee, country_shapefile)
-  ),
-  tar_terra_rast(
     raster_veg,
     agcrop_area(crop = "vege")
   ),
   tar_terra_rast(
-    reference_rast,
-    raster_countries_coffee[[1]]
-  ),
-  tar_terra_rast(
-    raster_countries_veg,
-    crop_raster_to_country(raster_veg, reference_rast)
-  ),
-  tar_terra_rast(
     raster_trees,
     get_landcover("trees")
-  ),
-  tar_terra_rast(
-    raster_countries_trees,
-    crop_raster_to_country(raster_trees, reference_rast)
   ),
   ## Currently removing these as they don't subset to the right countries
   # tar_terra_rast(
@@ -139,15 +147,67 @@ tar_plan(
   # ),
   # this step should make the rasters match extent etc
   tar_terra_rast(
-    raster_covariates,
+    raster_map_covariates,
+    c(
+      raster_map_irs,
+      raster_map_itn,
+      raster_map_pop
+    )
+  ),
+  tar_terra_rast(
+    raster_spam,
     c(
       # raster_countries_trees,
-      raster_countries_veg,
-      raster_countries_coffee
+      raster_veg,
+      raster_coffee
+    )
+  ),
+  tar_file(
+    path_ir_mask,
+    "data/map-covariates/ir_mask.tif"
+  ),
+  tar_terra_rast(
+    reference_rast_africa,
+    rast(path_ir_mask)
+  ),
+  tar_terra_vect(
+    country_shapefile,
+    cgaz_country(subset_country_codes)
+  ),
+  tar_terra_rast(
+    reference_rast_countries,
+    crop_raster_to_shapefile(
+      raster = reference_rast_africa,
+      shapefile = country_shapefile
+    )
+  ),
+  tar_terra_rast(
+    raster_countries_map,
+    crop_raster_to_reference(
+      raster = raster_map_covariates,
+      reference = reference_rast_countries,
+      data_type = "continuous",
+      impute_value = 0
+    )
+  ),
+  tar_terra_rast(
+    raster_countries_spam,
+    crop_raster_to_reference(
+      raster = raster_spam,
+      reference = reference_rast_countries,
+      data_type = "continuous",
+      impute_value = 0
+    )
+  ),
+  tar_terra_rast(
+    raster_covariates_countries,
+    c(
+      raster_countries_spam,
+      raster_countries_map
     )
   ),
   all_spatial_covariates = join_rasters_to_mosquito_data(
-    rasters = raster_covariates,
+    rasters = raster_covariates_countries,
     mosquito_data = ir_data_subset
   ),
 
@@ -174,18 +234,18 @@ tar_plan(
       model_xgb,
       model_rf
     ),
-    outcomes = "percent_mortality",
+    outcomes = "transformed_mortality",
     predictors = model_covariates
   ),
   inla_meshes = create_meshes(ir_data_subset),
   gp_inla_setup = setup_gp_inla_model(
     ir_data_subset,
     covariate_names = names(model_list),
-    outcome = "percent_mortality",
+    outcome = "transformed_mortality",
     meshes = inla_meshes
   ),
   ir_data_mn_oos_predictions = model_validation(
-    covariate_rasters = raster_covariates,
+    covariate_rasters = raster_covariates_countries,
     training_data = ir_data_subset,
     level_zero_models = model_list,
     inla_setup = gp_inla_setup
@@ -197,13 +257,16 @@ tar_plan(
   # Predictions are made to every pixel of map + year (spatiotemporal)
   # Year is currently fixed
   outer_loop_results_spatial = spatial_prediction(
-    covariate_rasters = raster_covariates,
+    covariate_rasters = raster_covariates_countries,
     training_data = ir_data_subset,
     level_zero_models = model_list,
     inla_mesh_setup = gp_inla_setup
   ),
 
   insecticide_id_lookup = create_insecticide_id_lookup(ir_data_subset),
+
+  converted_mort = invert_pct_mortality(ir_data_subset,
+                                        theta = theta_ihs_value),
 
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)
@@ -212,7 +275,7 @@ tar_plan(
     pixel_maps_data,
     create_pixel_map_data(
       predictions = outer_loop_results_spatial,
-      rasters = raster_covariates,
+      rasters = raster_covariates_countries
       insecticide_lookup = insecticide_id_lookup
     )
   ),

@@ -13,6 +13,7 @@ get_covariate_names <- function(
       "uid",
       "country",
       "percent_mortality",
+      "transformed_mortality",
       "start_month",
       "end_month",
       "start_year",
