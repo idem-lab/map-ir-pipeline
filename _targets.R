@@ -271,8 +271,9 @@ tar_plan(
   ir_data_subset_converted_mort = invert_pct_mortality(
     # ir_data = ir_data_subset,
     ir_data = outer_loop_results_spatial,
-    theta = theta_ihs_value
-  )
+    theta = theta_ihs_value,
+    use_infinite_sample = TRUE
+  ),
 
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)
@@ -280,7 +281,7 @@ tar_plan(
   tar_terra_rast(
     pixel_maps_data,
     create_pixel_map_data(
-      predictions = outer_loop_results_spatial,
+      predictions = ir_data_subset_converted_mort,
       rasters = raster_covariates_countries
     )
   ),

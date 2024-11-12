@@ -8,7 +8,7 @@
 #' @author njtierney
 #' @export
 create_pixel_map_data <- function(predictions,
-                              rasters) {
+                                  rasters) {
 
   # make a multiband raster, covering each insecticide type
   insecticide_ids <- sort(unique(predictions$insecticide_id))
@@ -28,7 +28,7 @@ create_pixel_map_data <- function(predictions,
 
     these_predictions <- predictions %>%
       filter(insecticide_id == insecticide_ids[i]) %>%
-      pull(.pred)
+      pull(percent_mortality)
 
     prediction_stack[[i]][which_cells_not_missing] <- these_predictions
 
