@@ -59,6 +59,8 @@ prepare_geno_data <- function(moyes_geno_raw, moyes_geno_countries) {
       insecticide
     ) %>%
     mutate(
+      # this introduces NA values for "NR" values, which are "not recorded" and
+      # the same as missing values
       start_year = as.integer(start_year)
     ) %>%
     mutate(
