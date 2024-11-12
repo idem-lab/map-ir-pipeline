@@ -260,12 +260,19 @@ tar_plan(
     covariate_rasters = raster_covariates_countries,
     training_data = ir_data_subset,
     level_zero_models = model_list,
-    inla_mesh_setup = gp_inla_setup
+    inla_mesh_setup = gp_inla_setup,
+    theta = theta_ihs_value
   ),
 
-  converted_mort = invert_pct_mortality(ir_data_subset,
-                                        theta = theta_ihs_value),
-
+  # ensure transformed_mortality gets transformed back to values we
+  # can understsand, and not logit space
+  # These are currently the same name, "transformed_mortality".
+  # as this is the dependent variable used
+  ir_data_subset_converted_mort = invert_pct_mortality(
+    # ir_data = ir_data_subset,
+    ir_data = outer_loop_results_spatial,
+    theta = theta_ihs_value
+  )
 
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)
