@@ -8,8 +8,10 @@
 #' @return
 #' @author njtierney
 #' @export
-crop_raster_to_reference <- function(raster, reference,
-                                   data_type = c("continuous", "discrete")) {
+crop_raster_to_reference <- function(raster,
+                                     reference,
+                                     data_type = c("continuous", "discrete"),
+                                     impute_value = NULL) {
 
   data_type <- rlang::arg_match(data_type, c("continuous", "discrete"))
 
@@ -19,14 +21,21 @@ crop_raster_to_reference <- function(raster, reference,
     discrete = "near"
   )
 
-  cropped <- resample(
-    raster,
-      reference,
-      method = method
-      ) |>
-    mask(reference)
+  do_imputation <- !is.null(impute_value)
+  if (do_imputation){
+    raster[is.na(raster)] <- impute_value
+  }
 
-  cropped
+  # this is also cropping down to the extent of the "reference" raster
+  resampled <- resample(
+    raster,
+    reference,
+    method = method
+  )
+
+  masked <- mask(resampled, reference)
+
+  masked
 }
 
 crop_raster_to_shapefile <- function(raster,
