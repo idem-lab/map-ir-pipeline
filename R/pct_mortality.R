@@ -8,7 +8,7 @@
 #' @return
 #' @author njtierney
 #' @export
-percent_mortality <- function(no_mosquitoes_dead, no_mosquitoes_tested) {
+pct_mortality <- function(no_mosquitoes_dead, no_mosquitoes_tested) {
   mortality <- no_mosquitoes_dead / no_mosquitoes_tested
   mortality_pct <- mortality * 100
   round(mortality_pct, 2)

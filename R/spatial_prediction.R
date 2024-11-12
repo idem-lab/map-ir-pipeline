@@ -10,10 +10,10 @@
 #' @return
 #' @author njtierney
 #' @export
-spatial_prediction <- function(covariate_rasters = raster_covariates,
-                               training_data = ir_data_subset,
-                               level_zero_models = model_list,
-                               inla_mesh_setup = gp_inla_setup) {
+spatial_prediction <- function(covariate_rasters,
+                               training_data,
+                               level_zero_models,
+                               inla_mesh_setup) {
 
   ir_data_subset_spatial_covariates <- join_rasters_to_mosquito_data(
     rasters = covariate_rasters,
@@ -24,6 +24,15 @@ spatial_prediction <- function(covariate_rasters = raster_covariates,
 
   rasters_as_data <- raster_to_df(covariate_rasters)
 
+  prediction_insecticide_ids <- training_data %>%
+    filter(type == "phenotypic") %>%
+    pull(insecticide_id) %>%
+    unique() %>%
+    sort()
+
+  all_years <- seq(min(inla_mesh_setup$meshes$temporal_mesh$loc),
+                   max(inla_mesh_setup$meshes$temporal_mesh$loc))
+
   rasters_w_basic_info <- rasters_as_data %>%
     mutate(
       start_year = chosen_year,
@@ -31,10 +40,17 @@ spatial_prediction <- function(covariate_rasters = raster_covariates,
       end_month = 12,
       end_year = chosen_year,
       int = 1,
-      # dummy to be changed later?
-      insecticide_id = 1,
       .before = everything()
+    ) %>%
+    # add all insecticide ids in training data to the prediction
+    # (later add the years too)
+    expand_grid(
+      insecticide_id = prediction_insecticide_ids,
     )
+      # start_year = all_years
+    # ) %>% mutate(
+    #   end_year = start_year + 1
+    # )
 
   # predict out for each raster in rasters_for_inner_loop
   # full set of map data (environmental covariates and coords)
@@ -48,6 +64,8 @@ spatial_prediction <- function(covariate_rasters = raster_covariates,
         level_one_model_setup = inla_mesh_setup
       )
 
-  spatial_predictions
+  # add back on the info
+  bind_cols(rasters_w_basic_info, spatial_predictions)
+
 
 }

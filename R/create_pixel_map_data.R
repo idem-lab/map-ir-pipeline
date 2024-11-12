@@ -7,20 +7,32 @@
 #' @return
 #' @author njtierney
 #' @export
-create_pixel_map_data <- function(predictions = outer_loop_results_spatial,
-                              rasters = raster_covariates) {
+create_pixel_map_data <- function(predictions,
+                              rasters) {
+
+  # make a multiband raster, covering each insecticide type
+  insecticide_ids <- sort(unique(predictions$insecticide_id))
+  n_insecticides <- length(insecticide_ids)
+
   prediction_raster <- rasters[[1]]
-
   which_cells_not_missing <- which(!is.na(prediction_raster[]))
-
   prediction_raster[] <- NA
+  prediction_raster_list <- replicate(n_insecticides,
+                                      prediction_raster,
+                                      simplify = FALSE)
 
-  prediction_rasters <- map(
-    .x = predictions,
-    .f = function(predictions){
-      `[<-`(prediction_raster, which_cells_not_missing, value = predictions)
-    }
-  )
+  prediction_stack <- do.call(c, prediction_raster_list)
+  names(prediction_stack) <- paste0("insecticide_", insecticide_ids)
 
-  rast(prediction_rasters)
+  for (i in seq_len(n_insecticides)) {
+
+    these_predictions <- predictions %>%
+      filter(insecticide_id == insecticide_ids[i]) %>%
+      pull(.pred)
+
+    prediction_stack[[i]][which_cells_not_missing] <- these_predictions
+
+  }
+
+  prediction_stack
 }

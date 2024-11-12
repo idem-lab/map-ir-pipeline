@@ -14,7 +14,7 @@ create_ir_data <- function(moyes_geno_pheno) {
     longitude,
     no_mosquitoes_tested,
     no_mosquitoes_dead,
-    percent_mortality,
+    transformed_mortality,
     start_month,
     end_month,
     start_year,
@@ -22,5 +22,6 @@ create_ir_data <- function(moyes_geno_pheno) {
   ) %>%
     rowid_to_column(
       var = "uid"
-    )
+    ) |>
+    select(-theta_ihs)
 }

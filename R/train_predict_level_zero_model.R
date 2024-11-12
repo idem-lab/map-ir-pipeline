@@ -33,6 +33,9 @@ train_predict_level_zero_model <- function(train_predict_data,
     model_list = level_zero_models
   )
 
+  old_names <- names(level_zero_oos_mn_star)
+  names(level_zero_oos_mn_star) <- paste0(".pred_", old_names)
+
   # these prediction vectors should happen on each list of `predict_data`
   # these will be of length N*
   # oos = out of sample
@@ -41,9 +44,12 @@ train_predict_level_zero_model <- function(train_predict_data,
     .f = \(x) predict_model(data = predict_data_nstar, model = x)
   )
 
+
   # Take out of sample predictions for each models, and combine to length N*
   # into fixed effects, one per model (XBG, RF, BGAM), A 3xN* matrix
-  oos_covariates <- combine_predictions(oos_predictions)
+  oos_covariates <- combine_predictions(oos_predictions) %>%
+    select(-fold) %>%
+    set_names(old_names)
 
   oos_covariates
 
