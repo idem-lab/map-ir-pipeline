@@ -73,6 +73,10 @@ tar_plan(
     moyes_geno_prepared
   ),
 
+  theta_ihs_value = unique(moyes_geno_pheno$theta_ihs),
+
+  inverted_pct_mortality = invert_pct_mortality(moyes_geno_pheno,
+                                                theta = theta_ihs_value),
   # explicitly drop NA values
   ir_data = create_ir_data(moyes_geno_pheno),
 
@@ -230,14 +234,14 @@ tar_plan(
       model_xgb,
       model_rf
     ),
-    outcomes = "percent_mortality",
+    outcomes = "transformed_mortality",
     predictors = model_covariates
   ),
   inla_meshes = create_meshes(ir_data_subset),
   gp_inla_setup = setup_gp_inla_model(
     ir_data_subset,
     covariate_names = names(model_list),
-    outcome = "percent_mortality",
+    outcome = "transformed_mortality",
     meshes = inla_meshes
   ),
   ir_data_mn_oos_predictions = model_validation(
@@ -258,6 +262,10 @@ tar_plan(
     level_zero_models = model_list,
     inla_mesh_setup = gp_inla_setup
   ),
+
+  converted_mort = invert_pct_mortality(ir_data_subset,
+                                        theta = theta_ihs_value),
+
 
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)

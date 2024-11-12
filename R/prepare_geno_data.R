@@ -30,6 +30,10 @@ prepare_geno_data <- function(moyes_geno_raw, moyes_geno_countries) {
       # species - filter down to "gambaie complex" in complex_subgroup
       no_mosquitoes_tested,
       # percent mortality? - instead we are using: l1014l_percent
+      # this is not actually the percent dead mosquitoes, it is the number of
+      # dead mosquitoes with the gene marker,
+      # since percent_mortality is l1014l_percent, which is a gene marker
+      # of those dead mosquitoes.
       percent_mortality = l1014l_percent,
       complex_subgroup
       # no information on insecticide
