@@ -182,7 +182,8 @@ tar_plan(
     crop_raster_to_reference(
       raster = raster_map_covariates,
       reference = reference_rast_countries,
-      data_type = "continuous"
+      data_type = "continuous",
+      impute_value = 0
     )
   ),
   tar_terra_rast(
@@ -190,7 +191,8 @@ tar_plan(
     crop_raster_to_reference(
       raster = raster_spam,
       reference = reference_rast_countries,
-      data_type = "continuous"
+      data_type = "continuous",
+      impute_value = 0
     )
   ),
   tar_terra_rast(
