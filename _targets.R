@@ -75,8 +75,6 @@ tar_plan(
 
   theta_ihs_value = unique(moyes_geno_pheno$theta_ihs),
 
-  inverted_pct_mortality = invert_pct_mortality(moyes_geno_pheno,
-                                                theta = theta_ihs_value),
   # explicitly drop NA values
   ir_data = create_ir_data(moyes_geno_pheno),
 
@@ -274,6 +272,7 @@ tar_plan(
     outcome = .pred,
     use_infinite_sample = TRUE
   ),
+  insecticide_id_lookup = create_insecticide_id_lookup(ir_data_subset),
 
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)
@@ -282,7 +281,8 @@ tar_plan(
     pixel_maps_data,
     create_pixel_map_data(
       predictions = ir_data_subset_converted_mort,
-      rasters = raster_covariates_countries
+      rasters = raster_covariates_countries,
+      insecticide_lookup = insecticide_id_lookup
     )
   ),
 
