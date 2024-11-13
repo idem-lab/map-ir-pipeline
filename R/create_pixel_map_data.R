@@ -15,10 +15,10 @@ create_pixel_map_data <- function(predictions,
   insecticide_ids <- sort(unique(predictions$insecticide_id))
 
   insecticide_names <- insecticide_lookup[insecticide_ids]
+  insecticide_names_print <- stringr::str_to_sentence(insecticide_names)
 
-  start_years_id <- sort(unique(predictions$start_year))
-  end_years_id <- sort(unique(predictions$end_year))
-  year_id <- glue("{start_years_id}-{end_years_id}")
+  # currently only works for single year prediction
+  year <- unique(predictions$start_year)
   n_insecticides <- length(insecticide_ids)
 
   prediction_raster <- rasters[[1]]
@@ -29,8 +29,7 @@ create_pixel_map_data <- function(predictions,
                                       simplify = FALSE)
 
   prediction_stack <- do.call(c, prediction_raster_list)
-  names(prediction_stack) <- glue("% mortality for insecticide_{insecticide_names}_\\
-                                  (id={insecticide_ids})_{year_id}")
+  names(prediction_stack) <- glue("{insecticide_names_print} class - {year}")
 
   for (i in seq_len(n_insecticides)) {
 
