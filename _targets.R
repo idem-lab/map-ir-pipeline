@@ -132,10 +132,10 @@ tar_plan(
     raster_veg,
     agcrop_area(crop = "vege")
   ),
-  tar_terra_rast(
-    raster_trees,
-    get_landcover("trees")
-  ),
+  # tar_terra_rast(
+  #   raster_trees,
+  #   get_landcover("trees")
+  # ),
   ## Currently removing these as they don't subset to the right countries
   # tar_terra_rast(
   #   raster_countries_elevation,
@@ -260,8 +260,7 @@ tar_plan(
     covariate_rasters = raster_covariates_countries,
     training_data = ir_data_subset,
     level_zero_models = model_list,
-    inla_mesh_setup = gp_inla_setup,
-    theta = theta_ihs_value
+    inla_mesh_setup = gp_inla_setup
   ),
 
   # ensure transformed_mortality gets transformed back to values we
@@ -272,6 +271,7 @@ tar_plan(
     # ir_data = ir_data_subset,
     ir_data = outer_loop_results_spatial,
     theta = theta_ihs_value,
+    outcome = .pred,
     use_infinite_sample = TRUE
   ),
 
@@ -299,8 +299,9 @@ tar_plan(
     )
   )
 
-) |>
-  tar_hook_before(
-    hook = source("conflicts.R"),
-    names = everything()
-  )
+)
+# |>
+#   tar_hook_before(
+#     hook = source("conflicts.R"),
+#     names = everything()
+#   )

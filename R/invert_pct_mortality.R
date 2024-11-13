@@ -14,7 +14,9 @@
 #' @return
 #' @author njtierney
 #' @export
-invert_pct_mortality <- function(ir_data, theta,
+invert_pct_mortality <- function(ir_data,
+                                 theta,
+                                 outcome,
                                  use_infinite_sample = FALSE){
 
   # undo the IHS transform, using the optimised value of theta used in the
@@ -22,7 +24,9 @@ invert_pct_mortality <- function(ir_data, theta,
   res <- ir_data |>
     mutate(
       logit_pct_mortality = Inv.IHS(
-        x = transformed_mortality,
+        # nominally, this is transformed_mortality
+        # but could also equally be `.pred`
+        x = {{ outcome }},
         theta = theta
       )
     )
