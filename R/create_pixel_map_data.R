@@ -8,10 +8,17 @@
 #' @author njtierney
 #' @export
 create_pixel_map_data <- function(predictions,
-                              rasters) {
+                              rasters,
+                              insecticide_lookup) {
 
   # make a multiband raster, covering each insecticide type
   insecticide_ids <- sort(unique(predictions$insecticide_id))
+
+  insecticide_names <- insecticide_lookup[insecticide_ids]
+
+  start_years_id <- sort(unique(predictions$start_year))
+  end_years_id <- sort(unique(predictions$end_year))
+  year_id <- glue("{start_years_id}-{end_years_id}")
   n_insecticides <- length(insecticide_ids)
 
   prediction_raster <- rasters[[1]]
@@ -22,7 +29,8 @@ create_pixel_map_data <- function(predictions,
                                       simplify = FALSE)
 
   prediction_stack <- do.call(c, prediction_raster_list)
-  names(prediction_stack) <- paste0("insecticide_", insecticide_ids)
+  names(prediction_stack) <- glue("insecticide_{insecticide_names}_\\
+                                  (id={insecticide_ids})_{year_id}")
 
   for (i in seq_len(n_insecticides)) {
 

@@ -263,9 +263,10 @@ tar_plan(
     inla_mesh_setup = gp_inla_setup
   ),
 
+  insecticide_id_lookup = create_insecticide_id_lookup(ir_data_subset),
+
   converted_mort = invert_pct_mortality(ir_data_subset,
                                         theta = theta_ihs_value),
-
 
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)
@@ -275,6 +276,7 @@ tar_plan(
     create_pixel_map_data(
       predictions = outer_loop_results_spatial,
       rasters = raster_covariates_countries
+      insecticide_lookup = insecticide_id_lookup
     )
   ),
 
