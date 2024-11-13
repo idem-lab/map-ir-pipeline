@@ -29,14 +29,14 @@ create_pixel_map_data <- function(predictions,
                                       simplify = FALSE)
 
   prediction_stack <- do.call(c, prediction_raster_list)
-  names(prediction_stack) <- glue("insecticide_{insecticide_names}_\\
+  names(prediction_stack) <- glue("% mortality for insecticide_{insecticide_names}_\\
                                   (id={insecticide_ids})_{year_id}")
 
   for (i in seq_len(n_insecticides)) {
 
     these_predictions <- predictions %>%
       filter(insecticide_id == insecticide_ids[i]) %>%
-      pull(.pred)
+      pull(percent_mortality)
 
     prediction_stack[[i]][which_cells_not_missing] <- these_predictions
 
