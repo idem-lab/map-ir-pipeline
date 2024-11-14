@@ -186,6 +186,11 @@ tar_plan(
     mosquito_data = ir_data_subset
   ),
 
+  lagged_covariates = lag_covariates(all_spatial_covariates,
+                                     covariates_to_lag,
+                                     covariates_not_to_lag = NULL,
+                                     lags = 0:3),
+
   complete_spatial_covariates = identify_complete_vars(
     all_spatial_covariates
   ),
