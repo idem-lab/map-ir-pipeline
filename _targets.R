@@ -14,10 +14,10 @@ controller <- crew_controller_local(
 
 tar_option_set(
   # Save a workspace file for a target that errors out
-  workspace_on_error = TRUE
+  workspace_on_error = TRUE,
   # debug = "outer_loop_results_spatial", # Set the target you want to debug.
   # cue = tar_cue(mode = "never") # Force skip non-debugging outdated targets.
-  # controller = controller
+  controller = controller
 )
 
 ## tar_plan supports drake-style targets and also tar_target()
@@ -98,29 +98,14 @@ tar_plan(
     origin = "country.name",
     destination = "iso3c"
   ),
-  tar_file(
-    path_map_irs,
-    "data/map-covariates/ir_irs.tif"
+  # read everything but the mask path
+  tar_target(
+    map_covariate_paths,
+    get_map_paths("data/map-covariates/")
   ),
   tar_terra_rast(
-    raster_map_irs,
-    rast(path_map_irs)
-  ),
-  tar_file(
-    path_map_itn,
-    "data/map-covariates/ir_itn.tif"
-  ),
-  tar_terra_rast(
-    raster_map_itn,
-    rast(path_map_itn)
-  ),
-  tar_file(
-    path_map_pop,
-    "data/map-covariates/ir_pop.tif"
-  ),
-  tar_terra_rast(
-    raster_map_pop,
-    rast(path_map_pop)
+    raster_map_covariates,
+    rast(map_covariate_paths)
   ),
   tar_terra_rast(
     raster_coffee,
@@ -144,14 +129,6 @@ tar_plan(
   #   get_worldclim(subset_country_codes, var = "tmin")
   # ),
   # this step should make the rasters match extent etc
-  tar_terra_rast(
-    raster_map_covariates,
-    c(
-      raster_map_irs,
-      raster_map_itn,
-      raster_map_pop
-    )
-  ),
   tar_terra_rast(
     raster_spam,
     c(
@@ -299,9 +276,8 @@ tar_plan(
     )
   )
 
-)
-# |>
-#   tar_hook_before(
-#     hook = source("conflicts.R"),
-#     names = everything()
-#   )
+) |>
+  tar_hook_before(
+    hook = source("conflicts.R"),
+    names = everything()
+  )

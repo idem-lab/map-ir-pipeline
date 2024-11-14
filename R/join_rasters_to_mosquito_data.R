@@ -24,7 +24,7 @@ join_rasters_to_mosquito_data <- function(rasters = raster_covariates,
     crs = "EPSG:4326"
     )
 
-  ir_data_subset_spatial_covariates <- extract(
+  ir_data_subset_spatial_covariates <- terra::extract(
     rasters,
     data_pts,
     method = extract_method,
