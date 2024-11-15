@@ -13,16 +13,20 @@
 spatial_prediction <- function(covariate_rasters,
                                training_data,
                                level_zero_models,
-                               inla_mesh_setup) {
+                               inla_mesh_setup,
+                               lags) {
 
   ir_data_subset_spatial_covariates <- join_rasters_to_mosquito_data(
     rasters = covariate_rasters,
-    mosquito_data = training_data
+    mosquito_data = training_data,
+    lags = lags
   )
 
   chosen_year <- max(as.integer(training_data$start_year))
 
-  rasters_as_data <- raster_to_df(covariate_rasters)
+
+  rasters_as_data <- raster_to_df(covariate_rasters) |>
+    tibble::rowid_to_column("uid")
 
   prediction_insecticide_ids <- training_data %>%
     filter(type == "phenotypic") %>%
@@ -33,6 +37,8 @@ spatial_prediction <- function(covariate_rasters,
   all_years <- seq(min(inla_mesh_setup$meshes$temporal_mesh$loc),
                    max(inla_mesh_setup$meshes$temporal_mesh$loc))
 
+  # adding in basic data to ensure the raster data can be passed along
+  # for model fitting
   rasters_w_basic_info <- rasters_as_data %>%
     mutate(
       start_year = chosen_year,
@@ -47,6 +53,19 @@ spatial_prediction <- function(covariate_rasters,
     expand_grid(
       insecticide_id = prediction_insecticide_ids,
     )
+
+  covariates_not_to_lag <- str_subset(
+    string = names(rasters_w_basic_info),
+    pattern = "_\\d{4}",
+    negate = TRUE
+  )
+
+  basic_rasters_lagged_covariates <- lag_covariates(
+    data_with_spatial_covariates = rasters_w_basic_info,
+    covariates_not_to_lag = covariates_not_to_lag,
+    lags = 0:3
+  )
+
       # start_year = all_years
     # ) %>% mutate(
     #   end_year = start_year + 1
@@ -59,7 +78,8 @@ spatial_prediction <- function(covariate_rasters,
   # all of them, then put predicted IR values back in a raster of predictions.
   spatial_predictions <- inner_loop(
         data = ir_data_subset_spatial_covariates,
-        new_data = rasters_w_basic_info,
+        # new_data = rasters_w_basic_info,
+        new_data = basic_rasters_lagged_covariates,
         level_zero_models = level_zero_models,
         level_one_model_setup = inla_mesh_setup
       )

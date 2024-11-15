@@ -98,29 +98,14 @@ tar_plan(
     origin = "country.name",
     destination = "iso3c"
   ),
-  tar_file(
-    path_map_irs,
-    "data/map-covariates/ir_irs.tif"
+  # read everything but the mask path
+  tar_target(
+    map_covariate_paths,
+    get_map_paths("data/map-covariates/")
   ),
   tar_terra_rast(
-    raster_map_irs,
-    rast(path_map_irs)
-  ),
-  tar_file(
-    path_map_itn,
-    "data/map-covariates/ir_itn.tif"
-  ),
-  tar_terra_rast(
-    raster_map_itn,
-    rast(path_map_itn)
-  ),
-  tar_file(
-    path_map_pop,
-    "data/map-covariates/ir_pop.tif"
-  ),
-  tar_terra_rast(
-    raster_map_pop,
-    rast(path_map_pop)
+    raster_map_covariates,
+    rast(map_covariate_paths)
   ),
   tar_terra_rast(
     raster_coffee,
@@ -144,14 +129,6 @@ tar_plan(
   #   get_worldclim(subset_country_codes, var = "tmin")
   # ),
   # this step should make the rasters match extent etc
-  tar_terra_rast(
-    raster_map_covariates,
-    c(
-      raster_map_irs,
-      raster_map_itn,
-      raster_map_pop
-    )
-  ),
   tar_terra_rast(
     raster_spam,
     c(
@@ -204,9 +181,13 @@ tar_plan(
       raster_countries_map
     )
   ),
+
+  spatial_covariate_lags = 0:3,
+
   all_spatial_covariates = join_rasters_to_mosquito_data(
     rasters = raster_covariates_countries,
-    mosquito_data = ir_data_subset
+    mosquito_data = ir_data_subset,
+    lags = spatial_covariate_lags
   ),
 
   complete_spatial_covariates = identify_complete_vars(
@@ -246,7 +227,8 @@ tar_plan(
     covariate_rasters = raster_covariates_countries,
     training_data = ir_data_subset,
     level_zero_models = model_list,
-    inla_setup = gp_inla_setup
+    inla_setup = gp_inla_setup,
+    lags = spatial_covariate_lags
   ),
   oos_diagnostics = diagnostics(ir_data_mn_oos_predictions),
   plot_diagnostics = gg_diagnostics(oos_diagnostics),
@@ -258,7 +240,8 @@ tar_plan(
     covariate_rasters = raster_covariates_countries,
     training_data = ir_data_subset,
     level_zero_models = model_list,
-    inla_mesh_setup = gp_inla_setup
+    inla_mesh_setup = gp_inla_setup,
+    lags = spatial_covariate_lags
   ),
 
   # ensure transformed_mortality gets transformed back to values we
@@ -299,9 +282,8 @@ tar_plan(
     )
   )
 
-)
-# |>
-#   tar_hook_before(
-#     hook = source("conflicts.R"),
-#     names = everything()
-#   )
+) |>
+  tar_hook_before(
+    hook = source("conflicts.R"),
+    names = everything()
+  )
