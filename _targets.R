@@ -8,16 +8,16 @@ tar_source()
 # facilitate this working in parallel
 controller <- crew_controller_local(
   name = "my_controller",
-  workers = 5,
+  workers = 4,
   seconds_idle = 3
 )
 
 tar_option_set(
   # Save a workspace file for a target that errors out
-  workspace_on_error = TRUE,
+  workspace_on_error = TRUE
   # debug = "outer_loop_results_spatial", # Set the target you want to debug.
   # cue = tar_cue(mode = "never") # Force skip non-debugging outdated targets.
-  controller = controller
+  # controller = controller
 )
 
 ## tar_plan supports drake-style targets and also tar_target()
