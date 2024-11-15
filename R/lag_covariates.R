@@ -15,88 +15,59 @@ lag_covariates <- function(all_spatial_covariates,
                            covariates_not_to_lag = NULL,
                            lags = 0:3) {
 
-  # example lagging code
-  n <- 100
-
-  grid_cov <- expand_grid(
-    covariates = c("rainfall", "temperature"),
-    years = 2000:2022,
-    row = seq_len(n)
+  # all variables ending with year information
+  covariates_not_to_lag <- str_subset(
+    string = names(all_spatial_covariates),
+    pattern = "_\\d{4}",
+    negate = TRUE
   ) |>
-    mutate(
-      value = runif(n())
+    str_subset(
+      # making a smaller subset so it is easier to understand for the moment
+      "uid|start_year",
+      negate = TRUE
     )
 
-  grid_cov
-
-  wider_grid_cov <- grid_cov |>
-    pivot_wider(
-      names_from = c(covariates, years),
-      values_from = value
-    )
-
-  wider_grid_cov
-
-  dat <- tibble(
-    row = seq_len(n),
-    obs = runif(n),
-    year_start = sample(2000:2022, size = n, replace = TRUE)
-  )
-
-  dat
-
-  example_covariates <- left_join(
-    dat,
-    wider_grid_cov,
-    by = "row"
-  ) |>
-    mutate(
-      coffee = runif(n())
-    )
-
-  covariates_to_lag <- c("rainfall", "temperature")
-  covariates_not_to_lag <- c("coffee")
-  covariates_to_lag
-
-  vec_lags <- 0:3
-
-  example_covariates |>
+  all_spatial_covariates |>
+    # making a smaller subset so it is easier to understand for the moment
     select(
-      -all_of(c(covariates_not_to_lag, "obs"))
+      -c(covariates_not_to_lag),
     ) |>
     pivot_longer(
-      cols = -c("row", "year_start"),
+      cols = -c("uid", "start_year"),
       names_to = c("variable", "year"),
-      names_sep = "_"
+      # find two groups - the first being the variable, the second the year
+      # e.g., for irs_2000 we get variables: irs, year
+      # for itn_use_2000 we get variables: itn_use, and year
+      names_pattern = "(.*)_(\\d{4})"
+    ) |>
+    mutate(
+      year = as.integer(year)
     ) |>
     pivot_wider(
       names_from = variable,
       values_from = value
     ) |>
-    # add an expand.grid with the lags as well
     expand_grid(
-      lags = vec_lags
+      lags = lags
     ) |>
     relocate(
       lags,
-      .after = year_start
+      .after = year
     ) |>
-    # so whether year_start - lag is equal to that year
     mutate(
-      year_lagged = year_start - lags,
-      year = as.integer(year),
+      year_lagged = start_year - lags,
       .after = lags
     ) |>
     filter(
       year_lagged == year
-    ) |>
+    )  |>
     select(
       -year,
       -year_lagged
     ) |>
     pivot_wider(
       names_from = c("lags"),
-      values_from = covariates_to_lag
+      values_from = -c("uid", "start_year", "lags")
     )
 
 }
