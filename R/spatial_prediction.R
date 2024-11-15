@@ -13,11 +13,13 @@
 spatial_prediction <- function(covariate_rasters,
                                training_data,
                                level_zero_models,
-                               inla_mesh_setup) {
+                               inla_mesh_setup,
+                               lags) {
 
   ir_data_subset_spatial_covariates <- join_rasters_to_mosquito_data(
     rasters = covariate_rasters,
-    mosquito_data = training_data
+    mosquito_data = training_data,
+    lags = lags
   )
 
   chosen_year <- max(as.integer(training_data$start_year))

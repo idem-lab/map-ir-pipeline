@@ -3,19 +3,17 @@
 #' .. content for \details{} ..
 #'
 #' @title
-#' @param all_spatial_covariates
-#' @param covariates_to_lag
+#' @param data_with_spatial_covariates
 #' @param covariates_not_to_lag
 #' @param lags
 #' @return
 #' @author njtierney
 #' @export
-lag_covariates <- function(all_spatial_covariates,
-                           covariates_to_lag,
+lag_covariates <- function(data_with_spatial_covariates,
                            covariates_not_to_lag = NULL,
                            lags = 0:3) {
 
-  all_spatial_covariates |>
+  data_with_spatial_covariates |>
     pivot_longer(
       cols = -c("uid", "start_year", covariates_not_to_lag),
       names_to = c("variable", "year"),

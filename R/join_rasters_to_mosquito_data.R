@@ -3,14 +3,20 @@
 #' .. content for \details{} ..
 #'
 #' @title
+#'
 #' @param rasters
+#' @param extract_method
+#' @param covariates_not_to_lag
+#' @param lags
 #' @param mosquito_data
+#'
 #' @return
 #' @author njtierney
 #' @export
 join_rasters_to_mosquito_data <- function(rasters = raster_covariates,
                                           mosquito_data = ir_data_subset,
-                                          extract_method = "bilinear") {
+                                          extract_method = "bilinear",
+                                          lags = 0:3) {
   cli_inform(
     message = c(
       "Using extraction method: {.var {extract_method}}",
@@ -48,5 +54,19 @@ join_rasters_to_mosquito_data <- function(rasters = raster_covariates,
         .fns = impute_zero
       )
     )
+
+  covariates_not_to_lag <- str_subset(
+    string = names(ir_data_subset_spatial_covariates),
+    pattern = "_\\d{4}",
+    negate = TRUE
+  )
+
+  lagged_covariates <- lag_covariates(
+    data_with_spatial_covariates = ir_data_subset_spatial_covariates,
+    covariates_not_to_lag = covariates_not_to_lag,
+    lags = 0:3
+  )
+
+  lagged_covariates
 
 }

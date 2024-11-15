@@ -8,7 +8,7 @@ tar_source()
 # facilitate this working in parallel
 controller <- crew_controller_local(
   name = "my_controller",
-  workers = 4,
+  workers = 5,
   seconds_idle = 3
 )
 
@@ -181,29 +181,14 @@ tar_plan(
       raster_countries_map
     )
   ),
+
+  spatial_covariate_lags = 0:3,
+
   all_spatial_covariates = join_rasters_to_mosquito_data(
     rasters = raster_covariates_countries,
-    mosquito_data = ir_data_subset
+    mosquito_data = ir_data_subset,
+    lags = spatial_covariate_lags
   ),
-
-  # all variables ending with year information
-  covariates_not_to_lag = str_subset(
-    string = names(all_spatial_covariates),
-    pattern = "_\\d{4}",
-    negate = TRUE
-  ) |>
-    str_subset(
-      # making a smaller subset so it is easier to understand for the moment
-      "uid|start_year",
-      negate = TRUE
-    ),
-
-  lagged_covariates = lag_covariates(
-    all_spatial_covariates,
-    covariates_to_lag,
-    covariates_not_to_lag = covariates_not_to_lag,
-    lags = 0:3
-    ),
 
   complete_spatial_covariates = identify_complete_vars(
     all_spatial_covariates
@@ -242,7 +227,8 @@ tar_plan(
     covariate_rasters = raster_covariates_countries,
     training_data = ir_data_subset,
     level_zero_models = model_list,
-    inla_setup = gp_inla_setup
+    inla_setup = gp_inla_setup,
+    lags = spatial_covariate_lags
   ),
   oos_diagnostics = diagnostics(ir_data_mn_oos_predictions),
   plot_diagnostics = gg_diagnostics(oos_diagnostics),
@@ -254,7 +240,8 @@ tar_plan(
     covariate_rasters = raster_covariates_countries,
     training_data = ir_data_subset,
     level_zero_models = model_list,
-    inla_mesh_setup = gp_inla_setup
+    inla_mesh_setup = gp_inla_setup,
+    lags = spatial_covariate_lags
   ),
 
   # ensure transformed_mortality gets transformed back to values we

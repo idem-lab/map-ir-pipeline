@@ -13,11 +13,13 @@
 model_validation <- function(covariate_rasters,
                              training_data,
                              level_zero_models,
-                             inla_setup) {
+                             inla_setup,
+                             lags) {
 
   ir_data_subset_spatial_covariates <- join_rasters_to_mosquito_data(
     rasters = covariate_rasters,
-    mosquito_data = training_data
+    mosquito_data = training_data,
+    lags = lags
   )
 
   # Returns a set of predictions per test set, fitting L1 model from L0 models
