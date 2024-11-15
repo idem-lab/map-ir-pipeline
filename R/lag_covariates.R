@@ -16,12 +16,8 @@ lag_covariates <- function(all_spatial_covariates,
                            lags = 0:3) {
 
   all_spatial_covariates |>
-    # making a smaller subset so it is easier to understand for the moment
-    select(
-      -c(covariates_not_to_lag),
-    ) |>
     pivot_longer(
-      cols = -c("uid", "start_year"),
+      cols = -c("uid", "start_year", covariates_not_to_lag),
       names_to = c("variable", "year"),
       # find two groups - the first being the variable, the second the year
       # e.g., for irs_2000 we get variables: irs, year
@@ -43,19 +39,41 @@ lag_covariates <- function(all_spatial_covariates,
       .after = year
     ) |>
     mutate(
-      year_lagged = start_year - lags,
-      .after = lags
+      year_lagged = start_year - lags
     ) |>
     filter(
       year_lagged == year
-    )  |>
+    ) |>
     select(
       -year,
       -year_lagged
     ) |>
     pivot_wider(
       names_from = c("lags"),
-      values_from = -c("uid", "start_year", "lags")
+      values_from = -c("uid", "start_year", "lags", covariates_not_to_lag),
+      names_sort = TRUE
+    ) |>
+    pivot_longer(
+      cols = -c(uid, start_year, covariates_not_to_lag),
+      names_to = c("variable", "lag"),
+      names_pattern = "(.*)_(\\d{1})"
+    ) |>
+    mutate(
+      lag = as.integer(lag)
+    ) |>
+    arrange(
+      uid,
+      start_year,
+      variable,
+      lag
+    )  |>
+    fill(
+      value,
+      .direction = "down"
+    ) |>
+    pivot_wider(
+      names_from = c(variable, lag),
+      values_from = value
     )
 
 }
