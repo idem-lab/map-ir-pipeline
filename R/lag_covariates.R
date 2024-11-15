@@ -15,18 +15,6 @@ lag_covariates <- function(all_spatial_covariates,
                            covariates_not_to_lag = NULL,
                            lags = 0:3) {
 
-  # all variables ending with year information
-  covariates_not_to_lag <- str_subset(
-    string = names(all_spatial_covariates),
-    pattern = "_\\d{4}",
-    negate = TRUE
-  ) |>
-    str_subset(
-      # making a smaller subset so it is easier to understand for the moment
-      "uid|start_year",
-      negate = TRUE
-    )
-
   all_spatial_covariates |>
     # making a smaller subset so it is easier to understand for the moment
     select(
