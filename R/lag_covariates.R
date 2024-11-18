@@ -10,72 +10,42 @@
 #' @author njtierney
 #' @export
 lag_covariates <- function(data_with_spatial_covariates,
-                           covariates_not_to_lag = NULL,
-                           lags = 0:3) {
+                            covariates_not_to_lag,
+                            covariates_to_lag,
+                            lags = 0:3) {
 
-  data_spatial_covariate_long <- data_with_spatial_covariates |>
-    pivot_longer(
-      cols = -c("uid", "start_year", covariates_not_to_lag),
-      names_to = c("variable", "year"),
-      # find two groups - the first being the variable, the second the year
-      # e.g., for irs_2000 we get variables: irs, year
-      # for itn_use_2000 we get variables: itn_use, and year
-      names_pattern = "(.*)_(\\d{4})"
-    ) |>
-    mutate(
-      year = as.integer(year)
-    )
 
-  data_spatial_covariate_long_lag <- data_spatial_covariate_long |>
-    pivot_wider(
-      names_from = variable,
-      values_from = value
-    ) |>
-    expand_grid(
-      lags = lags
-    ) |>
-    relocate(
-      lags,
-      .after = year
-    ) |>
-    mutate(
-      year_lagged = start_year - lags
-    ) |>
-    filter(
-      year_lagged == year
-    ) |>
+  covariates_not_to_lag <- str_subset(
+    string = names(data_with_spatial_covariates),
+    pattern = "_\\d{4}",
+    negate = TRUE
+  )
+
+  covariates_to_lag <- setdiff(
+    names(data_with_spatial_covariates),
+    covariates_not_to_lag
+  ) |> str_remove_all("_\\d{4}$") |>
+    unique()
+
+
+  for(lag in lags) {
+    for (cov in covariates_to_lag) {
+      lag_year <- data_with_spatial_covariates$start_year - lag
+      cov_names <- paste0(cov, "_", lag_year)
+      new_cov_name <- paste0(cov, "_lag", lag)
+      row_idx <- seq_len(nrow(data_with_spatial_covariates))
+      df_mat <- data_with_spatial_covariates |>
+        select(starts_with(covariates_to_lag)) |>
+        as.matrix()
+      col_idx <- match(cov_names, colnames(df_mat))
+      lagged_inputs <- df_mat[cbind(row_idx, col_idx)]
+      data_with_spatial_covariates[new_cov_name] <- lagged_inputs
+    }
+  }
+  data_with_spatial_covariates |>
     select(
-      -year,
-      -year_lagged
-    ) |>
-    pivot_wider(
-      names_from = c("lags"),
-      values_from = -c("uid", "start_year", "lags", covariates_not_to_lag),
-      names_sort = TRUE
-    ) |>
-    pivot_longer(
-      cols = -c(uid, start_year, covariates_not_to_lag),
-      names_to = c("variable", "lag"),
-      names_pattern = "(.*)_(\\d{1})"
-    ) |>
-    mutate(
-      lag = as.integer(lag)
-    ) |>
-    arrange(
-      uid,
-      start_year,
-      variable,
-      lag
-    )  |>
-    fill(
-      value,
-      .direction = "down"
-    ) |>
-    pivot_wider(
-      names_from = c(variable, lag),
-      values_from = value
+      any_of(covariates_not_to_lag),
+      contains("_lag")
     )
-
-  data_spatial_covariate_long_lag
 
 }

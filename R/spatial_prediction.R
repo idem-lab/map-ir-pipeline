@@ -49,28 +49,10 @@ spatial_prediction <- function(covariate_rasters,
       insecticide_id = prediction_insecticide_ids
     )
 
-  covariates_not_to_lag <- str_subset(
-    string = names(rasters_w_basic_info),
-    pattern = "_\\d{4}",
-    negate = TRUE
-  )
-
-  covariates_to_lag <- setdiff(
-    names(rasters_w_basic_info),
-    covariates_not_to_lag
-    ) |> str_remove_all("_\\d{4}$") |>
-    unique()
-
-  basic_rasters_lagged_covariates <- lag_covariates2(
+  basic_rasters_lagged_covariates <- lag_covariates(
     data_with_spatial_covariates = rasters_w_basic_info,
     covariates_not_to_lag = covariates_not_to_lag,
     covariates_to_lag = covariates_to_lag,
-    lags = 0:3
-  )
-
-  basic_rasters_lagged_covariates2 <- lag_covariates(
-    data_with_spatial_covariates = rasters_w_basic_info,
-    covariates_not_to_lag = covariates_not_to_lag,
     lags = 0:3
   )
 

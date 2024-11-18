@@ -85,7 +85,7 @@ tar_plan(
   ir_data_sf_key = create_sf_id(ir_data),
 
   # specify how many years you want to predict out to (can be just one year)
-  predict_year_range = 2015,
+  predict_year_range = 2014:2015,
   # setup analysis to work on a few countries
   subset_countries = c("Benin", "Nigeria"),
   ir_data_subset = filter(ir_data, country %in% subset_countries),
