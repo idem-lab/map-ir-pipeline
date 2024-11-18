@@ -13,7 +13,7 @@ lag_covariates <- function(data_with_spatial_covariates,
                            covariates_not_to_lag = NULL,
                            lags = 0:3) {
 
-  data_with_spatial_covariates |>
+  data_spatial_covariate_long <- data_with_spatial_covariates |>
     pivot_longer(
       cols = -c("uid", "start_year", covariates_not_to_lag),
       names_to = c("variable", "year"),
@@ -24,7 +24,9 @@ lag_covariates <- function(data_with_spatial_covariates,
     ) |>
     mutate(
       year = as.integer(year)
-    ) |>
+    )
+
+  data_spatial_covariate_long_lag <- data_spatial_covariate_long |>
     pivot_wider(
       names_from = variable,
       values_from = value
@@ -73,5 +75,7 @@ lag_covariates <- function(data_with_spatial_covariates,
       names_from = c(variable, lag),
       values_from = value
     )
+
+  data_spatial_covariate_long_lag
 
 }

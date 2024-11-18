@@ -20,11 +20,13 @@ create_pixel_map_data <- function(predictions,
   # currently only works for single year prediction
   year <- unique(predictions$start_year)
   n_insecticides <- length(insecticide_ids)
+  n_years <- length(year)
+  n_rasters <- n_insecticides * n_years
 
   prediction_raster <- rasters[[1]]
   which_cells_not_missing <- which(!is.na(prediction_raster[]))
   prediction_raster[] <- NA
-  prediction_raster_list <- replicate(n_insecticides,
+  prediction_raster_list <- replicate(n_rasters,
                                       prediction_raster,
                                       simplify = FALSE)
 

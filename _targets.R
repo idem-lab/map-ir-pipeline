@@ -84,6 +84,8 @@ tar_plan(
   # Create a spatial dataset with linked ID so we can join this on later
   ir_data_sf_key = create_sf_id(ir_data),
 
+  # specify how many years you want to predict out to (can be just one year)
+  predict_year_range = 2015,
   # setup analysis to work on a few countries
   subset_countries = c("Benin", "Nigeria"),
   ir_data_subset = filter(ir_data, country %in% subset_countries),
@@ -241,7 +243,8 @@ tar_plan(
     training_data = ir_data_subset,
     level_zero_models = model_list,
     inla_mesh_setup = gp_inla_setup,
-    lags = spatial_covariate_lags
+    lags = spatial_covariate_lags,
+    prediction_year_range = predict_year_range
   ),
 
   # ensure transformed_mortality gets transformed back to values we
