@@ -266,13 +266,17 @@ tar_plan(
   # TODO
   # potentially loop across the insecticide ID
   # and then
+  insecticide_names = str_subset(insecticide_id_lookup, "none", negate = TRUE),
+
   tar_terra_rast(
     pixel_maps_data,
     create_pixel_map_data(
       predictions = ir_data_subset_converted_mort,
       rasters = raster_covariates_countries,
-      insecticide_lookup = insecticide_id_lookup
-    )
+      insecticide_lookup = insecticide_id_lookup,
+      insecticide = insecticide_names
+    ),
+    pattern = map(insecticide_names)
   ),
 
   # TODO make a target to write out the rasters from the pixel map
