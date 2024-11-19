@@ -273,15 +273,20 @@ tar_plan(
   ),
 
   tar_target(
+    plot_pixel_map,
+    gg_pixel_map(pixel_maps_data)
+  ),
+
+  tar_target(
     pixel_maps_paths,
-    here("plots/pixel-maps-insecticide-1-5.png")
+    "plots/pixel-maps-insecticide-1-5.png"
   ),
 
   tar_file(
     pixel_map_plots,
     save_plot(
       path = pixel_maps_paths,
-      raster = pixel_maps_data
+      plot = plot_pixel_map
     )
   )
 

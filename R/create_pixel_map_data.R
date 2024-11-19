@@ -43,17 +43,35 @@ create_pixel_map_data <- function(predictions,
 
   names(prediction_stack) <- label_df$label
 
-  for (i in seq_len(n_insecticides)) {
-    for (j in seq_along(year)) {
+  nested_predictions <- predictions |>
+    select(
+      start_year,
+      insecticide_id,
+      percent_mortality
+    ) |>
+    group_by(
+      start_year,
+      insecticide_id
+    ) |>
+    nest()
 
-      these_predictions <- predictions %>%
-        filter(insecticide_id == insecticide_ids[i],
-               start_year == year[j]) %>%
-        pull(percent_mortality)
-
-      prediction_stack[[i]][which_cells_not_missing] <- these_predictions
-    }
+  for (i in seq_len(n_rasters)){
+    prediction_stack[[i]][which_cells_not_missing] <- pull(
+      nested_predictions$data[[i]]
+      )
   }
+#
+#   for (i in seq_len(n_insecticides)) {
+#     for (j in seq_along(year)) {
+#
+#       these_predictions <- predictions %>%
+#         filter(insecticide_id == insecticide_ids[i],
+#                start_year == year[j]) %>%
+#         pull(percent_mortality)
+#
+#       prediction_stack[[i]][which_cells_not_missing] <- these_predictions
+#     }
+#   }
 
   prediction_stack
 }
