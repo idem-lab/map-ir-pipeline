@@ -263,6 +263,9 @@ tar_plan(
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)
 
+  # TODO
+  # potentially loop across the insecticide ID
+  # and then
   tar_terra_rast(
     pixel_maps_data,
     create_pixel_map_data(
@@ -272,6 +275,13 @@ tar_plan(
     )
   ),
 
+  # TODO make a target to write out the rasters from the pixel map
+
+  # TODO we want to create a pixel map for each insecticide across all
+  # years provided, so that object from `pixel_maps_data` is a list
+  # loop through the levels of that (the years), and use the name of that
+  # in the file path
+  # So, save the plot, and save the raster of the data
   tar_target(
     plot_pixel_map,
     gg_pixel_map(pixel_maps_data)
@@ -281,6 +291,7 @@ tar_plan(
     pixel_maps_paths,
     "plots/pixel-maps-insecticide-1-5.png"
   ),
+
 
   tar_file(
     pixel_map_plots,
