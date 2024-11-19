@@ -53,7 +53,7 @@ spatial_prediction <- function(covariate_rasters,
     data_with_spatial_covariates = rasters_w_basic_info,
     covariates_not_to_lag = covariates_not_to_lag,
     covariates_to_lag = covariates_to_lag,
-    lags = 0:3
+    lags = lags
   )
 
   # start_year = all_years
