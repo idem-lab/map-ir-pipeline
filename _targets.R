@@ -279,31 +279,37 @@ tar_plan(
     pattern = map(insecticide_names)
   ),
 
-  # TODO make a target to write out the rasters from the pixel map
+  # Save the raster of the data
+  tar_target(
+    pixel_map_tif,
+    write_insecticide_raster(
+      pixel_maps_data,
+      insecticide_names
+    ),
+    pattern = map(pixel_maps_data,insecticide_names)
+  ),
 
-  # TODO we want to create a pixel map for each insecticide across all
-  # years provided, so that object from `pixel_maps_data` is a list
-  # loop through the levels of that (the years), and use the name of that
-  # in the file path
-  # So, save the plot, and save the raster of the data
+  # Save the plots
   tar_target(
     plot_pixel_map,
     gg_pixel_map(pixel_maps_data),
-    pattern = map(pixel_maps_data)
+    pattern = map(pixel_maps_data),
+    iteration = "list"
   ),
 
   tar_target(
     pixel_maps_paths,
-    "plots/pixel-maps-insecticide-1-5.png"
+    glue("plots/pixel-maps-{insecticide_names}.png",
+         insecticide_names = insecticide_names)
   ),
 
-
-  tar_file(
+  tar_target(
     pixel_map_plots,
     save_plot(
-      path = pixel_maps_paths,
-      plot = plot_pixel_map
-    )
+      raster = pixel_maps_data,
+      path = pixel_maps_paths
+    ),
+    pattern = map(pixel_maps_data, pixel_maps_paths)
   )
 
 ) |>

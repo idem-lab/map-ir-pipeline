@@ -9,14 +9,6 @@
 #' @export
 gg_pixel_map <- function(pixel_maps_data) {
 
-  # "2014_carbamate" --> "Carbamate class - 2014"
-  insecticide_labeller <- function(string) {
-    str_pieces <- str_split(string, pattern = "_", n = 2, simplify = TRUE)
-    str_years <- str_pieces[ , 1]
-    str_insecticides <- str_to_title(str_pieces[ , 2])
-    glue("{str_insecticides} class - {str_years}")
-  }
-
   plot <- ggplot() +
     geom_spatraster(
       data = pixel_maps_data / 100
