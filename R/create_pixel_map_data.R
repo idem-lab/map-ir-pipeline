@@ -8,8 +8,8 @@
 #' @author njtierney
 #' @export
 create_pixel_map_data <- function(predictions,
-                              rasters,
-                              insecticide_lookup) {
+                                  rasters,
+                                  insecticide_lookup) {
 
   # make a multiband raster, covering each insecticide type
   insecticide_ids <- sort(unique(predictions$insecticide_id))
@@ -31,16 +31,28 @@ create_pixel_map_data <- function(predictions,
                                       simplify = FALSE)
 
   prediction_stack <- do.call(c, prediction_raster_list)
-  names(prediction_stack) <- glue("{insecticide_names_print} class - {year}")
+
+  label_df <- tibble(insecticide_names_print) |>
+    rowid_to_column() |>
+    expand_grid(year) |>
+    arrange(year, rowid) |>
+    mutate(
+      label = glue("{insecticide_names_print} class - {year}")
+    )
+
+
+  names(prediction_stack) <- label_df$label
 
   for (i in seq_len(n_insecticides)) {
+    for (j in seq_along(year)) {
 
-    these_predictions <- predictions %>%
-      filter(insecticide_id == insecticide_ids[i]) %>%
-      pull(percent_mortality)
+      these_predictions <- predictions %>%
+        filter(insecticide_id == insecticide_ids[i],
+               start_year == year[j]) %>%
+        pull(percent_mortality)
 
-    prediction_stack[[i]][which_cells_not_missing] <- these_predictions
-
+      prediction_stack[[i]][which_cells_not_missing] <- these_predictions
+    }
   }
 
   prediction_stack
