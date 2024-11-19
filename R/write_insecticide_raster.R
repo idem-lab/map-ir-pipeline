@@ -8,7 +8,8 @@
 #' @return
 #' @author njtierney
 #' @export
-write_insecticide_raster <- function(pixel_maps_data, insecticide_names) {
+write_insecticide_raster <- function(pixel_maps_data,
+                                     insecticide_names) {
 
   dir_create("output-data")
 
@@ -17,8 +18,11 @@ write_insecticide_raster <- function(pixel_maps_data, insecticide_names) {
   raster_file_name <- glue(
     "output-data/{year_txt}-{insecticide_names}-esimated-mortality.tif"
     )
-  writeRaster(x = pixel_maps_data,
-              filename = raster_file_name)
+  writeRaster(
+    x = pixel_maps_data,
+    filename = raster_file_name,
+    overwrite = TRUE
+  )
 
   raster_file_name
 
