@@ -55,16 +55,11 @@ join_rasters_to_mosquito_data <- function(rasters = raster_covariates,
       )
     )
 
-  covariates_not_to_lag <- str_subset(
-    string = names(ir_data_subset_spatial_covariates),
-    pattern = "_\\d{4}",
-    negate = TRUE
-  )
-
   lagged_covariates <- lag_covariates(
     data_with_spatial_covariates = ir_data_subset_spatial_covariates,
     covariates_not_to_lag = covariates_not_to_lag,
-    lags = 0:3
+    covariates_to_lag = covariates_to_lag,
+    lags = lags
   )
 
   lagged_covariates

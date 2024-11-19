@@ -84,6 +84,8 @@ tar_plan(
   # Create a spatial dataset with linked ID so we can join this on later
   ir_data_sf_key = create_sf_id(ir_data),
 
+  # specify how many years you want to predict out to (can be just one year)
+  predict_year_range = 2014:2015,
   # setup analysis to work on a few countries
   subset_countries = c("Benin", "Nigeria"),
   ir_data_subset = filter(ir_data, country %in% subset_countries),
@@ -241,7 +243,8 @@ tar_plan(
     training_data = ir_data_subset,
     level_zero_models = model_list,
     inla_mesh_setup = gp_inla_setup,
-    lags = spatial_covariate_lags
+    lags = spatial_covariate_lags,
+    prediction_year_range = predict_year_range
   ),
 
   # ensure transformed_mortality gets transformed back to values we
@@ -260,26 +263,53 @@ tar_plan(
   # We get out a set of out of sample predictions of length N
   # Which we can compare to the true data (y-hat vs y)
 
+  # TODO
+  # potentially loop across the insecticide ID
+  # and then
+  insecticide_names = str_subset(insecticide_id_lookup, "none", negate = TRUE),
+
   tar_terra_rast(
     pixel_maps_data,
     create_pixel_map_data(
       predictions = ir_data_subset_converted_mort,
       rasters = raster_covariates_countries,
-      insecticide_lookup = insecticide_id_lookup
-    )
+      insecticide_lookup = insecticide_id_lookup,
+      insecticide = insecticide_names
+    ),
+    pattern = map(insecticide_names)
+  ),
+
+  # Save the raster of the data
+  tar_target(
+    pixel_map_tif,
+    write_insecticide_raster(
+      pixel_maps_data,
+      insecticide_names
+    ),
+    pattern = map(pixel_maps_data,insecticide_names)
+  ),
+
+  # Save the plots
+  tar_target(
+    plot_pixel_map,
+    gg_pixel_map(pixel_maps_data),
+    pattern = map(pixel_maps_data),
+    iteration = "list"
   ),
 
   tar_target(
     pixel_maps_paths,
-    here("plots/pixel-maps-insecticide-1-5.png")
+    glue("plots/pixel-maps-{insecticide_names}.png",
+         insecticide_names = insecticide_names)
   ),
 
-  tar_file(
+  tar_target(
     pixel_map_plots,
     save_plot(
-      path = pixel_maps_paths,
-      raster = pixel_maps_data
-    )
+      raster = pixel_maps_data,
+      path = pixel_maps_paths
+    ),
+    pattern = map(pixel_maps_data, pixel_maps_paths)
   )
 
 ) |>
