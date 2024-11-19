@@ -292,7 +292,7 @@ tar_plan(
   # Save the plots
   tar_target(
     plot_pixel_map,
-    gg_pixel_map(pixel_maps_data),
+    gg_pixel_map(pixel_maps_data, country_shapefile),
     pattern = map(pixel_maps_data),
     iteration = "list"
   ),

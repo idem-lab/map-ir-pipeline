@@ -7,11 +7,17 @@
 #' @return
 #' @author njtierney
 #' @export
-gg_pixel_map <- function(pixel_maps_data) {
+gg_pixel_map <- function(pixel_maps_data,country_shapefile) {
 
   plot <- ggplot() +
     geom_spatraster(
       data = pixel_maps_data / 100
+    ) +
+    geom_spatvector(
+      data = country_shapefile,
+      fill = NA,
+      colour = "white",
+      size = 2
     ) +
     scale_fill_gradient(
       low = "black",
