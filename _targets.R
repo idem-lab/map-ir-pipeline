@@ -288,7 +288,8 @@ tar_plan(
   # So, save the plot, and save the raster of the data
   tar_target(
     plot_pixel_map,
-    gg_pixel_map(pixel_maps_data)
+    gg_pixel_map(pixel_maps_data),
+    pattern = map(pixel_maps_data)
   ),
 
   tar_target(
