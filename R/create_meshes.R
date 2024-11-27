@@ -8,14 +8,12 @@
 #' @author njtierney
 #' @export
 create_meshes <- function(ir_data,
-                          # Penny's mesh setup options from line 32-38
-                          # inputs_list_wa_gauss_DPLA.r, to edit later
-                          m1.cutoff = 0.005,
-                          m1.min.angle = c(25, 25),
-                          m1.max.edge = c(0.05, 1000),
-                          # tmesh.yr.st = 2005,
-                          # tmesh.yr.end = 2017,
-                          # tmesh.yr.end2 = 2018,
+                          # a scaling factor to contrl the mesh resolution.
+                          # default value of 1 returns what looks like a
+                          # reasonable trade-off of computational complexity
+                          # versus quality, for Benin.
+                          mesh_resolution_scaling = 1,
+                          min.angle = c(25, 25),
                           tmesh.yr.by = 2) {
 
 
@@ -25,13 +23,26 @@ create_meshes <- function(ir_data,
     distinct() %>%
     ll_to_xyz()
 
+  # scale the mesh according to the maximum dimension of the coordinates
+  dimension <- apply(coords_xyz, 2, function(x) diff(range(x)))
+
+  # minimum edge length inside the boundary
+  min_edge <- max(dimension) / (mesh_resolution_scaling * 20)
+
+  # outside the boundary it's 5x coarser
+  max.edge <- min_edge * c(1, 5)
+
+  # set the cutoff (minimum distance between observations points) to half the
+  # inner edge minimum
+  cutoff <- min_edge / 2
+
   # make the spatial mesh; mesh creation code from
   # indep_model_gen_gauss_4way_val.r, object called 'mesh' there
   spatial_mesh <- INLA::inla.mesh.2d(
     loc = unique_xyz,
-    cutoff = m1.cutoff,
-    min.angle = m1.min.angle,
-    max.edge = m1.max.edge)
+    cutoff = cutoff,
+    min.angle = min.angle,
+    max.edge = max.edge)
 
   tmesh.yr.st <- min(ir_data$start_year)
   tmesh.yr.end <- max(ir_data$end_year)
