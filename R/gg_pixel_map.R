@@ -7,12 +7,15 @@
 #' @return
 #' @author njtierney
 #' @export
-gg_pixel_map <- function(pixel_maps_data) {
+gg_pixel_map <- function(pixel_maps_data, shpf) {
 
   plot <- ggplot() +
     geom_spatraster(
       data = pixel_maps_data / 100
     ) +
+    geom_sf(data = shpf, fill = NA, color = "black") +
+    coord_sf(crs = 3857) +
+    theme_minimal() +
     scale_fill_gradient(
       low = "black",
       high = "light green",
