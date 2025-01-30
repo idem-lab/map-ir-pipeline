@@ -292,7 +292,7 @@ tar_plan(
   # Save the plots
   tar_target(
     plot_pixel_map,
-    gg_pixel_map(pixel_maps_data),
+    gg_pixel_map(pixel_maps_data,country_shapefile),
     pattern = map(pixel_maps_data),
     iteration = "list"
   ),
@@ -307,7 +307,8 @@ tar_plan(
     pixel_map_plots,
     save_plot(
       raster = pixel_maps_data,
-      path = pixel_maps_paths
+      path = pixel_maps_paths,
+      country_shapefile #country_shapefile or africa_shapefile#
     ),
     pattern = map(pixel_maps_data, pixel_maps_paths)
   )
